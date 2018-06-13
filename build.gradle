@@ -1,0 +1,99 @@
+apply plugin: 'java'
+apply plugin: 'findbugs'
+apply plugin: 'checkstyle'
+apply plugin: 'eclipse'
+apply plugin: 'jacoco'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+
+// need utf-8 to get text with non-standard chars e.g. curly apostrophes used correctly 
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+// This is a work around for an outstanding issue getting eclipse plugin to honour encoding options for java
+// https://issues.gradle.org/browse/GRADLE-2274
+eclipse {
+	File f = file('.settings')
+	
+	if (f.exists()) {
+		f = file('.settings/org.eclipse.core.resources.prefs')
+		f.write('eclipse.preferences.version=1\n')
+		f.append('encoding/<project>=UTF-8')
+	}
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+	mavenCentral()   
+}
+
+
+configurations {
+	javaDoclet
+}
+
+dependencies {
+    testCompile 'org.concordion:cubano-concordion:0.2.0'
+    
+    testCompile 'org.hamcrest:hamcrest-junit:2.0.0.0'
+    
+    testCompile 'org.codejargon:fluentjdbc:1.3.1'
+    
+    testCompile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6'
+}
+
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.4.1'
+    //distributionUrl = "http://services.gradle.org/distributions/gradle-${gradleVersion}-bin.zip"    
+}
+
+checkstyle {
+	ignoreFailures = true
+	configDir = new File("${rootDir}/config/checkstyle")	
+}
+
+findbugs {
+	toolVersion = "3.0.1"
+	ignoreFailures = true	
+}
+
+test {
+	//include '**/Specification.*'
+    
+    // Pass through all supplied system properties - excluding those containing '.' as some of these system properties introduce JNA incompatibility issues
+    // except for http. properties
+    System.properties.each { k, v->
+        if (!k.contains(".") || k.startsWith("http.")) {
+            println "Passing system property $k: $v"
+            systemProperty k, v
+       	}
+    }
+	 
+    // need utf-8 to get text with non-standard chars e.g. apostrophes comparing successfully 
+    systemProperty 'file.encoding', 'UTF-8'
+
+    // Logback Configuration
+    if (System.getProperty('logback.configurationFile') != null) systemProperty 'logback.configurationFile', System.getProperty('logback.configurationFile')
+        
+    // Parallel Runner
+	if (System.getProperty('concordion.run.threadCount') != null) {
+		systemProperty 'concordion.extensions', 'org.concordion.ext.ParallelRunExtension'
+		systemProperty 'concordion.run.threadCount', System.getProperty('concordion.run.threadCount')
+	}
+	
+    systemProperty 'concordion.output.dir', "$reporting.baseDir/spec"
+    outputs.upToDateWhen { false } // ensure the tests run each time, even if no changes to test code
+    testLogging.showStandardStreams = true
+	testLogging.showExceptions = true
+	
+	// Added to assist with logging in travis.
+	testLogging {
+        events "failed"
+        exceptionFormat "full"
+    }
+
+}
