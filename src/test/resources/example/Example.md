@@ -5,6 +5,9 @@ This demonstrates the functionality of [Cubano](http://concordion.org/cubano), l
 ## Cubano Core
 * [Cubano Core](cubanocore/CubanoCore.md "c:run") demonstrates features of the Cubano Core API
 
+## Cubano WebDriver
+* [Cubano WebDriver](cubanowebdriver/CubanoWebDriver.md "c:run") demonstrates features of the Cubano WebDriver API
+
 ## Web UI
 * [Google](google/Google.md "c:run") search (demonstrates features of Cubano that facilitate web testing).
 
