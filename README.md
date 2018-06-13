@@ -5,8 +5,14 @@ Contains examples for projects wishing to use the Cubano framework. This generat
 ## To Execute Tests
 Concordion fixtures use the JUnit library, with a specialised ConcordionRunner (`@RunWith(ConcordionRunner.class)`).  This annotation is part of the class hierarchy from `ConcordionIndex` or `ConcordionFixture`, 
 which all Fixtures inherit from:
+
+### Individual Tests
 * Class `Example` will run the full suite.  Run as per any standard JUnit fixture.
 * Classes that end with `*Fixture` can be executed in the same way
+
+### All Tests
+* `gradlew clean test` (runs all tests in the suite individually)
+* `gradlew clean test -Dtest.single=example/Example -Dlogback.configurationFile=logback-jenkins.xml` (runs a single test, though this single test co-ordinates the suite of tests)
 
 ## Features
 
