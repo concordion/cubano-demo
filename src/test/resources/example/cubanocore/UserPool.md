@@ -1,6 +1,6 @@
-# Demonstrates the use of the `EntityPool` class in cubano-core.
+# Demonstrates the use of the `EntityPool` class and the `DataCleanup` interface.
 
-Check out the `Log File` (top right of each example below), to follow along with the management of the users.
+View the `Log File` (top right of each example below), to follow along with the management of the users.
 
 
 ## [Grab User](-)

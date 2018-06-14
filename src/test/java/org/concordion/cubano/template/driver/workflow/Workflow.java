@@ -1,14 +1,24 @@
 package org.concordion.cubano.template.driver.workflow;
 
+import org.concordion.cubano.data.DataCleanupHelper;
 import org.concordion.cubano.driver.BrowserBasedTest;
+import org.concordion.cubano.template.driver.domain.AbcDomainData;
+import org.concordion.cubano.template.driver.services.AbcService;
 import org.concordion.cubano.template.driver.services.ExampleRestApi;
 import org.concordion.cubano.template.driver.ui.google.GoogleSearchPage;
 
 public class Workflow {
     private final BrowserBasedTest test;
+    private DataCleanupHelper dataCleanup = null;
+
 
     public Workflow(BrowserBasedTest test) {
         this.test = test;
+    }
+
+    public Workflow(BrowserBasedTest test, DataCleanupHelper dataHelper) {
+        this.test = test;
+        this.dataCleanup = dataHelper;
     }
 
     public GoogleSearchPage openSearch() {
@@ -18,4 +28,12 @@ public class Workflow {
     public ExampleRestApi restExample() {
         return new ExampleRestApi();
     }
+
+    public AbcService businessDomainScenario(AbcDomainData abcDomainData) {
+        AbcService abcService = new AbcService(abcDomainData);
+        dataCleanup.register(abcService);
+
+        return abcService;
+    }
+
 }

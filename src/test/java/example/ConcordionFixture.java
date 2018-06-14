@@ -148,6 +148,14 @@ public abstract class ConcordionFixture extends ConcordionDomainBase {
         return workflow;
     }
 
+    public Workflow workflowUsingDataCleanupHelper() {
+        if (workflow == null) {
+            workflow = new Workflow(this, dataHolder.get());
+        }
+
+        return workflow;
+    }
+
     protected User getUser() {
         if (user == null) {
             user = userPool().requestUser(Role.ROLE1);

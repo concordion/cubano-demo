@@ -2,6 +2,10 @@
 
 Contains examples for projects wishing to use the Cubano framework. This generates living documentation for basic web and API services.
 
+Read [the Cubano documentation](http://concordion.org/cubano) and in particular [the framework guide](http://concordion.org/cubano/framework)
+
+Either take a copy of this project or pull down a copy of [the Cubano Template project](https://github.com/concordion/cubano-template) to get started.
+
 ## To Execute Tests
 Concordion fixtures use the JUnit library, with a specialised ConcordionRunner (`@RunWith(ConcordionRunner.class)`).  This annotation is part of the class hierarchy from `ConcordionIndex` or `ConcordionFixture`, 
 which all Fixtures inherit from:

@@ -1,6 +1,11 @@
 # Example Specification
 
-This demonstrates the functionality of [Cubano](http://concordion.org/cubano), located in [GIT](https://github.com/concordion/cubano)
+This demonstrates the functionality of [Cubano](http://concordion.org/cubano), which is located in [GIT](https://github.com/concordion/cubano).
+
+[Here](https://github.com/concordion/cubano-template) is a quick start template for projects wishing to use the Cubano framework. 
+
+## Cubano Concordion
+* [Cubano Concordion](cubanoconcordion/CubanoConcordion.md "c:run") demonstrates features of the Cubano Concordion API
 
 ## Cubano Core
 * [Cubano Core](cubanocore/CubanoCore.md "c:run") demonstrates features of the Cubano Core API
