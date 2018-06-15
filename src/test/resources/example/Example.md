@@ -19,5 +19,5 @@ This demonstrates the functionality of [Cubano](http://concordion.org/cubano), w
 ## Service
 * Calling a [Service](service/Service.md "c:run") (demonstrates features of Cubano that facilitate API testing).
 
-## Concordion Embed Extension
-* [Concordion Embed Extension](embed/Embed.md "c:run") demonstrates features of the Concordion Embed Extension
+## Concordion Commands
+* [Concordion Commands](commands/Commands.md "c:run") demonstrates features of the Concordion Commands

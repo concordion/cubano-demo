@@ -1,4 +1,4 @@
-package example.embed;
+package example.commands;
 
 import org.concordion.api.extension.Extensions;
 import org.concordion.api.option.ConcordionOptions;
