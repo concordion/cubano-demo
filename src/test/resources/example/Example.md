@@ -1,23 +1,23 @@
 # Example Specification
 
-This demonstrates the functionality of [Cubano](http://concordion.org/cubano), which is located in [GIT](https://github.com/concordion/cubano).
+## Cubano is built around Concordion. If you are new to Concordion, then you should start here first!
+* [What is Concordion](concordion/Concordion.md "c:run")
+* [Commonly used Concordion Commands](commands/Commands.md "c:run")
 
-[Here](https://github.com/concordion/cubano-template) is a quick start template for projects wishing to use the Cubano framework. 
+## Cubano
+This section demonstrates [Cubano](https://github.com/concordion/cubano) functionality. Pull down the [Cubano Template](https://github.com/concordion/cubano-template), to kick off your own project.
 
-## Cubano Concordion
+Complement the examples below, with a read of:
+* the [Cubano documentation](http://concordion.org/cubano)
+* In particular the [Cubano Framework Guide](http://concordion.org/cubano/framework)
+* And of course the [Concordion Hints and Tips page](http://concordion.org/technique/java/markdown/)
+
 * [Cubano Concordion](cubanoconcordion/CubanoConcordion.md "c:run") demonstrates features of the Cubano Concordion API
-
-## Cubano Core
 * [Cubano Core](cubanocore/CubanoCore.md "c:run") demonstrates features of the Cubano Core API
-
-## Cubano WebDriver
 * [Cubano WebDriver](cubanowebdriver/CubanoWebDriver.md "c:run") demonstrates features of the Cubano WebDriver API
 
-## Web UI
-* [Google](google/Google.md "c:run") search (demonstrates features of Cubano that facilitate web testing).
 
-## Service
+## Basic Web and API features
+* [Google](google/Google.md "c:run") search (demonstrates features of Cubano that facilitate web testing).
 * Calling a [Service](service/Service.md "c:run") (demonstrates features of Cubano that facilitate API testing).
 
-## Concordion Commands
-* [Concordion Commands](commands/Commands.md "c:run") demonstrates features of the Concordion Commands

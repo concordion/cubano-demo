@@ -5,6 +5,7 @@ import org.concordion.cubano.driver.BrowserBasedTest;
 import org.concordion.cubano.template.driver.domain.AbcDomainData;
 import org.concordion.cubano.template.driver.services.AbcService;
 import org.concordion.cubano.template.driver.services.ExampleRestApi;
+import org.concordion.cubano.template.driver.ui.concordion.ConcordionPresentationPage;
 import org.concordion.cubano.template.driver.ui.google.GoogleSearchPage;
 
 public class Workflow {
@@ -23,6 +24,10 @@ public class Workflow {
 
     public GoogleSearchPage openSearch() {
         return GoogleSearchPage.open(test);
+    }
+
+    public ConcordionPresentationPage openConcordionPresentation() {
+        return ConcordionPresentationPage.open(test);
     }
 
     public ExampleRestApi restExample() {

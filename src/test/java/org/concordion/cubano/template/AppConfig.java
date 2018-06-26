@@ -12,6 +12,7 @@ public class AppConfig {
 
     private String baseUrl;
     private String searchUrl;
+    private String concordionPresentationUrl;
     private int defaultTimeout;
     private String databaseUrl;
     private String databaseSchema;
@@ -46,6 +47,7 @@ public class AppConfig {
     private void loadProperties() {
         baseUrl = propertyLoader.getProperty("baseUrl");
         searchUrl = propertyLoader.getProperty("searchUrl");
+        concordionPresentationUrl = propertyLoader.getProperty("concordionPresentationUrl");
         defaultTimeout = propertyLoader.getPropertyAsInteger("webdriver.defaultTimeout", "10");
         databaseUrl = propertyLoader.getProperty("databaseUrl");
         databaseSchema = propertyLoader.getProperty("databaseSchema");
@@ -58,6 +60,10 @@ public class AppConfig {
 
     public String getSearchUrl() {
         return searchUrl;
+    }
+
+    public String getConcordionPresentationUrl() {
+        return concordionPresentationUrl;
     }
 
     public int getDefaultTimeout() {
