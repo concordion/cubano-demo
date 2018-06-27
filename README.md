@@ -9,8 +9,7 @@ Complement the examples in this project, with a read of:
 * the [Cubano documentation](http://concordion.org/cubano) and in particular the [Cubano Framework Guide](http://concordion.org/cubano/framework)
 * the [Concordion documentation](http://concordion.org/) and especially the [Concordion Hints and Tips page](http://concordion.org/technique/java/markdown/)
 
-Once you are ready to start writing your own tests, pull down the [Cubano Template](https://github.com/concordion/cubano-template) and get started.
-
+Once you are ready to start writing your own tests, pull down the [Cubano Template](https://github.com/concordion/cubano-template) project and adapt this base to start automating your project.
 
 ## Features  <TODO fix links in this section when they are available>
 
