@@ -38,8 +38,8 @@ Finally, the living documentation includes log messages that are useful for deve
 
 > <img src="https://github.com/concordion/cubano/raw/master/docs/img/log-image.png" alt="image of documentation" width="70%">
 
-<a name="setUpProject"></a>  
-## Set up and run this project
+
+## Set up and run this project<a name="setUpProject"></a>  
 * Ensure you have a [Git client](https://git-scm.com/downloads) and [Gradle](https://gradle.org/) installed (or use via your IDE or other tools)
 * Install [Firefox](https://www.mozilla.org/en-US/firefox/new/).  The default browser used in this demo project is Firefox.
 * `cd` to a relevant folder
