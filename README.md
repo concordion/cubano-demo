@@ -2,7 +2,7 @@
 
 This project contains examples of how to use the [Cubano Framework](https://github.com/concordion/cubano).  Cubano is part of the [Concordion Family](https://github.com/concordion).  
 
-To get the demo project working, follow the Section below > [Set up and run this project](#setUpProject).
+To get the demo project working, follow the Section below > [Set up and run this project](#set-up-and-run-this-project).
 
 Complement the examples in this project, with a read of:
 * an [introduction to Concordion](http://tinyurl.com/concordion2)
@@ -38,7 +38,7 @@ Finally, the living documentation includes log messages that are useful for deve
 > <img src="https://github.com/concordion/cubano/raw/master/docs/img/log-image.png" alt="image of documentation" width="70%">
 
 
-## Set up and run this project<a name="setUpProject"></a>  
+## Set up and run this project  
 * Ensure you have a [Git client](https://git-scm.com/downloads) and [Gradle](https://gradle.org/) installed (or use via your IDE or other tools)
 * Install [Firefox](https://www.mozilla.org/en-US/firefox/new/).  The default browser used in this demo project is Firefox.
 * `cd` to a relevant folder
