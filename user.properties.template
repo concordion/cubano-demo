@@ -1,0 +1,11 @@
+# Create a copy and rename to user.properties, allowing override of any properties specified in config.properties.
+
+e.g. 
+environment = AnotherEnvironment
+
+# Either specify here or in config.properties
+AnotherEnvironment.baseUrl = https://httpbin.org
+AnotherEnvironment.searchUrl = https://www.google.co.nz
+#AnotherEnvironment.databaseUrl = jdbc:oracle:thin:[username]/[password]@//[servername]:[port]/[SID]
+AnotherEnvironment.databaseUrl = jdbc:mysql://[servername]:[port]/[database]?user=[username]&password=[password]
+AnotherEnvironment.databaseSchema = SchemaName
