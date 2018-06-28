@@ -7,30 +7,30 @@ import example.ConcordionFixture;
 
 public class UserPoolFixture extends ConcordionFixture {
 
+    private User user;
+
     public String grabUser() {
 
-        User user = getUser();
+        user = getUser();
 
         return user.getFullName();
     }
 
-    public String grabUserByRole() {
+    public String grabUserByRole(String roleType) {
 
-        User userRequested = userPool().requestUser(Role.ROLE3);
+        user = userPool().requestUser(Role.valueOf(roleType));
 
-        return String.format("> %s with Role > %s", userRequested.getFullName(), userRequested.getRole());
+        return String.format("> %s with Role > %s", user.getFullName(), user.getRole());
     }
 
     public boolean userPoolContainsRequestedUser() {
 
-        User user = getUser();
+        user = getUser();
 
         return userPool().userIsInUse(user);
     }
 
     public boolean userIsReleasedFromThePool() {
-
-        User user = getUser();
 
         userPool().release(user);
 

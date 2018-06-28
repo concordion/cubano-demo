@@ -6,7 +6,7 @@ The execute command has three main uses:
 * Handling unusual sentence structures.
 
 
-## Executing an instruction with a void result
-If the time is [09:00AM](- "setCurrentTime(#TEXT)") 
-then the greeting will say:
+## [Executing an instruction with a void result](-)
+Given the time is [09:00AM](- "setCurrentTime(#TEXT)") 
+Then the greeting will say:
 [Good Morning World!](- "?=getGreeting()") it is [ ] (- "c:echo=getCurrentTime()")

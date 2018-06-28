@@ -1,6 +1,6 @@
 # Concordion 
 
-[Concordion](http://concordion.org) brings your software delivery team together around living documentation and can be found on [GitHub](http://github.com/concordion).
+[Concordion](https://concordion.org) brings your software delivery team together around living documentation and can be found on [GitHub](http://github.com/concordion).
 
 By blending specification and checking of your software into executable specifications, Concordion creates beautiful living documentation
 

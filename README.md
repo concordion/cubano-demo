@@ -1,13 +1,13 @@
 # Cubano Demo Project
 
-This project contains examples of how to use the [Cubano Framework](https://github.com/concordion/cubano).  Cubano is part of the [Concordion Family](https://github.com/concordion).  No doubt you'll want to pull down the project and see it in action.
+This project contains examples of how to use the [Cubano Framework](https://github.com/concordion/cubano).  Cubano is part of the [Concordion Family](https://github.com/concordion).  
 
-To do so, follow the Section below > [Set up and run this project](#setUpProject).
+To get the demo project working, follow the Section below > [Set up and run this project](#setUpProject).
 
 Complement the examples in this project, with a read of:
 * an [introduction to Concordion](http://tinyurl.com/concordion2)
-* the [Cubano documentation](http://concordion.org/cubano) and in particular the [Cubano Framework Guide](http://concordion.org/cubano/framework)
-* the [Concordion documentation](http://concordion.org/) and especially the [Concordion Hints and Tips page](http://concordion.org/technique/java/markdown/)
+* the [Cubano documentation](https://concordion.org/cubano) and in particular the [Cubano Framework Guide](https://concordion.org/cubano/framework)
+* the [Concordion documentation](https://concordion.org/) and especially the [Concordion Hints and Tips page](https://concordion.org/technique/java/markdown/)
 
 Once you are ready to start writing your own tests, pull down the [Cubano Template](https://github.com/concordion/cubano-template) project and adapt this base to start automating your project.
 

@@ -2,14 +2,14 @@ package org.concordion.cubano.template.driver.domain;
 
 public class AbcDomainData {
 
-    private int domainDataId;
+    private String domainDataId;
     private String nameOfTheDomain;
 
-    public int getDomainDataId() {
+    public String getDomainDataId() {
         return domainDataId;
     }
 
-    public void setDomainDataId(int domainDataId) {
+    public void setDomainDataId(String domainDataId) {
         this.domainDataId = domainDataId;
     }
 

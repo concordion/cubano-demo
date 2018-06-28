@@ -34,7 +34,7 @@ public class Workflow {
         return new ExampleRestApi();
     }
 
-    public AbcService businessDomainScenario(AbcDomainData abcDomainData) {
+    public AbcService addDataToServiceAndRegisterServiceOnCleanUp(AbcDomainData abcDomainData) {
         AbcService abcService = new AbcService(abcDomainData);
         dataCleanup.register(abcService);
 
