@@ -11,7 +11,7 @@ Complement the examples in this project, with a read of:
 
 Once you are ready to start writing your own tests, pull down the [Cubano Template](https://github.com/concordion/cubano-template) project and adapt this base to start automating your project.
 
-## Features  <TODO fix links in this section when they are available>
+## Features
 
 A goal of Cubano is to generate living documentation that is applicable to a wide audience.
 
