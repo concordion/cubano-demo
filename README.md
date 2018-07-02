@@ -44,7 +44,7 @@ Finally, the living documentation includes log messages that are useful for deve
 * Install [Chrome](https://www.google.com/chrome/).  Used for at least one test.
 * `cd` to a relevant folder
 * `git clone https://github.com/concordion/cubano-demo.git` or download and unzip this project
-* Import as a Gradle project into your IDE
+* Import as a Gradle project into your IDE (e.g. for Eclipse, ensure [Buildship](http://www.eclipse.org/buildship) is installed, then File > Import > Gradle > Existing Gradle Project > follow the wizard)
 
 ## A note on Configuration Files
 The default configuration for this project is pulled from `config.properties`.  Default configuration can be overriden by introducing a `user.properties` file.  Simply override properties in `user.properties` as required (useful for multi developer teams).  The project supplies a `user.properties.template` which can be used for this purpose.
@@ -73,7 +73,8 @@ Concordion fixtures use the JUnit library, with a specialised ConcordionRunner (
 * Class `Example` will run the full suite.  Run as per any standard JUnit fixture.
 * Classes that end with `*Fixture` can be executed in the same way
 
-### From the command line, with the recommended method first:
+### From the command, with the recommended method first. 
+Ensure you are in the `cubano-demo` root directory.
 * `gradlew clean test -Dtest.single=example/Example -Dlogback.configurationFile=logback-jenkins.xml` (runs a single test, which co-ordinates the test suite)
 * `gradlew clean test` (runs all tests in the suite individually)
 
