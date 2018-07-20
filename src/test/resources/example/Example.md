@@ -13,9 +13,12 @@ Complement the examples below, with a read of:
 * And of course the [Concordion Hints and Tips page](https://concordion.org/technique/java/markdown/)
 
 * [Cubano Concordion](cubanoconcordion/CubanoConcordion.md "c:run") demonstrates features of the Cubano Concordion API
+* Cubano Config features are best demonstrated by the [Cubano Unit Tests](https://github.com/concordion/cubano/tree/master/cubano-config/src/test/java/org/concordion/cubano/config)
 * [Cubano Core](cubanocore/CubanoCore.md "c:run") demonstrates features of the Cubano Core API
+* [Cubano Http] TODO > See HttpEasyDownloader in HttpEasy
+* [Cubano HttpEasy](cubanohttpeasy/CubanoHttpEasy.md "c:run") demonstrates features of the Cubano HttpEasy
 * [Cubano WebDriver](cubanowebdriver/CubanoWebDriver.md "c:run") demonstrates features of the Cubano WebDriver API
-
+* [Cubano Webdriver Manager] TODO
 
 ## Basic Web and API features
 * [Google](google/Google.md "c:run") search (demonstrates features of Cubano that facilitate web testing).

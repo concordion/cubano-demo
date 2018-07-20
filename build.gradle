@@ -46,6 +46,14 @@ dependencies {
     
     testCompile group: 'org.hsqldb', name: 'hsqldb', version: '2.4.1'
     
+     //Wiremock
+    testCompile "com.github.tomakehurst:wiremock:2.18.0"
+    
+    // JUnit
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.hamcrest:hamcrest-junit:2.0.0.0'
+    testCompile 'org.mockito:mockito-core:2.8.47'
+    testCompile 'com.github.stefanbirkner:system-rules:1.16.0'
 }
 
 

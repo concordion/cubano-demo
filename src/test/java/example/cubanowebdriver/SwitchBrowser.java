@@ -39,6 +39,6 @@ public class SwitchBrowser extends ConcordionFixture {
         workflow()
                 .openSearch()
                 .searchFor("Concordion")
-                .getSearchResult("concordion.org");
+                .getSearchResult("https://concordion.org");
     }
 }
