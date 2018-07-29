@@ -1,7 +1,7 @@
 package example.concordion;
 
-import example.ConcordionIndex;
+import example.CubanoDemoIndex;
 
-public class Concordion extends ConcordionIndex {
+public class Concordion extends CubanoDemoIndex {
 
 }

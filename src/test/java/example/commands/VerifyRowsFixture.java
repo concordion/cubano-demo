@@ -1,13 +1,12 @@
 package example.commands;
 
+import example.CubanoDemoFixture;
+import org.concordion.api.MultiValueResult;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.concordion.api.MultiValueResult;
-
-import example.ConcordionFixture;
-
-public class VerifyRowsFixture extends ConcordionFixture {
+public class VerifyRowsFixture extends CubanoDemoFixture {
 
     public List<MultiValueResult> verifyActualDataReturned() throws Exception {
 

@@ -1,13 +1,15 @@
 package example.service;
 
+import example.CubanoDemoBrowserFixture;
+import org.concordion.cubano.template.driver.workflow.Workflow;
+
 import java.io.IOException;
 
-import example.ConcordionFixture;
-
-public class RestRequestFixture extends ConcordionFixture {
+public class RestRequestFixture extends CubanoDemoBrowserFixture {
+    private Workflow workflow = new Workflow(this);
 
     public boolean callService() throws IOException {
-        return workflow()
+        return workflow
                 .restExample()
                 .getIPAddress() != null;
     }

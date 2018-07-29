@@ -1,10 +1,12 @@
 package example.concordion;
 
+import example.CubanoDemoBrowserFixture;
 import org.concordion.cubano.template.AppConfig;
 
-import example.ConcordionFixture;
+import org.concordion.cubano.template.driver.workflow.Workflow;
 
-public class ConcordionPresentationFixture extends ConcordionFixture {
+public class ConcordionPresentationFixture extends CubanoDemoBrowserFixture {
+    private Workflow workflow = new Workflow(this);
 
     public String getConcordionPressoURL() {
 
@@ -13,7 +15,7 @@ public class ConcordionPresentationFixture extends ConcordionFixture {
 
     public void loadDoco() throws Exception {
 
-        workflow().openConcordionPresentation()
+        workflow.openConcordionPresentation()
                 .navigateToConcordionIsATestRunner()
                 .navigateToExecutableSpecifications()
                 .navigateToBeautifulLivingDocumentation()

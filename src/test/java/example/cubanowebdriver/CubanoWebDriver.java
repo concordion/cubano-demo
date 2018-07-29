@@ -1,7 +1,7 @@
 package example.cubanowebdriver;
 
-import example.ConcordionIndex;
+import example.CubanoDemoIndex;
 
-public class CubanoWebDriver extends ConcordionIndex {
+public class CubanoWebDriver extends CubanoDemoIndex {
 
 }

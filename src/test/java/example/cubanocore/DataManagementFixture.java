@@ -6,13 +6,15 @@ import static org.junit.Assert.assertThat;
 import java.sql.SQLException;
 import java.util.UUID;
 
+import example.CubanoDemoBrowserFixture;
 import org.concordion.cubano.template.driver.database.DataManagementDatabase;
 import org.concordion.cubano.template.driver.domain.AbcDomainData;
 
-import example.ConcordionFixture;
+import org.concordion.cubano.template.driver.workflow.Workflow;
 
-public class DataManagementFixture extends ConcordionFixture {
+public class DataManagementFixture extends CubanoDemoBrowserFixture {
 
+    private Workflow workflow = null;
     private DataManagementDatabase database = new DataManagementDatabase();
 
     private void initiliaseDB() throws SQLException {
@@ -38,9 +40,17 @@ public class DataManagementFixture extends ConcordionFixture {
         // Do what you need to do
         // Execute test scenarios
 
-        // Clean up happens in ConcordionFixture @ afterExample
+        // Clean up happens in CubanoDemoBrowserFixture @ afterExample
 
 
         return true;
+    }
+
+    private Workflow workflowUsingDataCleanupHelper() {
+        if (workflow == null) {
+            workflow = new Workflow(this, getCleanupService());
+        }
+
+        return workflow;
     }
 }

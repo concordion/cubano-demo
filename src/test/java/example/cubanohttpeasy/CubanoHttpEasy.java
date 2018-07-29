@@ -1,7 +1,7 @@
 package example.cubanohttpeasy;
 
-import example.ConcordionIndex;
+import example.CubanoDemoIndex;
 
-public class CubanoHttpEasy extends ConcordionIndex {
+public class CubanoHttpEasy extends CubanoDemoIndex {
 
 }

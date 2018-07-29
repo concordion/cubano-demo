@@ -1,7 +1,7 @@
 package example.google;
 
-import example.ConcordionIndex;
+import example.CubanoDemoIndex;
 
-public class Google extends ConcordionIndex {
+public class Google extends CubanoDemoIndex {
 
 }
