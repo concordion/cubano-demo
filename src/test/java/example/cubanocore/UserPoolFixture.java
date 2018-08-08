@@ -1,13 +1,14 @@
 package example.cubanocore;
 
+import example.CubanoDemoFixture;
 import org.concordion.cubano.template.driver.domain.Role;
 import org.concordion.cubano.template.driver.domain.User;
+import org.concordion.cubano.template.driver.domain.UserPool;
 
-import example.ConcordionFixture;
-
-public class UserPoolFixture extends ConcordionFixture {
+public class UserPoolFixture extends CubanoDemoFixture {
 
     private User user;
+    private UserPool userPoolManager;
 
     public String grabUser() {
 
@@ -37,4 +38,19 @@ public class UserPoolFixture extends ConcordionFixture {
         return !userPool().userIsInUse(user);
     }
 
+    protected User getUser() {
+        if (user == null) {
+            user = userPool().requestUser(Role.ROLE1);
+        }
+
+        return user;
+    }
+
+    public UserPool userPool() {
+        if (userPoolManager == null) {
+            userPoolManager = UserPool.createManager(this);
+        }
+
+        return userPoolManager;
+    }
 }

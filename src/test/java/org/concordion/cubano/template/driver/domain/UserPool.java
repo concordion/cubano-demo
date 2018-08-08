@@ -1,19 +1,21 @@
 package org.concordion.cubano.template.driver.domain;
 
+import org.concordion.cubano.data.EntityPool;
+import org.concordion.cubano.framework.resource.ResourceRegistry;
+import org.concordion.cubano.framework.resource.ResourceScope;
+import org.concordion.slf4j.ext.ReportLogger;
+import org.concordion.slf4j.ext.ReportLoggerFactory;
+
+import java.io.Closeable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.concordion.cubano.data.DataCleanupHelper;
-import org.concordion.cubano.data.EntityPool;
-import org.concordion.slf4j.ext.ReportLogger;
-import org.concordion.slf4j.ext.ReportLoggerFactory;
-
 /**
  * Supplies a pool of Users available for test automation and manages usage.
  */
-public class UserPool extends EntityPool<User> {
+public class UserPool extends EntityPool<User> implements Closeable {
 
     private final ReportLogger logger = ReportLoggerFactory.getReportLogger(this.getClass().getName());
 
@@ -42,22 +44,13 @@ public class UserPool extends EntityPool<User> {
 
     /**
      * Factory method to create new manager user pool manager.
-     * 
-     * @return
-     */
-    public static UserPool createManager() {
-        return new UserPool();
-    }
-
-    /**
-     * Factory method to create new manager user pool manager.
      *
-     * @param cleanupService Provide data cleanup service to register with to automatically cleanup any requested users
      * @return
+     * @param resourceRegistry
      */
-    public static UserPool createManager(DataCleanupHelper cleanupService) {
+    public static UserPool createManager(ResourceRegistry resourceRegistry) {
         UserPool userPool = new UserPool();
-        cleanupService.register(userPool);
+        resourceRegistry.registerCloseableResource(userPool, ResourceScope.EXAMPLE);
 
         return userPool;
     }
@@ -129,13 +122,13 @@ public class UserPool extends EntityPool<User> {
     }
 
     @Override
-    public void cleanup() {
+    public void close() {
         // Do not need to override this method, simply done to enable logging for example
         // Shows how clean up works.
         logger.debug("Before clean up");
         logUserInfo();
 
-        super.cleanup();
+        super.close();
 
         logger.debug("After clean up");
         logUserInfo();

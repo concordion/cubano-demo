@@ -1,8 +1,8 @@
 package example.cubanoconcordion;
 
-import example.ConcordionFixture;
+import example.CubanoDemoFixture;
 
-public class ExpectedToFailFixture extends ConcordionFixture {
+public class ExpectedToFailFixture extends CubanoDemoFixture {
 
     public boolean expectedToFail() {
 

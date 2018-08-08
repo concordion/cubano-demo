@@ -1,8 +1,8 @@
 package example.commands;
 
-import example.ConcordionFixture;
+import example.CubanoDemoFixture;
 
-public class ExecuteCommandFixture extends ConcordionFixture {
+public class ExecuteCommandFixture extends CubanoDemoFixture {
 
     private String currentTime;
 
