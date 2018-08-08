@@ -43,7 +43,7 @@ dependencies {
 //    testCompile 'org.concordion:cubano-concordion:0.2.1'
     // TODO remove Jitpack.io from repositories when upgrading to new  cubano-concordion version.
     testCompile 'org.concordion:concordion:2.2.0'
-    testCompile 'com.github.nigelcharman.cubano:cubano-concordion:update-fixture-heirarchy-SNAPSHOT'
+    testCompile 'com.github.concordion.cubano:cubano-concordion:update-fixture-heirarchy-SNAPSHOT'
 //    implementation 'com.github.concordion:cubano-concordion:master-SNAPSHOT'
 
     testCompile 'org.hamcrest:hamcrest-junit:2.0.0.0'
