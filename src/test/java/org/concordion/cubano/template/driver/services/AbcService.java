@@ -1,29 +1,28 @@
 package org.concordion.cubano.template.driver.services;
 
-import java.sql.SQLException;
-
-import org.concordion.cubano.data.DataCleanup;
 import org.concordion.cubano.template.driver.database.DataManagementDatabase;
 import org.concordion.cubano.template.driver.domain.AbcDomainData;
 import org.concordion.slf4j.ext.ReportLogger;
 import org.concordion.slf4j.ext.ReportLoggerFactory;
 
-public class AbcService implements DataCleanup {
+import java.io.Closeable;
+import java.sql.SQLException;
+
+public class AbcService implements Closeable {
 
     private final ReportLogger logger = ReportLoggerFactory.getReportLogger(this.getClass().getName());
     private DataManagementDatabase database = new DataManagementDatabase();
     private AbcDomainData abcDomainData;
 
-    public AbcService(AbcDomainData abcDomainData) {
-        this.abcDomainData = abcDomainData;
-    }
-
     public AbcDomainData getAbcDomainData() {
         return abcDomainData;
     }
+    public void setAbcDomainData(AbcDomainData domainData) {
+        abcDomainData = domainData;
+    }
 
     @Override
-    public void cleanup() {
+    public void close() {
 
         logger.debug("Before clean up");
 

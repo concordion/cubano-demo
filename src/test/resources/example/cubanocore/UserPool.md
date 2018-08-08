@@ -1,4 +1,4 @@
-# Demonstrates the use of the `EntityPool` class and the `DataCleanup` interface.
+# Demonstrates the use of the `EntityPool` class and the `ResourceRegistry` interface.
 
 View the `Log File` (top right of each example below), to follow along with the management of the users.
 

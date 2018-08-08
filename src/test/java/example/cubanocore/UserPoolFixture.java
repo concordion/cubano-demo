@@ -1,12 +1,11 @@
 package example.cubanocore;
 
+import example.CubanoDemoFixture;
 import org.concordion.cubano.template.driver.domain.Role;
 import org.concordion.cubano.template.driver.domain.User;
-
-import example.CubanoDemoBrowserFixture;
 import org.concordion.cubano.template.driver.domain.UserPool;
 
-public class UserPoolFixture extends CubanoDemoBrowserFixture {
+public class UserPoolFixture extends CubanoDemoFixture {
 
     private User user;
     private UserPool userPoolManager;
@@ -49,7 +48,7 @@ public class UserPoolFixture extends CubanoDemoBrowserFixture {
 
     public UserPool userPool() {
         if (userPoolManager == null) {
-            userPoolManager = UserPool.createManager(getCleanupService());
+            userPoolManager = UserPool.createManager(this);
         }
 
         return userPoolManager;
