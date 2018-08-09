@@ -36,7 +36,7 @@ public class Workflow {
 
     public AbcService addDataToServiceAndRegisterServiceOnCleanUp(AbcDomainData abcDomainData) {
         AbcService abcService = new AbcService(abcDomainData);
-        dataCleanup.register(abcService);
+//        dataCleanup.register(abcService);
 
         return abcService;
     }

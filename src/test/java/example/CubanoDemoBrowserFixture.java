@@ -22,7 +22,7 @@ import java.net.Proxy;
 @ConcordionResources("/customConcordion.css")
 @FailFast
 public abstract class CubanoDemoBrowserFixture extends ConcordionBrowserFixture {
-    private final ReportLogger logger = ReportLoggerFactory.getReportLogger(this.getClass().getName());
+    private final ReportLogger reportLogger = ReportLoggerFactory.getReportLogger(this.getClass().getName());
 
     @Extension
     private final ExceptionHtmlCaptureExtension htmlCapture = new ExceptionHtmlCaptureExtension(getStoryboard(), getBrowser());
@@ -55,28 +55,9 @@ public abstract class CubanoDemoBrowserFixture extends ConcordionBrowserFixture 
         }
     }
 
-    /**
-     * Gets the logger for the current test.
-     *
-     * @return Logger
-     */
-    public ReportLogger getLogger() {
-        return logger;
-    }
-
-    @BeforeSpecification
-    private final void beforeSpecification() {
-        logger.info("Initialising the acceptance test class {} on thread {}", getRelativeTestClassName(), Thread.currentThread().getName());
-    }
-
-    @BeforeExample
-    private final void beforeExample(@ExampleName String exampleName) {
-        logger.info("Starting example {} for test fixture {}", exampleName, getRelativeTestClassName());
-    }
-
-    private String getRelativeTestClassName() {
-        // This is the name that can be given to the RunSingleTest job in Jenkins
-        return this.getClass().getName().replace(CubanoDemoBrowserFixture.class.getPackage().getName() + ".", "");
+    /** Override the default reportLogger. **/
+    public CubanoDemoBrowserFixture() {
+        super.withFixtureListener(new CubanoDemoFixtureLogger());
     }
 
     @AfterExample
@@ -86,7 +67,7 @@ public abstract class CubanoDemoBrowserFixture extends ConcordionBrowserFixture 
         if (dataHolder.isCreated() && dataHolder.get().hasCleanupItems()) {
             // Prevent any further cards being added to the storyboard
             getStoryboard().setAcceptCards(false);
-            logger.step("Clean up data for " + dataHolder.get());
+            reportLogger.step("Clean up data for " + dataHolder.get());
             dataHolder.get().cleanup();
             // Shouldn't need to do this, but this event getting triggered AFTER the Storyboard's afterExample event listener.
             getStoryboard().setAcceptCards(true);
@@ -96,13 +77,11 @@ public abstract class CubanoDemoBrowserFixture extends ConcordionBrowserFixture 
 
     @AfterSpecification
     private final void afterSpecification() {
-        logger.info("Tearing down the acceptance test class {} on thread {}", this.getClass().getSimpleName(), Thread.currentThread().getName());
-
         // Cleanup any data registered with data cleanup service
         if (dataHolder.isCreated() && dataHolder.get().hasCleanupItems()) {
             // Prevent any further cards being added to the storyboard
             getStoryboard().setAcceptCards(false);
-            logger.step("Clean up data for '%s'", dataHolder.get());
+            reportLogger.step("Clean up data for '%s'", dataHolder.get());
 
             dataHolder.get().cleanup();
             // Shouldn't need to do this, but this event getting triggered AFTER the Storyboard's afterExample event listener.
