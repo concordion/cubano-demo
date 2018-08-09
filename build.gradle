@@ -27,7 +27,11 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
-	mavenCentral()   
+    maven {
+        url "https://jitpack.io"
+    }
+    mavenCentral()
+    mavenLocal()
 }
 
 
@@ -36,8 +40,12 @@ configurations {
 }
 
 dependencies {
-    testCompile 'org.concordion:cubano-concordion:0.2.1'
-    
+//    testCompile 'org.concordion:cubano-concordion:0.2.1'
+    // TODO remove Jitpack.io from repositories when upgrading to new  cubano-concordion version.
+    testCompile 'org.concordion:concordion:2.2.0'
+    testCompile 'com.github.concordion.cubano:cubano-concordion:update-fixture-heirarchy-SNAPSHOT'
+//    implementation 'com.github.concordion:cubano-concordion:master-SNAPSHOT'
+
     testCompile 'org.hamcrest:hamcrest-junit:2.0.0.0'
     
     testCompile 'org.codejargon:fluentjdbc:1.3.1'
@@ -56,6 +64,9 @@ dependencies {
     testCompile 'com.github.stefanbirkner:system-rules:1.16.0'
 }
 
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
 
 task wrapper(type: Wrapper) {
     gradleVersion = '4.4.1'
@@ -73,7 +84,7 @@ findbugs {
 }
 
 test {
-	//include '**/Specification.*'
+    include '**/Example.*'
     
     // Pass through all supplied system properties - excluding those containing '.' as some of these system properties introduce JNA incompatibility issues
     // except for http. properties

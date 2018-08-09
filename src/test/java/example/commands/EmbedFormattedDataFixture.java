@@ -1,15 +1,14 @@
 package example.commands;
 
+import example.CubanoDemoFixture;
 import org.concordion.api.extension.Extensions;
 import org.concordion.api.option.ConcordionOptions;
 import org.concordion.cubano.template.driver.util.TableBuilder;
 import org.concordion.ext.EmbedExtension;
 
-import example.ConcordionFixture;
-
 @Extensions({ EmbedExtension.class })
 @ConcordionOptions(declareNamespaces = { "ext", "urn:concordion-extensions:2010" })
-public class EmbedFormattedDataFixture extends ConcordionFixture {
+public class EmbedFormattedDataFixture extends CubanoDemoFixture {
 
     public String embedExample() throws Exception {
 

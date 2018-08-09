@@ -1,7 +1,9 @@
 package example.cubanocore;
 
-import java.io.IOException;
-
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import example.CubanoDemoBrowserFixture;
+import example.CubanoDemoFixture;
 import org.concordion.cubano.data.JsonLoader;
 import org.concordion.cubano.driver.http.JsonReader;
 import org.concordion.cubano.template.driver.domain.User;
@@ -12,12 +14,9 @@ import org.concordion.slf4j.ext.MediaType;
 import org.concordion.slf4j.ext.ReportLogger;
 import org.concordion.slf4j.ext.ReportLoggerFactory;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import java.io.IOException;
 
-import example.ConcordionFixture;
-
-public class DataLoadersFixture extends ConcordionFixture {
+public class DataLoadersFixture extends CubanoDemoFixture {
 
     private final ReportLogger log = ReportLoggerFactory.getReportLogger(DataLoadersFixture.class);
 
@@ -48,7 +47,6 @@ public class DataLoadersFixture extends ConcordionFixture {
     }
 
     protected void addNotification(String name, String data) {
-
         log
                 .with()
                 .message(name)

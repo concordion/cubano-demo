@@ -2,12 +2,14 @@ package example.cubanowebdriver;
 
 import java.io.IOException;
 
+import example.CubanoDemoBrowserFixture;
 import org.concordion.cubano.driver.web.Browser;
 import org.concordion.cubano.driver.web.provider.ChromeBrowserProvider;
 
-import example.ConcordionFixture;
+import org.concordion.cubano.template.driver.workflow.Workflow;
 
-public class SwitchBrowser extends ConcordionFixture {
+public class SwitchBrowser extends CubanoDemoBrowserFixture {
+    private Workflow workflow = new Workflow(this);
 
     public boolean switchBrowser() throws IOException {
 
@@ -36,7 +38,7 @@ public class SwitchBrowser extends ConcordionFixture {
     }
 
     private void searchGoogle() {
-        workflow()
+        workflow
                 .openSearch()
                 .searchFor("Concordion")
                 .getSearchResult("https://concordion.org");

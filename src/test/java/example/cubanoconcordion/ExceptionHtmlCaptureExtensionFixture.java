@@ -1,12 +1,14 @@
 package example.cubanoconcordion;
 
-import example.ConcordionFixture;
+import example.CubanoDemoBrowserFixture;
+import org.concordion.cubano.template.driver.workflow.Workflow;
 
-public class ExceptionHtmlCaptureExtensionFixture extends ConcordionFixture {
+public class ExceptionHtmlCaptureExtensionFixture extends CubanoDemoBrowserFixture {
+    private Workflow workflow = new Workflow(this);
 
     public boolean noSuchElementExtension() {
 
-        workflow()
+        workflow
                 .openSearch()
                 .searchForElementNotFound();
 

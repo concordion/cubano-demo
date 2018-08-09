@@ -1,8 +1,8 @@
 package example.commands;
 
-import example.ConcordionFixture;
+import example.CubanoDemoFixture;
 
-public class AssertEqualsFixture extends ConcordionFixture {
+public class AssertEqualsFixture extends CubanoDemoFixture {
 
     public String helloWorld() throws Exception {
 
