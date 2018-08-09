@@ -1,9 +1,7 @@
 package example.cubanocore;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import example.CubanoDemoBrowserFixture;
-import example.CubanoDemoFixture;
+import java.io.IOException;
+
 import org.concordion.cubano.data.JsonLoader;
 import org.concordion.cubano.driver.http.JsonReader;
 import org.concordion.cubano.template.driver.domain.User;
@@ -14,7 +12,10 @@ import org.concordion.slf4j.ext.MediaType;
 import org.concordion.slf4j.ext.ReportLogger;
 import org.concordion.slf4j.ext.ReportLoggerFactory;
 
-import java.io.IOException;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import example.CubanoDemoFixture;
 
 public class DataLoadersFixture extends CubanoDemoFixture {
 

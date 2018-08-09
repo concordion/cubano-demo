@@ -1,9 +1,10 @@
 package example.service;
 
-import example.CubanoDemoBrowserFixture;
+import java.io.IOException;
+
 import org.concordion.cubano.template.driver.workflow.Workflow;
 
-import java.io.IOException;
+import example.CubanoDemoBrowserFixture;
 
 public class RestRequestFixture extends CubanoDemoBrowserFixture {
     private Workflow workflow = new Workflow(this);

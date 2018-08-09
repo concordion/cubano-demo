@@ -6,11 +6,11 @@ import static org.junit.Assert.assertThat;
 import java.sql.SQLException;
 import java.util.UUID;
 
-import example.CubanoDemoBrowserFixture;
 import org.concordion.cubano.template.driver.database.DataManagementDatabase;
 import org.concordion.cubano.template.driver.domain.AbcDomainData;
-
 import org.concordion.cubano.template.driver.workflow.Workflow;
+
+import example.CubanoDemoBrowserFixture;
 
 public class DataManagementFixture extends CubanoDemoBrowserFixture {
 

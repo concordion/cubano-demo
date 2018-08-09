@@ -1,6 +1,15 @@
 package example;
 
-import org.concordion.api.*;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+
+import org.concordion.api.AfterExample;
+import org.concordion.api.AfterSpecification;
+import org.concordion.api.ConcordionResources;
+import org.concordion.api.ConcordionScoped;
+import org.concordion.api.FailFast;
+import org.concordion.api.Scope;
+import org.concordion.api.ScopedObjectHolder;
 import org.concordion.api.extension.Extension;
 import org.concordion.cubano.config.Config;
 import org.concordion.cubano.config.ProxyConfig;
@@ -11,9 +20,6 @@ import org.concordion.cubano.framework.ConcordionBrowserFixture;
 import org.concordion.cubano.template.AppConfig;
 import org.concordion.slf4j.ext.ReportLogger;
 import org.concordion.slf4j.ext.ReportLoggerFactory;
-
-import java.net.InetSocketAddress;
-import java.net.Proxy;
 
 /**
  * Customises the test specification and provides some helper methods

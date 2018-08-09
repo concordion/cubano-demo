@@ -1,10 +1,11 @@
 package example.commands;
 
-import example.CubanoDemoFixture;
-import org.concordion.api.MultiValueResult;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.concordion.api.MultiValueResult;
+
+import example.CubanoDemoFixture;
 
 public class VerifyRowsFixture extends CubanoDemoFixture {
 

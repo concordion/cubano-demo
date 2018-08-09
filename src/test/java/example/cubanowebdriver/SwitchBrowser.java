@@ -2,11 +2,11 @@ package example.cubanowebdriver;
 
 import java.io.IOException;
 
-import example.CubanoDemoBrowserFixture;
 import org.concordion.cubano.driver.web.Browser;
 import org.concordion.cubano.driver.web.provider.ChromeBrowserProvider;
-
 import org.concordion.cubano.template.driver.workflow.Workflow;
+
+import example.CubanoDemoBrowserFixture;
 
 public class SwitchBrowser extends CubanoDemoBrowserFixture {
     private Workflow workflow = new Workflow(this);
