@@ -44,6 +44,7 @@ dependencies {
     testCompile 'org.concordion:concordion:2.2.0'
 //    testCompile 'org.concordion:cubano-concordion:0.2.2'
     testCompile 'com.github.concordion.cubano:cubano-concordion:log-listener-SNAPSHOT'
+
 //    implementation 'com.github.concordion:cubano-concordion:master-SNAPSHOT'
 
     testCompile 'org.hamcrest:hamcrest-junit:2.0.0.0'
