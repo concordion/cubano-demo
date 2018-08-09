@@ -10,6 +10,8 @@ import org.concordion.cubano.template.driver.ui.google.GoogleSearchPage;
 
 public class Workflow {
     private final BrowserBasedTest test;
+    
+    //TODO - is this still required ?
     private DataCleanupHelper dataCleanup = null;
 
 
@@ -36,7 +38,7 @@ public class Workflow {
 
     public AbcService addDataToServiceAndRegisterServiceOnCleanUp(AbcDomainData abcDomainData) {
         AbcService abcService = new AbcService(abcDomainData);
-//        dataCleanup.register(abcService);
+        dataCleanup.register(abcService);
 
         return abcService;
     }

@@ -1,9 +1,9 @@
 package example.concordion;
 
-import example.CubanoDemoBrowserFixture;
 import org.concordion.cubano.template.AppConfig;
-
 import org.concordion.cubano.template.driver.workflow.Workflow;
+
+import example.CubanoDemoBrowserFixture;
 
 public class ConcordionPresentationFixture extends CubanoDemoBrowserFixture {
     private Workflow workflow = new Workflow(this);

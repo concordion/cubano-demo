@@ -2,9 +2,9 @@ package example.cubanocore;
 
 import org.concordion.cubano.template.driver.domain.Role;
 import org.concordion.cubano.template.driver.domain.User;
+import org.concordion.cubano.template.driver.domain.UserPool;
 
 import example.CubanoDemoBrowserFixture;
-import org.concordion.cubano.template.driver.domain.UserPool;
 
 public class UserPoolFixture extends CubanoDemoBrowserFixture {
 

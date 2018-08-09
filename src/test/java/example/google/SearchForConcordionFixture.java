@@ -1,7 +1,8 @@
 package example.google;
 
-import example.CubanoDemoBrowserFixture;
 import org.concordion.cubano.template.driver.workflow.Workflow;
+
+import example.CubanoDemoBrowserFixture;
 
 public class SearchForConcordionFixture extends CubanoDemoBrowserFixture {
     private Workflow workflow = new Workflow(this);
