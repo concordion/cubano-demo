@@ -2,7 +2,6 @@ package example;
 
 import org.concordion.api.ConcordionResources;
 import org.concordion.api.FailFast;
-import org.concordion.api.extension.Extensions;
 import org.concordion.cubano.framework.ConcordionBase;
 
 /**

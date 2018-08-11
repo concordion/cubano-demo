@@ -4,14 +4,16 @@ import org.concordion.api.*;
 import org.concordion.api.extension.Extension;
 import org.concordion.cubano.config.Config;
 import org.concordion.cubano.config.ProxyConfig;
-import org.concordion.cubano.data.DataCleanupHelper;
 import org.concordion.cubano.driver.concordion.ExceptionHtmlCaptureExtension;
 import org.concordion.cubano.driver.http.HttpEasy;
 import org.concordion.cubano.framework.ConcordionBrowserFixture;
+import org.concordion.cubano.framework.resource.CloseListener;
+import org.concordion.cubano.framework.resource.ResourceScope;
 import org.concordion.cubano.template.AppConfig;
 import org.concordion.slf4j.ext.ReportLogger;
 import org.concordion.slf4j.ext.ReportLoggerFactory;
 
+import java.io.Closeable;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 
@@ -26,14 +28,6 @@ public abstract class CubanoDemoBrowserFixture extends ConcordionBrowserFixture 
 
     @Extension
     private final ExceptionHtmlCaptureExtension htmlCapture = new ExceptionHtmlCaptureExtension(getStoryboard(), getBrowser());
-
-    @ConcordionScoped(Scope.SPECIFICATION)
-    private ScopedObjectHolder<DataCleanupHelper> dataHolder = new ScopedObjectHolder<DataCleanupHelper>() {
-        @Override
-        public DataCleanupHelper create() {
-            return new DataCleanupHelper();
-        }
-    };
 
     static {
         ProxyConfig proxyConfig = Config.getInstance().getProxyConfig();
@@ -60,36 +54,23 @@ public abstract class CubanoDemoBrowserFixture extends ConcordionBrowserFixture 
         super.withFixtureListener(new CubanoDemoFixtureLogger());
     }
 
-    @AfterExample
-    private final void afterExample() {
+    @Override
+    public void registerCloseableResource(Closeable resource, ResourceScope scope) {
+        CloseListener listener = new CloseListener() {
 
-        // Cleanup any data registered with data cleanup service
-        if (dataHolder.isCreated() && dataHolder.get().hasCleanupItems()) {
-            // Prevent any further cards being added to the storyboard
-            getStoryboard().setAcceptCards(false);
-            reportLogger.step("Clean up data for " + dataHolder.get());
-            dataHolder.get().cleanup();
-            // Shouldn't need to do this, but this event getting triggered AFTER the Storyboard's afterExample event listener.
-            getStoryboard().setAcceptCards(true);
-        }
+            @Override
+            public void beforeClosing(Closeable resource) {
+                // Prevent any further cards being added to the storyboard
+                getStoryboard().setAcceptCards(false);
+                reportLogger.step("Clean up data for " + resource);
+            }
 
-    }
-
-    @AfterSpecification
-    private final void afterSpecification() {
-        // Cleanup any data registered with data cleanup service
-        if (dataHolder.isCreated() && dataHolder.get().hasCleanupItems()) {
-            // Prevent any further cards being added to the storyboard
-            getStoryboard().setAcceptCards(false);
-            reportLogger.step("Clean up data for '%s'", dataHolder.get());
-
-            dataHolder.get().cleanup();
-            // Shouldn't need to do this, but this event getting triggered AFTER the Storyboard's afterExample event listener.
-            getStoryboard().setAcceptCards(true);
-        }
-    }
-
-    public DataCleanupHelper getCleanupService() {
-        return dataHolder.get();
+            @Override
+            public void afterClosing(Closeable resource) {
+                // Shouldn't need to do this, but this event getting triggered AFTER the Storyboard's afterExample event listener.
+                getStoryboard().setAcceptCards(true);
+            }
+        };
+        super.registerCloseableResource(resource, scope, listener);
     }
 }
