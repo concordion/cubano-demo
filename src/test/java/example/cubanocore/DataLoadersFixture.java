@@ -2,7 +2,6 @@ package example.cubanocore;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import example.CubanoDemoBrowserFixture;
 import example.CubanoDemoFixture;
 import org.concordion.cubano.data.JsonLoader;
 import org.concordion.cubano.driver.http.JsonReader;

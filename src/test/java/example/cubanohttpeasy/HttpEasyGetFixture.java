@@ -1,7 +1,7 @@
 package example.cubanohttpeasy;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import example.CubanoDemoBrowserFixture;
+import example.CubanoDemoFixture;
 import org.concordion.cubano.driver.http.HttpEasy;
 import org.concordion.cubano.driver.http.JsonReader;
 import org.concordion.cubano.template.driver.logger.TestLoggerLogWriter;
@@ -17,7 +17,7 @@ import java.io.IOException;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
-public class HttpEasyGetFixture extends CubanoDemoBrowserFixture {
+public class HttpEasyGetFixture extends CubanoDemoFixture {
 
     private static final String HTTP_EASY_GET = "/HttpEasyGet";
 

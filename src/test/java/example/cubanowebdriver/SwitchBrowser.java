@@ -1,16 +1,13 @@
 package example.cubanowebdriver;
 
-import java.io.IOException;
-
 import example.CubanoDemoBrowserFixture;
 import org.concordion.cubano.driver.web.Browser;
 import org.concordion.cubano.driver.web.provider.ChromeBrowserProvider;
+import org.concordion.cubano.template.driver.ui.google.GoogleSearchPage;
 
-import org.concordion.cubano.template.driver.workflow.Workflow;
+import java.io.IOException;
 
 public class SwitchBrowser extends CubanoDemoBrowserFixture {
-    private Workflow workflow = new Workflow(this);
-
     public boolean switchBrowser() throws IOException {
 
         getStoryboard().addSectionContainer("Seach Google using Browser.DEFAULT");
@@ -38,8 +35,7 @@ public class SwitchBrowser extends CubanoDemoBrowserFixture {
     }
 
     private void searchGoogle() {
-        workflow
-                .openSearch()
+        GoogleSearchPage.open(this)
                 .searchFor("Concordion")
                 .getSearchResult("https://concordion.org");
     }
