@@ -1,15 +1,13 @@
 package example.cubanoconcordion;
 
 import example.CubanoDemoBrowserFixture;
-import org.concordion.cubano.template.driver.workflow.Workflow;
+import org.concordion.cubano.template.driver.ui.google.GoogleSearchPage;
 
 public class ExceptionHtmlCaptureExtensionFixture extends CubanoDemoBrowserFixture {
-    private Workflow workflow = new Workflow(this);
 
     public boolean noSuchElementExtension() {
 
-        workflow
-                .openSearch()
+        GoogleSearchPage.open(this)
                 .searchForElementNotFound();
 
         return true;
