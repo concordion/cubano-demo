@@ -1,12 +1,12 @@
 package org.concordion.cubano.template.driver.services;
 
+import java.io.Closeable;
+import java.sql.SQLException;
+
 import org.concordion.cubano.template.driver.database.DataManagementDatabase;
 import org.concordion.cubano.template.driver.domain.AbcDomainData;
 import org.concordion.slf4j.ext.ReportLogger;
 import org.concordion.slf4j.ext.ReportLoggerFactory;
-
-import java.io.Closeable;
-import java.sql.SQLException;
 
 public class AbcService implements Closeable {
 
@@ -17,6 +17,7 @@ public class AbcService implements Closeable {
     public AbcDomainData getAbcDomainData() {
         return abcDomainData;
     }
+
     public void setAbcDomainData(AbcDomainData domainData) {
         abcDomainData = domainData;
     }

@@ -1,17 +1,18 @@
 package example.cubanocore;
 
-import example.CubanoDemoFixture;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
+import java.sql.SQLException;
+import java.util.UUID;
+
 import org.codejargon.fluentjdbc.api.FluentJdbcException;
 import org.concordion.cubano.framework.resource.ResourceScope;
 import org.concordion.cubano.template.driver.database.DataManagementDatabase;
 import org.concordion.cubano.template.driver.domain.AbcDomainData;
 import org.concordion.cubano.template.driver.services.AbcService;
 
-import java.sql.SQLException;
-import java.util.UUID;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import example.CubanoDemoFixture;
 
 public class DataManagementFixture extends CubanoDemoFixture {
 
@@ -43,7 +44,7 @@ public class DataManagementFixture extends CubanoDemoFixture {
             assertThat(actualDomainData.getDomainDataId(), is(domainData.getDomainDataId()));
 
             return true;
-        } catch(FluentJdbcException e) {
+        } catch (FluentJdbcException e) {
             return false;
         }
     }
