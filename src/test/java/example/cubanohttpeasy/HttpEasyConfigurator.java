@@ -1,14 +1,18 @@
 package example.cubanohttpeasy;
 
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+
 import org.concordion.cubano.config.Config;
 import org.concordion.cubano.config.ProxyConfig;
 import org.concordion.cubano.driver.http.HttpEasy;
 import org.concordion.cubano.template.AppConfig;
 
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-
 public class HttpEasyConfigurator {
+
+    private HttpEasyConfigurator() {
+    }
+
     public static void applyTrustingConfig() {
         ProxyConfig proxyConfig = Config.getInstance().getProxyConfig();
         AppConfig config = AppConfig.getInstance();

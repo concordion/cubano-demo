@@ -1,7 +1,9 @@
 package example;
 
-import example.cubanohttpeasy.HttpEasyConfigurator;
-import org.concordion.api.*;
+import java.io.Closeable;
+
+import org.concordion.api.ConcordionResources;
+import org.concordion.api.FailFast;
 import org.concordion.api.extension.Extension;
 import org.concordion.cubano.driver.concordion.ExceptionHtmlCaptureExtension;
 import org.concordion.cubano.framework.ConcordionBrowserFixture;
@@ -10,7 +12,7 @@ import org.concordion.cubano.framework.resource.ResourceScope;
 import org.concordion.slf4j.ext.ReportLogger;
 import org.concordion.slf4j.ext.ReportLoggerFactory;
 
-import java.io.Closeable;
+import example.cubanohttpeasy.HttpEasyConfigurator;
 
 /**
  * A base class for extension by fixtures that invoke a browser, and may also use HttpEasy.
