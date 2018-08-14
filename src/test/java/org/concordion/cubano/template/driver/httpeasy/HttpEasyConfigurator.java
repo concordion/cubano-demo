@@ -1,4 +1,4 @@
-package example.cubanohttpeasy;
+package org.concordion.cubano.template.driver.httpeasy;
 
 import java.net.InetSocketAddress;
 import java.net.Proxy;

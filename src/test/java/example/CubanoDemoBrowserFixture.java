@@ -9,10 +9,9 @@ import org.concordion.cubano.driver.concordion.ExceptionHtmlCaptureExtension;
 import org.concordion.cubano.framework.ConcordionBrowserFixture;
 import org.concordion.cubano.framework.resource.CloseListener;
 import org.concordion.cubano.framework.resource.ResourceScope;
+import org.concordion.cubano.template.driver.httpeasy.HttpEasyConfigurator;
 import org.concordion.slf4j.ext.ReportLogger;
 import org.concordion.slf4j.ext.ReportLoggerFactory;
-
-import example.cubanohttpeasy.HttpEasyConfigurator;
 
 /**
  * A base class for extension by fixtures that invoke a browser, and may also use HttpEasy.
