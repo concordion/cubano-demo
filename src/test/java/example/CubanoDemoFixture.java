@@ -1,9 +1,9 @@
 package example;
 
-import example.cubanohttpeasy.HttpEasyConfigurator;
 import org.concordion.api.ConcordionResources;
 import org.concordion.api.FailFast;
 import org.concordion.cubano.framework.ConcordionFixture;
+import org.concordion.cubano.template.driver.httpeasy.HttpEasyConfigurator;
 
 /**
  * A base class for extension by fixtures that contain assertions.
