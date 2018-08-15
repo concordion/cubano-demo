@@ -19,13 +19,12 @@ public class HttpEasyConfigurator {
         config.logSettings();
 
         // Set the proxy rules for all rest requests made during the test run
-        HttpEasy.withDefaults().allowAllHosts().trustAllCertificates().baseUrl(config.getBaseUrl());
+        HttpEasy.withDefaults().trustAllEndPoints(true).baseUrl(config.getBaseUrl());
 
         if (proxyConfig.isProxyRequired()) {
             HttpEasy.withDefaults()
                     .proxy(new Proxy(Proxy.Type.HTTP,
-                            new InetSocketAddress(proxyConfig.getProxyHost(), proxyConfig.getProxyPort())))
-                    .bypassProxyForLocalAddresses(true);
+                            new InetSocketAddress(proxyConfig.getProxyHost(), proxyConfig.getProxyPort())));
 
             if (!proxyConfig.getProxyUsername().isEmpty() && !proxyConfig.getProxyPassword().isEmpty()) {
                 HttpEasy.withDefaults().proxyAuth(proxyConfig.getProxyUsername(), proxyConfig.getProxyPassword());

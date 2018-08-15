@@ -1,7 +1,12 @@
 package example.cubanohttpeasy;
 
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import example.CubanoDemoFixture;
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
+
+import java.io.IOException;
+
 import org.concordion.cubano.driver.http.HttpEasy;
 import org.concordion.cubano.driver.http.JsonReader;
 import org.concordion.cubano.template.driver.logger.TestLoggerLogWriter;
@@ -13,9 +18,9 @@ import org.concordion.slf4j.ext.ReportLogger;
 import org.concordion.slf4j.ext.ReportLoggerFactory;
 import org.junit.Rule;
 
-import java.io.IOException;
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import example.CubanoDemoFixture;
 
 public class HttpEasyGetFixture extends CubanoDemoFixture {
 
@@ -30,7 +35,7 @@ public class HttpEasyGetFixture extends CubanoDemoFixture {
 
     public boolean httpEasyGetResponse() throws IOException {
         
-        HttpEasy easy = HttpEasy.request().baseURI(DEFAULT_WIREMOCK_HOST + wireMockRule.port());
+        HttpEasy easy = HttpEasy.request().baseUrl(DEFAULT_WIREMOCK_HOST + wireMockRule.port());
 
         setupStub();
 
@@ -52,7 +57,7 @@ public class HttpEasyGetFixture extends CubanoDemoFixture {
 
     public boolean httpEasyGetResponseUsingParams() throws IOException {
 
-        HttpEasy easy = HttpEasy.request().baseURI(DEFAULT_WIREMOCK_HOST + wireMockRule.port());
+        HttpEasy easy = HttpEasy.request().baseUrl(DEFAULT_WIREMOCK_HOST + wireMockRule.port());
 
         setupStub();
 
