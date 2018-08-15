@@ -24,7 +24,7 @@ import org.concordion.slf4j.ext.ReportLoggerFactory;
 @ConcordionResources("/customConcordion.css")
 @FailFast
 public abstract class CubanoDemoBrowserFixture extends ConcordionBrowserFixture {
-    private final ReportLogger reportLogger = ReportLoggerFactory.getReportLogger(this.getClass().getName());
+    protected final ReportLogger reportLogger = ReportLoggerFactory.getReportLogger(this.getClass().getName());
 
     @Extension
     private final ExceptionHtmlCaptureExtension htmlCapture = new ExceptionHtmlCaptureExtension(getStoryboard(), getBrowser());
