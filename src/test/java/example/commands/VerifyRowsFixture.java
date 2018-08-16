@@ -1,7 +1,7 @@
 package example.commands;
 
 import org.concordion.api.MultiValueResult;
-import org.concordion.cubano.template.fixture.CubanoDemoFixture;
+import org.concordion.cubano.template.framework.CubanoDemoFixture;
 
 import java.util.ArrayList;
 import java.util.List;

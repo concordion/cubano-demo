@@ -11,7 +11,7 @@ import org.concordion.cubano.framework.resource.ResourceScope;
 import org.concordion.cubano.template.driver.database.DataManagementDatabase;
 import org.concordion.cubano.template.driver.domain.AbcDomainData;
 import org.concordion.cubano.template.driver.services.AbcService;
-import org.concordion.cubano.template.fixture.CubanoDemoFixture;
+import org.concordion.cubano.template.framework.CubanoDemoFixture;
 
 public class DataManagementFixture extends CubanoDemoFixture {
 

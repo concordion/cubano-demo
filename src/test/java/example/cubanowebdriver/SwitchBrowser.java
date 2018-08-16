@@ -3,7 +3,7 @@ package example.cubanowebdriver;
 import org.concordion.cubano.driver.web.Browser;
 import org.concordion.cubano.driver.web.provider.ChromeBrowserProvider;
 import org.concordion.cubano.template.driver.ui.google.GoogleSearchPage;
-import org.concordion.cubano.template.fixture.CubanoDemoBrowserFixture;
+import org.concordion.cubano.template.framework.CubanoDemoBrowserFixture;
 
 import java.io.IOException;
 

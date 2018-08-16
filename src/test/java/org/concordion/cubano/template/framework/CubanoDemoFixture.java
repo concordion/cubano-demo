@@ -1,4 +1,4 @@
-package org.concordion.cubano.template.fixture;
+package org.concordion.cubano.template.framework;
 
 import org.concordion.api.ConcordionResources;
 import org.concordion.api.FailFast;

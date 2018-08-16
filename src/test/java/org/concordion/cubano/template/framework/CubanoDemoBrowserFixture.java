@@ -1,4 +1,4 @@
-package org.concordion.cubano.template.fixture;
+package org.concordion.cubano.template.framework;
 
 import java.io.Closeable;
 

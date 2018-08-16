@@ -1,6 +1,6 @@
 package example;
 
-import org.concordion.cubano.template.fixture.CubanoDemoIndex;
+import org.concordion.cubano.template.framework.CubanoDemoIndex;
 
 /**
  * Run me as a Junit Test to test all specifications.

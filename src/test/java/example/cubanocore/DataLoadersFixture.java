@@ -6,7 +6,7 @@ import com.google.gson.GsonBuilder;
 import org.concordion.cubano.data.JsonLoader;
 import org.concordion.cubano.driver.http.JsonReader;
 import org.concordion.cubano.template.driver.domain.User;
-import org.concordion.cubano.template.fixture.CubanoDemoFixture;
+import org.concordion.cubano.template.framework.CubanoDemoFixture;
 import org.concordion.ext.StoryboardMarkerFactory;
 import org.concordion.ext.storyboard.CardResult;
 import org.concordion.ext.storyboard.StockCardImage;

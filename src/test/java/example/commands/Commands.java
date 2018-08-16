@@ -1,6 +1,6 @@
 package example.commands;
 
-import org.concordion.cubano.template.fixture.CubanoDemoIndex;
+import org.concordion.cubano.template.framework.CubanoDemoIndex;
 
 public class Commands extends CubanoDemoIndex {
 
