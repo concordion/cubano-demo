@@ -18,9 +18,10 @@ public class HttpEasyConfigurator {
         AppConfig config = AppConfig.getInstance();
         config.logSettings();
 
-        // Set the proxy rules for all rest requests made during the test run
+        // Automatically trust all hosts and certificates
         HttpEasy.withDefaults().trustAllEndPoints(true).baseUrl(config.getBaseUrl());
 
+        // Set the proxy rules for all rest requests made during the test run
         if (proxyConfig.isProxyRequired()) {
             HttpEasy.withDefaults()
                     .proxy(new Proxy(Proxy.Type.HTTP,
