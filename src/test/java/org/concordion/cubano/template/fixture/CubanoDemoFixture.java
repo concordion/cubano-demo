@@ -19,7 +19,7 @@ public abstract class CubanoDemoFixture extends ConcordionFixture {
     protected final ReportLogger reportLogger = ReportLoggerFactory.getReportLogger(this.getClass().getName());
 
     static {
-        HttpEasyConfigurator.applyTrustingConfig();
+        HttpEasyConfigurator.applyDefaultSettings();
     }
 
     /** Override the default logger. **/

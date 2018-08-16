@@ -13,7 +13,7 @@ public class HttpEasyConfigurator {
     private HttpEasyConfigurator() {
     }
 
-    public static void applyTrustingConfig() {
+    public static void applyDefaultSettings() {
         ProxyConfig proxyConfig = Config.getInstance().getProxyConfig();
         AppConfig config = AppConfig.getInstance();
         config.logSettings();
