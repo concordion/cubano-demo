@@ -1,6 +1,6 @@
 package example.cubanohttpeasy;
 
-import example.CubanoDemoIndex;
+import org.concordion.cubano.template.fixture.CubanoDemoIndex;
 
 public class CubanoHttpEasy extends CubanoDemoIndex {
 

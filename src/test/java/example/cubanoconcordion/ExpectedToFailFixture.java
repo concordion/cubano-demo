@@ -1,6 +1,6 @@
 package example.cubanoconcordion;
 
-import example.CubanoDemoFixture;
+import org.concordion.cubano.template.fixture.CubanoDemoFixture;
 
 public class ExpectedToFailFixture extends CubanoDemoFixture {
 

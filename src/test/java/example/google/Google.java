@@ -1,6 +1,6 @@
 package example.google;
 
-import example.CubanoDemoIndex;
+import org.concordion.cubano.template.fixture.CubanoDemoIndex;
 
 public class Google extends CubanoDemoIndex {
 

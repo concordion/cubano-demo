@@ -1,6 +1,6 @@
 package example.service;
 
-import example.CubanoDemoIndex;
+import org.concordion.cubano.template.fixture.CubanoDemoIndex;
 
 public class Service extends CubanoDemoIndex {
 

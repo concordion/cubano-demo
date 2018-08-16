@@ -1,8 +1,8 @@
 package example.concordion;
 
-import example.CubanoDemoBrowserFixture;
 import org.concordion.cubano.template.AppConfig;
 import org.concordion.cubano.template.driver.ui.concordion.ConcordionPresentationPage;
+import org.concordion.cubano.template.fixture.CubanoDemoBrowserFixture;
 
 public class ConcordionPresentationFixture extends CubanoDemoBrowserFixture {
 

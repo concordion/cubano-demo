@@ -1,6 +1,6 @@
 package example.cubanocore;
 
-import example.CubanoDemoIndex;
+import org.concordion.cubano.template.fixture.CubanoDemoIndex;
 
 public class CubanoCore extends CubanoDemoIndex {
 

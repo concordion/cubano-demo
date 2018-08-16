@@ -10,6 +10,7 @@ import java.io.IOException;
 import org.concordion.cubano.driver.http.HttpEasy;
 import org.concordion.cubano.driver.http.JsonReader;
 import org.concordion.cubano.template.driver.logger.TestLoggerLogWriter;
+import org.concordion.cubano.template.fixture.CubanoDemoFixture;
 import org.concordion.ext.StoryboardMarkerFactory;
 import org.concordion.ext.storyboard.CardResult;
 import org.concordion.ext.storyboard.StockCardImage;
@@ -19,8 +20,6 @@ import org.junit.Rule;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.google.common.net.MediaType;
-
-import example.CubanoDemoFixture;
 
 public class HttpEasyPostFixture extends CubanoDemoFixture {
 

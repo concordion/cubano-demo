@@ -1,7 +1,7 @@
 package example.service;
 
-import example.CubanoDemoFixture;
 import org.concordion.cubano.template.driver.services.ExampleRestApi;
+import org.concordion.cubano.template.fixture.CubanoDemoFixture;
 
 import java.io.IOException;
 

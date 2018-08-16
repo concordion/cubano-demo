@@ -1,4 +1,4 @@
-package example;
+package org.concordion.cubano.template.fixture;
 
 import org.concordion.cubano.framework.ConcordionBase;
 import org.concordion.cubano.framework.fixture.FixtureLogger;

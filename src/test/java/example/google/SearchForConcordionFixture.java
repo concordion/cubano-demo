@@ -1,7 +1,7 @@
 package example.google;
 
-import example.CubanoDemoBrowserFixture;
 import org.concordion.cubano.template.driver.ui.google.GoogleSearchPage;
+import org.concordion.cubano.template.fixture.CubanoDemoBrowserFixture;
 
 public class SearchForConcordionFixture extends CubanoDemoBrowserFixture {
     public String google(String term, String site) {

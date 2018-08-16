@@ -1,6 +1,6 @@
 package example.commands;
 
-import example.CubanoDemoFixture;
+import org.concordion.cubano.template.fixture.CubanoDemoFixture;
 
 public class SetCommandFixture extends CubanoDemoFixture {
 

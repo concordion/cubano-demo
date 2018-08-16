@@ -1,8 +1,9 @@
 package example.cubanoconcordion;
 
 import ch.qos.logback.classic.Level;
-import example.CubanoDemoFixture;
+
 import org.concordion.api.extension.Extension;
+import org.concordion.cubano.template.fixture.CubanoDemoFixture;
 import org.concordion.ext.LogbackLogMessenger;
 import org.concordion.ext.LoggingTooltipExtension;
 import org.slf4j.Logger;
