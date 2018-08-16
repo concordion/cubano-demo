@@ -16,7 +16,6 @@ public class HttpEasyConfigurator {
     public static void applyDefaultSettings() {
         ProxyConfig proxyConfig = Config.getInstance().getProxyConfig();
         AppConfig config = AppConfig.getInstance();
-        config.logSettings();
 
         // Automatically trust all hosts and certificates
         HttpEasy.withDefaults().trustAllEndPoints(true).baseUrl(config.getBaseUrl());
