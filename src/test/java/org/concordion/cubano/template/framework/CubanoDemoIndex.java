@@ -1,7 +1,6 @@
 package org.concordion.cubano.template.framework;
 
 import org.concordion.api.ConcordionResources;
-import org.concordion.api.FailFast;
 import org.concordion.cubano.framework.ConcordionBase;
 
 /**
@@ -11,6 +10,5 @@ import org.concordion.cubano.framework.ConcordionBase;
  * @see CubanoDemoBrowserFixture for fixtures that invoke a browser
  */
 @ConcordionResources("/customConcordion.css")
-@FailFast
 public abstract class CubanoDemoIndex extends ConcordionBase {
 }
