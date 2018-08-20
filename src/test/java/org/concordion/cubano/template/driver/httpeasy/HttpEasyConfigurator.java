@@ -22,13 +22,16 @@ public class HttpEasyConfigurator {
 
         // Set the proxy rules for all rest requests made during the test run
         if (proxyConfig.isProxyRequired()) {
+
             HttpEasy.withDefaults()
                     .proxy(new Proxy(Proxy.Type.HTTP,
-                            new InetSocketAddress(proxyConfig.getProxyHost(), proxyConfig.getProxyPort())));
+                            new InetSocketAddress(proxyConfig.getProxyHost(), proxyConfig.getProxyPort())))
+                    .bypassProxy(true);
 
             if (!proxyConfig.getProxyUsername().isEmpty() && !proxyConfig.getProxyPassword().isEmpty()) {
                 HttpEasy.withDefaults().proxyAuth(proxyConfig.getProxyUsername(), proxyConfig.getProxyPassword());
             }
+
         }
     }
 }
