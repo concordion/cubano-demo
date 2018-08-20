@@ -1,9 +1,9 @@
 package example.commands;
 
-import example.CubanoDemoFixture;
 import org.concordion.api.extension.Extensions;
 import org.concordion.api.option.ConcordionOptions;
 import org.concordion.cubano.template.driver.util.TableBuilder;
+import org.concordion.cubano.template.framework.CubanoDemoFixture;
 import org.concordion.ext.EmbedExtension;
 
 @Extensions({ EmbedExtension.class })

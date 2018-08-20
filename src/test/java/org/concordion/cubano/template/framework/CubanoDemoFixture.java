@@ -1,8 +1,9 @@
-package example;
+package org.concordion.cubano.template.framework;
 
 import org.concordion.api.ConcordionResources;
 import org.concordion.api.FailFast;
 import org.concordion.cubano.framework.ConcordionFixture;
+import org.concordion.cubano.template.AppConfig;
 import org.concordion.cubano.template.driver.httpeasy.HttpEasyConfigurator;
 import org.concordion.slf4j.ext.ReportLogger;
 import org.concordion.slf4j.ext.ReportLoggerFactory;
@@ -19,7 +20,9 @@ public abstract class CubanoDemoFixture extends ConcordionFixture {
     protected final ReportLogger reportLogger = ReportLoggerFactory.getReportLogger(this.getClass().getName());
 
     static {
-        HttpEasyConfigurator.applyTrustingConfig();
+        AppConfig.getInstance().logSettings();
+
+        HttpEasyConfigurator.applyDefaultSettings();
     }
 
     /** Override the default logger. **/

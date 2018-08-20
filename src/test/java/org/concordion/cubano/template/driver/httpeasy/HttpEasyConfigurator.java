@@ -13,23 +13,25 @@ public class HttpEasyConfigurator {
     private HttpEasyConfigurator() {
     }
 
-    public static void applyTrustingConfig() {
+    public static void applyDefaultSettings() {
         ProxyConfig proxyConfig = Config.getInstance().getProxyConfig();
         AppConfig config = AppConfig.getInstance();
-        config.logSettings();
+
+        // Automatically trust all hosts and certificates
+        HttpEasy.withDefaults().trustAllEndPoints(true).baseUrl(config.getBaseUrl());
 
         // Set the proxy rules for all rest requests made during the test run
-        HttpEasy.withDefaults().allowAllHosts().trustAllCertificates().baseUrl(config.getBaseUrl());
-
         if (proxyConfig.isProxyRequired()) {
+
             HttpEasy.withDefaults()
                     .proxy(new Proxy(Proxy.Type.HTTP,
                             new InetSocketAddress(proxyConfig.getProxyHost(), proxyConfig.getProxyPort())))
-                    .bypassProxyForLocalAddresses(true);
+                    .bypassProxy(true);
 
             if (!proxyConfig.getProxyUsername().isEmpty() && !proxyConfig.getProxyPassword().isEmpty()) {
                 HttpEasy.withDefaults().proxyAuth(proxyConfig.getProxyUsername(), proxyConfig.getProxyPassword());
             }
+
         }
     }
 }

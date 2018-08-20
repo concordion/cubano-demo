@@ -1,4 +1,4 @@
-package example;
+package org.concordion.cubano.template.framework;
 
 import java.io.Closeable;
 
@@ -30,7 +30,7 @@ public abstract class CubanoDemoBrowserFixture extends ConcordionBrowserFixture 
     private final ExceptionHtmlCaptureExtension htmlCapture = new ExceptionHtmlCaptureExtension(getStoryboard(), getBrowser());
 
     static {
-        HttpEasyConfigurator.applyTrustingConfig();
+        HttpEasyConfigurator.applyDefaultSettings();
     }
 
     /** Override the default fixture logger. **/

@@ -7,10 +7,10 @@ import org.concordion.cubano.driver.http.HttpEasy;
 public class ExampleRestApi extends ServiceBase {
 
     public String getIPAddress() throws IOException {
-        // NOTE: HttpEasy config has already been set in ConcordionDomainBase using baseUrl from config.properties file
+        // NOTE: HttpEasy config has already been set in HttpEasyConfigurator
 
         String response = HttpEasy.request()
-                .baseURI("http://httpbin.org")
+                .baseUrl("http://httpbin.org")
                 .path("get")
                 .queryParam("name", "fred")
                 .get()

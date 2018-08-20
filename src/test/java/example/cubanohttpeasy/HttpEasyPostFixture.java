@@ -7,10 +7,10 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 
 import java.io.IOException;
 
-import example.CubanoDemoFixture;
 import org.concordion.cubano.driver.http.HttpEasy;
 import org.concordion.cubano.driver.http.JsonReader;
 import org.concordion.cubano.template.driver.logger.TestLoggerLogWriter;
+import org.concordion.cubano.template.framework.CubanoDemoFixture;
 import org.concordion.ext.StoryboardMarkerFactory;
 import org.concordion.ext.storyboard.CardResult;
 import org.concordion.ext.storyboard.StockCardImage;
@@ -34,7 +34,7 @@ public class HttpEasyPostFixture extends CubanoDemoFixture {
 
     public boolean httpEasyPostResponse() throws IOException {
         
-        HttpEasy easy = HttpEasy.request().baseURI(DEFAULT_WIREMOCK_HOST + wireMockRule.port());
+        HttpEasy easy = HttpEasy.request().baseUrl(DEFAULT_WIREMOCK_HOST + wireMockRule.port());
 
         setupStub();
 
