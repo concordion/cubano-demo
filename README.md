@@ -101,3 +101,10 @@ The built in Cubano class `org.concordion.cubano.config.ProxyConfig`, provides t
   * port: [proxyPort]
   * authentication: required
   * proxy bypass: [hostsToBypass]
+
+## Feedback
+We love to receive feedback.
+
+Please report any [issues](https://github.com/concordion/cubano-demo/issues) to this Github project.
+
+Please post other feedback, questions and discussion to the [Concordion Google Group](https://groups.google.com/forum/#!search/concordion) with "[Cubano]" in the message header.
