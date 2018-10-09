@@ -52,7 +52,7 @@ public class GoogleSearchPage extends PageObject<GoogleSearchPage> {
     }
 
     public String getSearchResult(String link) {
-        List<SearchResult> searchResults = getBrowser().getHtmlElementsLoader(this).findElements(SearchResult.class, By.cssSelector("div.g"));
+        List<SearchResult> searchResults = getBrowser().getHtmlElementsLoader(this).findElements(SearchResult.class, By.cssSelector("div.rc .r"));
 
         for (SearchResult searchResult : searchResults) {
             String url = searchResult.url.getText();

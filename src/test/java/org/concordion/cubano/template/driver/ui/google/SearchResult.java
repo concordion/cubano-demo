@@ -6,12 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
 public class SearchResult extends HtmlElement {
-    @FindBy(className = ".r")
-    WebElement heading;
 
-    @FindBy(css = ".s .f")
+    @FindBy(css = ".TbwUpd .iUh30")
     WebElement url;
-
-    @FindBy(css = ".s .st")
-    WebElement description;
 }
