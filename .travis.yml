@@ -3,7 +3,7 @@ jdk:
   - oraclejdk8
 addons:
   chrome: stable
-  firefox: "59.0.1"
+  firefox: "62.0.3"
 before_install:
   - pwd
   - ls -la
