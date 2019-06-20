@@ -7,13 +7,13 @@ import org.concordion.api.FailFast;
 import org.concordion.api.extension.Extension;
 import org.concordion.api.extension.Extensions;
 import org.concordion.cubano.driver.concordion.ExceptionHtmlCaptureExtension;
-import org.concordion.cubano.driver.concordion.ExpectedToFailInfoExtension;
 import org.concordion.cubano.framework.ConcordionBrowserFixture;
 import org.concordion.cubano.framework.resource.CloseListener;
 import org.concordion.cubano.framework.resource.ResourceScope;
 import org.concordion.cubano.template.driver.httpeasy.HttpEasyConfigurator;
 import org.concordion.ext.TimestampFormatterExtension;
 import org.concordion.ext.runtotals.RunTotalsExtension;
+import org.concordion.ext.statusinfo.StatusInfoExtension;
 import org.concordion.slf4j.ext.ReportLogger;
 import org.concordion.slf4j.ext.ReportLoggerFactory;
 
@@ -26,7 +26,7 @@ import org.concordion.slf4j.ext.ReportLoggerFactory;
  * @see CubanoDemoFixture for fixtures that don't invoke a browser
  */
 @ConcordionResources("/customConcordion.css")
-@Extensions({ TimestampFormatterExtension.class, RunTotalsExtension.class, ExpectedToFailInfoExtension.class })
+@Extensions({ TimestampFormatterExtension.class, RunTotalsExtension.class, StatusInfoExtension.class })
 @FailFast
 public abstract class CubanoDemoBrowserFixture extends ConcordionBrowserFixture {
     protected final ReportLogger reportLogger = ReportLoggerFactory.getReportLogger(this.getClass().getName());
