@@ -22,6 +22,9 @@ public class GoogleSearchPage extends PageObject<GoogleSearchPage> {
     @FindBy(name = "elementNotFound")
     WebElement elementNotFound;
 
+    @FindBy(css = "div.rc")
+    List<SearchResult> searchResults;
+
     @Override
     public ExpectedCondition<?> pageIsLoaded(Object... params) {
         return ExpectedConditions.visibilityOf(query);
@@ -52,16 +55,10 @@ public class GoogleSearchPage extends PageObject<GoogleSearchPage> {
     }
 
     public String getSearchResult(String link) {
-        List<SearchResult> searchResults = getBrowser().getHtmlElementsLoader(this).findElements(SearchResult.class, By.cssSelector("div.rc .r"));
-
         for (SearchResult searchResult : searchResults) {
             String url = searchResult.url.getText();
 
-            if (url.startsWith(link)) {
-                if (url.endsWith("/")) {
-                    url = url.substring(0, url.length() - 1);
-                }
-
+            if (url.contains(link)) {
                 return url;
             }
         }
