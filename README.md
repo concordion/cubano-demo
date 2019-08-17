@@ -74,14 +74,15 @@ Concordion fixtures use the JUnit library, with a specialised ConcordionRunner (
 * Classes that end with `*Fixture` can be executed in the same way
 
 ### Using Gradle 
-Ensure you are in the `cubano-demo` root directory.
-* `gradlew clean test -Dtest.single=example/Example -Dlogback.configurationFile=logback-jenkins.xml` (runs a single test, which co-ordinates the test suite)
-* `gradlew clean test` (runs all tests in the suite individually)
-View the Concordion output under the subfolder `build\reports\spec\example\Example.html`
+1. Ensure you are in the `cubano-demo` root directory.
+1. From the command line run either:
+    * `gradlew clean test -Dtest.single=example/Example -Dlogback.configurationFile=logback-jenkins.xml` (runs a single test, which co-ordinates the test suite)
+    * `gradlew clean test` (runs all tests in the suite individually)
+1. View the Concordion output under the subfolder `build\reports\spec\example\Example.html`
 
 ### Using Maven
-1. Download and install maven (this has been tested with 3.*)
-1. From a command line opened at the location to which this package has been unzipped, run `mvn test`
+1. Ensure you are in the `cubano-demo` root directory and that you've download and installed maven (this has been tested with 3.*).
+1. From cmd line run `mvn test`
 1. View the Concordion output under the subfolder `target\concordion\example\Example.html`
 
 ## Dealing with Proxies
