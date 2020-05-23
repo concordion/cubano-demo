@@ -49,7 +49,7 @@ public class GoogleSearchPage extends PageObject<GoogleSearchPage> {
 
         query.submit();
 
-        waitUntil(ExpectedConditions.presenceOfElementLocated(By.id("resultStats")), 3);
+        waitUntil(ExpectedConditions.presenceOfElementLocated(By.id("result-stats")), 3);
 
         return this;
     }
