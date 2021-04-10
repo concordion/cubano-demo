@@ -1,0 +1,1 @@
+{"name":"Google Web Homepage","short_name":"webhp","related_applications":[{"id":"com.google.android.googlequicksearchbox","url":"https://play.google.com/store/apps/details?id\u003dcom.google.android.googlequicksearchbox","platform":"play"}]}

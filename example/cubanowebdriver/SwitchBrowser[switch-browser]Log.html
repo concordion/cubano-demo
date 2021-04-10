@@ -1,0 +1,1257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style type="text/css">
+
+html {
+	font-family: Arial, Helvetica, verdana sans-serif;
+	font-size: 0.9em;
+	font-style: normal;
+}
+
+body {
+	margin-left: 2em;
+	margin-right: 2em;
+}
+
+/* set default tab size to 4 characters - no IE support */
+pre xmp {
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+}
+
+h1 {
+	font-size: 1.5em;
+}
+
+/* TODO Get header (and first row of table) to stay at top of screen */
+.floattopright {
+	position: fixed;
+	right: 0;
+	background-color: white;
+	display: inline-block;
+	float: right;
+	margin-right: 2em;
+	z-index: 1000;
+	padding: 6px 8px;
+	border: 1px solid lightgrey;
+}
+
+table {
+	background-color: #fff;
+	border-collapse: collapse;
+	width: calc(100%);
+}
+
+table thead th {
+	border-right: 1px solid #fff;
+	color: #fff;
+	text-align: center;
+	padding: 2px 12px;
+	text-transform: uppercase;
+	height: 25px;
+	background-color: #a3c159;
+	font-weight: normal;
+}
+
+/*
+tfoot {
+color:#1ba6b2;
+padding:2px;
+text-transform:uppercase;
+font-size:1.2em; 
+ font-weigth: bold;
+margin-top:6px;
+border-top: 6px solid #e9f7f6;
+}
+*/
+
+table tbody tr {
+	background-color: #fff;
+	border-bottom: 1px solid #f0f0f0;
+}
+
+table tbody td {
+	color: #414141;
+	padding: 5px;
+	text-align: left;
+}
+
+table tbody tr td.output {
+	text-align: left;
+	background-image:
+		url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAFCAYAAACEhIafAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAABdJREFUGFdjAAJlECEFIoRABCcQMzAAAAWUAFmQZlpWAAAAAElFTkSuQmCC");
+	background-repeat: repeat-x;
+	margin: 0;
+	padding: 12px 0 8px 0;
+	position: relative;
+}
+
+table tbody tr.record:hover {
+	background: #ffffd3;
+	background: -moz-linear-gradient(top, #ffffd3 0%, #ffffaf 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffd3), color-stop(100%, #ffffaf));
+	background: -webkit-linear-gradient(top, #ffffd3 0%, #ffffaf 100%);
+	background: -o-linear-gradient(top, #ffffd3 0%, #ffffaf 100%);
+	background: -ms-linear-gradient(top, #ffffd3 0%, #ffffaf 100%);
+	background: linear-gradient(to bottom, #ffffd3 0%, #ffffaf 100%); 
+	cursor: pointer;
+}
+
+TH.Message { width: 100%; }
+TD.Message { word-break: break-all; }
+
+TR.step {
+	background: #a3c159; /* For browsers that do not support gradients */
+	background: linear-gradient(to bottom, white, #a3c159);
+}
+
+TD.warn { color: orange; font-weight: bold; }
+TD.error, TD.fatal { color: #FF4040; font-weight: bold; }
+TD.Time, TD.Date { text-align: right; }
+TD.FileOfCaller { max-width: 19em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.greyed { color: #999; }
+
+/* Stack Trace */
+.exceptionMessage {
+	border-top: none;
+	background-color: #fdd;
+	font-family: Courier New, Courier, Monospace;
+	font-size: 10pt;
+	font-weight: normal;
+	padding-left: 12px !important;
+	padding-right: 12px !important;
+	text-decoration: none !important;
+}
+
+.stackTrace, .stackTrace * {
+	font-weight: normal;
+}
+
+.stackTrace {
+	display: none;
+	padding: 1px 4px 4px 4px;
+	border-top: 1px dotted black;
+}
+
+.stackTraceExceptionMessage {
+	display: block;
+	font-family: Courier New, Courier, Monospace;
+	font-size: 8pt;
+	white-space: wrap;
+	padding: 1px 0px 1px 0px;
+}
+
+.stackTraceEntry {
+	white-space: nowrap;
+	font-family: Courier New, Courier, Monospace;
+	display: block;
+	font-size: 8pt;
+	padding: 1px 0px 1px 32px;
+}
+
+.stackTraceButton {
+	font-size: 8pt;
+	margin: 2px 8px 2px 0px;
+	font-weight: normal;
+	font-family: Arial;
+}
+
+/* Screenshot */
+img.screenshot {
+	position: absolute;
+	visibility: hidden;
+	left: 0;
+	top: 0;
+	height: auto;
+	border: solid 1px black;
+	z-index: 3000;
+	border: none;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+img.sizewidth {
+	height: auto;
+	border: 1px solid lightgrey;
+}
+
+img.sizeheight {
+	width: auto;
+	border: 1px solid lightgrey;
+}
+
+/* Embedded Object */
+.attachmentMenu {
+	text-align: right;
+}
+
+div.resizeable {
+	box-sizing: border-box;
+	border: 1px solid lightgrey;
+	/* resize:both; */
+	overflow: hidden;
+	max-height: 100px;
+}
+
+div.resizeable>object {
+	box-sizing: border-box;
+	margin: 0px;
+	width: auto;
+	height: auto;
+}
+
+xmp {
+	box-sizing: border-box;
+	margin: 0px;
+	width: 0; /* XMP tag not obeying parent size without this */
+}
+
+/* IE & EDGE hack for above */
+_:-ms-lang(x), xmp { 
+	white-space: pre-wrap; 
+}
+
+.fadeout {
+	position:relative;
+}
+
+.fadeout:after {
+    content:"";
+    position:absolute;
+    top:60px;
+    left:0;
+    height:40px;
+    width:2000px; /* Force extra wide as cannot get flexible width with xmp.resizeable */
+    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+    background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+	background: -ms-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+    background: -o-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+    background: linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+}
+
+</style><script type="text/javascript">
+/*
+ * TODO This may allow fixed header at top of page - works with chrome but firefox and edge body cells loose their
+ * width.  Possibly setting body cell min-width to header width during onload, then header width during onresize
+ * might do the trick.
+ 
+//window.onresize = function() {
+window.onload = function() {
+	var table = document.getElementsByTagName("table")[0];
+	var thead = table.getElementsByTagName("thead")[0];
+	var htr = thead.getElementsByTagName("tr")[0];
+	
+	htr.style.position = "fixed";
+	htr.style.zIndex = "1000";
+	
+	var tbody = table.getElementsByTagName("tbody")[0];
+	var btr = tbody.getElementsByTagName("tr")[0];
+	
+	for(var i = 0; i < btr.cells.length; i++) {
+	var w1 = btr.cells[i].getBoundingClientRect().width;
+	var w2 = btr.cells[i].offsetWidth;
+		htr.cells[i].width = w2 + 'px';
+	}
+}
+*/
+
+function hasClass(element, cls) {
+	return element.classList ? element.classList.contains(cls) : (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
+}
+
+function addClass(element, cls) {
+	if (element.classList) {
+		element.classList.add(cls);
+	} else {
+		if (!hasClass(element, cls)) {
+			element.className += " " + cls;
+		}
+	}
+}
+
+function removeClass(element, cls) {
+	if (element.classList) {
+		element.classList.remove(cls);
+    } else {
+        var classes = element.className.split(" ");
+        classes.splice(classes.indexOf(cls), 1);
+        element.className = classes.join(" ");
+    }
+}
+
+/* Stack Trace Toggling */
+function getElementById(id) {
+	var element;
+
+	if (document.getElementById) { // standard
+		return document.getElementById(id);
+	} else if (document.all) { // old IE versions
+		return document.all[id];
+	} else if (document.layers) { // nn4
+		return document.layers[id];
+	}
+	alert("Sorry, but your web browser is not supported by Concordion.");
+}
+
+function isVisible(element) {
+	return element.style.display;
+}
+
+function makeVisible(element) {
+	element.style.display = "block";
+}
+
+function makeInvisible(element) {
+	element.style.display = "";
+}
+
+function toggleStackTrace(stackTraceNumber) {
+	var stackTrace = getElementById("stackTrace" + stackTraceNumber);
+	var stackTraceButton = getElementById("stackTraceButton" + stackTraceNumber);
+	if (isVisible(stackTrace)) {
+		makeInvisible(stackTrace);
+		stackTraceButton.value = "View Stack";
+	} else {
+		makeVisible(stackTrace);
+		stackTraceButton.value = "Hide Stack";
+	}
+}
+
+/* Image popup */
+function showScreenPopup(src) {
+	var img = document.getElementById('ScreenshotPopup');
+	img.src = src.src
+
+	var scrollTop = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
+	var scrollLeft = Math.max(document.body.scrollLeft, document.documentElement.scrollLeft);
+	var viewportWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+	var viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+	var scrollbarWidth = viewportWidth - document.body.offsetWidth;
+
+	var srcRect = src.getBoundingClientRect();
+	var imgRect = img.getBoundingClientRect();
+	var naturalWidth = (img.naturalWidth || 0);
+	var naturalHeight = (img.naturalHeight || 0);
+
+	var above = srcRect.top > (viewportHeight - srcRect.top - srcRect.height);
+	var posTop = 0;
+	var posLeft = 0;
+
+	if (above) {
+		var height = Math.min(naturalHeight, srcRect.top - 10)
+		posTop = scrollTop + srcRect.top - height;
+
+		img.style.height = height + "px";
+		img.style.width = 'auto';
+
+		if (img.width > Math.min(naturalWidth, viewportWidth)) {
+			img.style.height = 'auto';
+			img.style.width = Math.min(naturalWidth, viewportWidth) + "px";
+
+			posTop = scrollTop + srcRect.top - img.height;
+		}
+	} else {
+		var height = Math.min(naturalHeight, viewportHeight - srcRect.top - srcRect.height - 10)
+		posTop = scrollTop + srcRect.top + srcRect.height;
+
+		img.style.height = height + "px";
+		img.style.width = 'auto';
+
+		if (img.width > Math.min(naturalWidth, viewportWidth)) {
+			img.style.height = 'auto';
+			img.style.width = Math.min(naturalWidth, viewportWidth) + "px";
+		}
+	}
+
+	var posLeft = srcRect.left + scrollLeft + 1;
+
+	if (posLeft + img.width > scrollLeft + viewportWidth - scrollbarWidth) {
+		posLeft = scrollLeft + viewportWidth - img.width - scrollbarWidth;
+	}
+	if (posLeft < scrollLeft) {
+		posLeft = scrollLeft;
+	}
+
+	img.style.left = posLeft + "px";
+	img.style.top = posTop + "px";
+	img.style.visibility = 'visible';   
+}
+
+function hideScreenPopup() {
+	document.getElementById('ScreenshotPopup').style.visibility = 'hidden';
+}
+
+/* Log Filtering */
+function filterDebug(cb) {
+	doFilter("debug", cb.checked);
+}
+function filterTrace(cb) {
+	doFilter("trace", cb.checked);
+}
+
+function doFilter(className, checked) {
+	var displaySetting = checked ? "" : "none";
+	var borderSetting = checked ? "1px solid #f0f0f0" : "1px dotted black";
+
+	var scrollToElement = getFirstVisibleRow(className);
+	
+	var all = document.querySelectorAll("TR." + className);
+	for (var i = 0; i < all.length; i++) {
+		var prevrow = all[i].previousElementSibling;
+		if (prevrow != null && !hasClass(prevrow, className)) {
+			prevrow.style.borderBottom = borderSetting;
+		}
+
+		all[i].style.display = displaySetting;
+	}
+	
+	// Attempt to keep the currently selected row visible
+	if (scrollToElement) {
+		scrollToElement.scrollIntoView();
+	}
+}
+
+function getFirstVisibleRow(className) { 
+	var element = null;
+	
+	if (document.caretPositionFromPoint) {
+		var range = document.caretPositionFromPoint(0, 5);
+		element = range.offsetNode.parentElement;
+		
+	} else if (document.caretRangeFromPoint) {
+		var range = document.caretRangeFromPoint(0, 5);
+		element = range.startContainer.parentNode;
+		
+	} else if (document.elementFromPoint) {
+		element = document.elementFromPoint(100, 5).parentElement;
+	}
+ 	
+	while (element != null && (element.tagName.toLowerCase() != 'tr' || hasClass(element, className))) {
+		if (element.tagName.toLowerCase() == 'tr') {
+			element = element.previousElementSibling;
+		} else {
+			element = element.parentElement;
+		}
+	}
+	
+	return element;
+}
+
+/* Expand / Collapse embedded content */
+function toggleContent(el) {
+	var resizeEl = el.parentElement;
+	var isCollapsed = el.text == "Collapse";
+
+	while (resizeEl != null) {
+		if (hasClass(resizeEl, "resizeable")) {
+			if (isCollapsed) {
+				resizeEl.style.maxHeight = "100px";
+				resizeEl.style.overflow = "hidden";
+				el.text = "Expand";
+
+			} else {
+				resizeEl.style.maxHeight = viewport().height - 100 + 'px';
+				//console.log(resizeEl.style.maxHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) * .8);
+				console.log(viewport());
+				resizeEl.style.overflow = "auto";
+				el.text = "Collapse";
+			}
+
+			// Resized element
+			resizeEl = resizeEl.firstElementChild;
+
+			if (resizeEl.tagName.toLowerCase() == "object") {
+				if (isCollapsed) {
+					resizeEl.style.height = 'auto';
+					resizeEl.style.width = 'auto';
+				} else {   
+					resizeEl.style.height = viewport().height - 300 + 'px';
+					resizeEl.style.width = viewport().width - 300 + 'px';                                                                                                                                                                      
+				}
+			} else {
+				if (isCollapsed) {
+					addClass(resizeEl, "fadeout");
+				} else {
+					removeClass(resizeEl, "fadeout");
+				}
+			}			
+
+			break;
+		}
+
+		resizeEl = resizeEl.nextElementSibling;
+	}
+}
+
+function viewport() {
+	var e = window, a = 'inner';
+	if (!('innerWidth' in window )) {
+		a = 'client';
+		e = document.documentElement || document.body;
+	}
+	return { width : e[ a+'Width' ] , height : e[ a+'Height' ] };
+}
+
+
+</script>
+  </head>
+<body>
+<label class="floattopright"><input id="chkTrace" type="checkbox" onclick="filterTrace(this);" checked>Show 'TRACE' level statements</label><img id="ScreenshotPopup" class="screenshot" /><h1>Log session start time Sat Apr 10 16:41:20 UTC 2021</h1><p></p>
+
+<table>
+<thead>
+<tr><th class="Row">Row</th>
+<th class="Level">Level</th>
+<th class="Message">Message</th>
+<th class="Time">Time</th>
+<th class="FileOfCaller">File&nbsp;Of&nbsp;Caller</th>
+<th class="LineOfCaller">Line&nbsp;Of&nbsp;Caller</th>
+</tr>
+</thead>
+<tbody>
+
+<tr class="record info">
+<td>1.</td><td class="Level info">INFO</td>
+<td class="Message">Starting example switch-browser for test fixture example.cubanowebdriver.SwitchBrowser</td>
+<td class="Time">16:41:20.664</td>
+<td class="FileOfCaller" title="CubanoDemoFixtureLogger.java">CubanoDemoFixtureLogger.java</td>
+<td class="LineOfCaller">15</td>
+</tr>
+<tr class="record debug">
+<td>2.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Navigating to &#8658; <a class="greyed" href="https://www.google.co.nz">https://www.google.co.nz</a></td>
+<td class="Time">16:41:20.674</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record step">
+<td colspan="6">3. Page Object: GoogleSearchPage</td>
+</tr>
+<tr class="record debug">
+<td>4.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Wait for any ajax requests to complete</td>
+<td class="Time">16:41:21.093</td>
+<td class="FileOfCaller" title="PageObject.java">PageObject.java</td>
+<td class="LineOfCaller">40</td>
+</tr>
+<tr class="record trace">
+<td>5.</td><td class="Level trace">TRACE</td>
+<td class="Message">Run JavaScript &#8658;</td>
+<td class="Time">16:41:21.121</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="companion trace">
+<td class="indent"></td><td colspan="5" class="output">
+<xmp>var frame = window.frameElement;if (!frame) {    return &#39;&#39;;}if (frame.name) {    return frame.name;}if (frame.id) {    return frame.id;}return &#39;UNKNOWN FRAME&#39;;</xmp>
+</td>
+</tr>
+<tr class="record trace">
+<td>6.</td><td class="Level trace">TRACE</td>
+<td class="Message">Run JavaScript &#8658;</td>
+<td class="Time">16:41:21.128</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="companion trace">
+<td class="indent"></td><td colspan="5" class="output">
+<xmp>if (typeof jQuery === &#39;undefined&#39;) return true;
+if (jQuery.active != 0) return false;
+return true;</xmp>
+</td>
+</tr>
+<tr class="record trace">
+<td>7.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: Spinner</span></td>
+<td class="Time">16:41:21.141</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>8.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Checking GoogleSearchPage loads within 10 seconds</td>
+<td class="Time">16:41:21.151</td>
+<td class="FileOfCaller" title="ActionTimer.java">ActionTimer.java</td>
+<td class="LineOfCaller">63</td>
+</tr>
+<tr class="record trace">
+<td>9.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.name: q</span></td>
+<td class="Time">16:41:21.154</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>10.</td><td class="Level trace">TRACE</td>
+<td class="Message">GoogleSearchPage loaded in 0 seconds <br /><span class="greyed">Current url: https://www.google.co.nz/<span></td>
+<td class="Time">16:41:21.227</td>
+<td class="FileOfCaller" title="PageObject.java">PageObject.java</td>
+<td class="LineOfCaller">55</td>
+</tr>
+<tr class="record debug">
+<td>11.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Change value &#8658; <span class="greyed">of By.name: q from '[Concordion]' to '[Concordion]'</span></td>
+<td class="Time">16:41:21.303</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>12.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Clicking &#39;Concordion&#39; </td>
+<td class="Time">16:41:21.483</td>
+<td class="FileOfCaller" title="GoogleSearchPage.java">GoogleSearchPage.java</td>
+<td class="LineOfCaller">48</td>
+</tr>
+<tr class="companion debug">
+<td class="indent"></td><td colspan="5" class="output">
+<a href="SwitchBrowser[switch-browser]LogScreenShot24.png"><img src="SwitchBrowser[switch-browser]LogScreenShot24.png" onMouseOver="showScreenPopup(this);this.style.cursor='pointer'" onMouseOut="hideScreenPopup();this.style.cursor='default'" width="350px"  class="sizewidth"/></a>
+</td>
+</tr>
+<tr class="record trace">
+<td>13.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.id: result-stats</span></td>
+<td class="Time">16:41:21.501</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>14.</td><td class="Level trace">TRACE</td>
+<td class="Message">Selenium Error &#8658; <span class="greyed">Unable to locate element: #result\-stats<br />For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html<br />Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'<br />System info: host: 'localhost', ip: '127.0.0.1', os.name: 'Linux', os.arch: 'amd64', os.version: '4.4.0-101-generic', java.version: '1.8.0_151'<br />Driver info: org.openqa.selenium.firefox.FirefoxDriver<br />Capabilities {acceptInsecureCerts: true, browserName: firefox, browserVersion: 66.0.5, javascriptEnabled: true, moz:accessibilityChecks: false, moz:geckodriverVersion: 0.24.0, moz:headless: false, moz:processID: 6027, moz:profile: /tmp/rust_mozprofile.WyRZX4..., moz:shutdownTimeout: 60000, moz:useNonSpecCompliantPointerOrigin: false, moz:webdriverClick: true, pageLoadStrategy: normal, platform: LINUX, platformName: LINUX, platformVersion: 4.4.0-101-generic, rotatable: false, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify}<br />Session ID: 13e473a2-a17b-42fc-91b5-766496fc4e3d<br />*** Element info: {Using=id, value=result-stats}</span></td>
+<td class="Time">16:41:21.517</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>15.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.cssSelector: div.rc</span></td>
+<td class="Time">16:41:22.041</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>16.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Completed</td>
+<td class="Time">16:41:22.127</td>
+<td class="FileOfCaller" title="StoryboardListener.java">StoryboardListener.java</td>
+<td class="LineOfCaller">323</td>
+</tr>
+<tr class="companion debug">
+<td class="indent"></td><td colspan="5" class="output">
+<a href="SwitchBrowser[switch-browser]LogScreenShot25.png"><img src="SwitchBrowser[switch-browser]LogScreenShot25.png" onMouseOver="showScreenPopup(this);this.style.cursor='pointer'" onMouseOut="hideScreenPopup();this.style.cursor='default'" width="350px"  class="sizewidth"/></a>
+</td>
+</tr>
+<tr class="record debug">
+<td>17.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Registering org.concordion.cubano.driver.web.provider.ChromeBrowserProvider@9b17987 to SUITE.</td>
+<td class="Time">16:41:22.138</td>
+<td class="FileOfCaller" title="ConcordionBase.java">ConcordionBase.java</td>
+<td class="LineOfCaller">75</td>
+</tr>
+<tr class="record debug">
+<td>18.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Registering org.concordion.cubano.driver.web.Browser@9b25 to SUITE.</td>
+<td class="Time">16:41:22.141</td>
+<td class="FileOfCaller" title="ConcordionBase.java">ConcordionBase.java</td>
+<td class="LineOfCaller">75</td>
+</tr>
+<tr class="record debug">
+<td>19.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Starting browser</td>
+<td class="Time">16:41:22.143</td>
+<td class="FileOfCaller" title="Browser.java">Browser.java</td>
+<td class="LineOfCaller">153</td>
+</tr>
+<tr class="record trace">
+<td>20.</td><td class="Level trace">TRACE</td>
+<td class="Message">Property wdm.chromeDriverVersion not found in /webdrivermanager.properties, using default values (in /webdrivermanager.properties)</td>
+<td class="Time">16:41:22.147</td>
+<td class="FileOfCaller" title="Config.java">Config.java</td>
+<td class="LineOfCaller">207</td>
+</tr>
+<tr class="record trace">
+<td>21.</td><td class="Level trace">TRACE</td>
+<td class="Message">Property wdm.chromeDriverVersion not found in /webdrivermanager.properties, using blank value</td>
+<td class="Time">16:41:22.158</td>
+<td class="FileOfCaller" title="Config.java">Config.java</td>
+<td class="LineOfCaller">214</td>
+</tr>
+<tr class="record trace">
+<td>22.</td><td class="Level trace">TRACE</td>
+<td class="Message">Property wdm.proxy not found in /webdrivermanager.properties, using default values (in /webdrivermanager.properties)</td>
+<td class="Time">16:41:22.166</td>
+<td class="FileOfCaller" title="Config.java">Config.java</td>
+<td class="LineOfCaller">207</td>
+</tr>
+<tr class="record trace">
+<td>23.</td><td class="Level trace">TRACE</td>
+<td class="Message">Property wdm.proxy not found in /webdrivermanager.properties, using blank value</td>
+<td class="Time">16:41:22.169</td>
+<td class="FileOfCaller" title="Config.java">Config.java</td>
+<td class="LineOfCaller">214</td>
+</tr>
+<tr class="record trace">
+<td>24.</td><td class="Level trace">TRACE</td>
+<td class="Message">Property wdm.binaryPath not found in /webdrivermanager.properties, using default values (in /webdrivermanager.properties)</td>
+<td class="Time">16:41:22.189</td>
+<td class="FileOfCaller" title="Config.java">Config.java</td>
+<td class="LineOfCaller">207</td>
+</tr>
+<tr class="record trace">
+<td>25.</td><td class="Level trace">TRACE</td>
+<td class="Message">Property wdm.binaryPath not found in /webdrivermanager.properties, using blank value</td>
+<td class="Time">16:41:22.196</td>
+<td class="FileOfCaller" title="Config.java">Config.java</td>
+<td class="LineOfCaller">214</td>
+</tr>
+<tr class="record trace">
+<td>26.</td><td class="Level trace">TRACE</td>
+<td class="Message">Running command on the shell: [google-chrome, --version]</td>
+<td class="Time">16:41:22.200</td>
+<td class="FileOfCaller" title="Shell.java">Shell.java</td>
+<td class="LineOfCaller">55</td>
+</tr>
+<tr class="record trace">
+<td>27.</td><td class="Level trace">TRACE</td>
+<td class="Message">Result: Google Chrome 62.0.3202.94</td>
+<td class="Time">16:41:22.380</td>
+<td class="FileOfCaller" title="Shell.java">Shell.java</td>
+<td class="LineOfCaller">57</td>
+</tr>
+<tr class="record trace">
+<td>28.</td><td class="Level trace">TRACE</td>
+<td class="Message">Detected Google Chrome version 62</td>
+<td class="Time">16:41:22.381</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">553</td>
+</tr>
+<tr class="record trace">
+<td>29.</td><td class="Level trace">TRACE</td>
+<td class="Message">Using preferences true</td>
+<td class="Time">16:41:22.383</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">584</td>
+</tr>
+<tr class="record trace">
+<td>30.</td><td class="Level trace">TRACE</td>
+<td class="Message">Getting driver version from local properties for chrome62</td>
+<td class="Time">16:41:22.383</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">630</td>
+</tr>
+<tr class="record trace">
+<td>31.</td><td class="Level trace">TRACE</td>
+<td class="Message">Reading local version.properties to find out driver version</td>
+<td class="Time">16:41:22.384</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">664</td>
+</tr>
+<tr class="record info">
+<td>32.</td><td class="Level info">INFO</td>
+<td class="Message">Using chromedriver 2.35 (since Google Chrome 62 is installed in your machine)</td>
+<td class="Time">16:41:22.385</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">567</td>
+</tr>
+<tr class="record trace">
+<td>33.</td><td class="Level trace">TRACE</td>
+<td class="Message">Managing chromedriver arch=64 version=2.35 getLatest=false cache=true</td>
+<td class="Time">16:41:22.386</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">504</td>
+</tr>
+<tr class="record trace">
+<td>34.</td><td class="Level trace">TRACE</td>
+<td class="Message">Checking if chromedriver exists in cache</td>
+<td class="Time">16:41:22.386</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">807</td>
+</tr>
+<tr class="record trace">
+<td>35.</td><td class="Level trace">TRACE</td>
+<td class="Message">Target path /home/travis/.m2/repository/webdriver</td>
+<td class="Time">16:41:22.407</td>
+<td class="FileOfCaller" title="Downloader.java">Downloader.java</td>
+<td class="LineOfCaller">116</td>
+</tr>
+<tr class="record trace">
+<td>36.</td><td class="Level trace">TRACE</td>
+<td class="Message">Filter cache by chromedriver -- input list [/home/travis/.m2/repository/webdriver/geckodriver/linux64/0.24.0/geckodriver] -- output list [] </td>
+<td class="Time">16:41:22.411</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">847</td>
+</tr>
+<tr class="record trace">
+<td>37.</td><td class="Level trace">TRACE</td>
+<td class="Message">Filter cache by 2.35 -- input list [] -- output list [] </td>
+<td class="Time">16:41:22.412</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">847</td>
+</tr>
+<tr class="record trace">
+<td>38.</td><td class="Level trace">TRACE</td>
+<td class="Message">Filter cache by linux -- input list [] -- output list [] </td>
+<td class="Time">16:41:22.413</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">847</td>
+</tr>
+<tr class="record trace">
+<td>39.</td><td class="Level trace">TRACE</td>
+<td class="Message">Filter cache by 64 -- input list [] -- output list [] </td>
+<td class="Time">16:41:22.414</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">847</td>
+</tr>
+<tr class="record trace">
+<td>40.</td><td class="Level trace">TRACE</td>
+<td class="Message">chromedriver not found in cache</td>
+<td class="Time">16:41:22.425</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">834</td>
+</tr>
+<tr class="record trace">
+<td>41.</td><td class="Level trace">TRACE</td>
+<td class="Message">Using preferences true</td>
+<td class="Time">16:41:22.428</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">584</td>
+</tr>
+<tr class="record debug">
+<td>42.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Storing preference chrome62=2.35 (valid until 2021-04-10 17:41:22)</td>
+<td class="Time">16:41:22.430</td>
+<td class="FileOfCaller" title="Preferences.java">Preferences.java</td>
+<td class="LineOfCaller">66</td>
+</tr>
+<tr class="record info">
+<td>43.</td><td class="Level info">INFO</td>
+<td class="Message">Reading https://chromedriver.storage.googleapis.com/ to seek chromedriver</td>
+<td class="Time">16:41:22.431</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">1006</td>
+</tr>
+<tr class="record trace">
+<td>44.</td><td class="Level trace">TRACE</td>
+<td class="Message">All URLs: [https://chromedriver.storage.googleapis.com/2.0/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.0/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.0/chromedriver_mac32.zip, https://chromedriver.storage.googleapis.com/2.0/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.1/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.1/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.1/chromedriver_mac32.zip, https://chromedriver.storage.googleapis.com/2.1/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.10/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.10/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.10/chromedriver_mac32.zip, https://chromedriver.storage.googleapis.com/2.10/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.10/notes.txt, https://chromedriver.storage.googleapis.com/2.11/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.11/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.11/chromedriver_mac32.zip, https://chromedriver.storage.googleapis.com/2.11/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.11/notes.txt, https://chromedriver.storage.googleapis.com/2.12/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.12/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.12/chromedriver_mac32.zip, https://chromedriver.storage.googleapis.com/2.12/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.12/notes.txt, https://chromedriver.storage.googleapis.com/2.13/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.13/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.13/chromedriver_mac32.zip, https://chromedriver.storage.googleapis.com/2.13/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.13/notes.txt, https://chromedriver.storage.googleapis.com/2.14/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.14/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.14/chromedriver_mac32.zip, https://chromedriver.storage.googleapis.com/2.14/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.14/notes.txt, https://chromedriver.storage.googleapis.com/2.15/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.15/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.15/chromedriver_mac32.zip, https://chromedriver.storage.googleapis.com/2.15/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.15/notes.txt, https://chromedriver.storage.googleapis.com/2.16/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.16/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.16/chromedriver_mac32.zip, https://chromedriver.storage.googleapis.com/2.16/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.16/notes.txt, https://chromedriver.storage.googleapis.com/2.17/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.17/chromedriver_mac32.zip, https://chromedriver.storage.googleapis.com/2.17/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.18/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.18/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.18/chromedriver_mac32.zip, https://chromedriver.storage.googleapis.com/2.18/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.18/notes.txt, https://chromedriver.storage.googleapis.com/2.19/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.19/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.19/chromedriver_mac32.zip, https://chromedriver.storage.googleapis.com/2.19/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.19/notes.txt, https://chromedriver.storage.googleapis.com/2.2/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.2/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.2/chromedriver_mac32.zip, https://chromedriver.storage.googleapis.com/2.2/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.20/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.20/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.20/chromedriver_mac32.zip, https://chromedriver.storage.googleapis.com/2.20/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.20/notes.txt, https://chromedriver.storage.googleapis.com/2.21/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.21/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.21/chromedriver_mac32.zip, https://chromedriver.storage.googleapis.com/2.21/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.21/notes.txt, https://chromedriver.storage.googleapis.com/2.22/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.22/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.22/chromedriver_mac32.zip, https://chromedriver.storage.googleapis.com/2.22/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.22/notes.txt, https://chromedriver.storage.googleapis.com/2.23/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.23/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.23/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/2.23/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.23/notes.txt, https://chromedriver.storage.googleapis.com/2.24/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.24/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.24/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/2.24/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.24/notes.txt, https://chromedriver.storage.googleapis.com/2.25/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.25/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.25/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/2.25/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.25/notes.txt, https://chromedriver.storage.googleapis.com/2.26/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.26/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.26/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/2.26/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.26/notes.txt, https://chromedriver.storage.googleapis.com/2.27/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.27/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.27/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/2.27/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.27/notes.txt, https://chromedriver.storage.googleapis.com/2.28/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.28/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.28/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/2.28/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.28/notes.txt, https://chromedriver.storage.googleapis.com/2.29/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.29/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.29/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/2.29/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.29/notes.txt, https://chromedriver.storage.googleapis.com/2.3/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.3/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.3/chromedriver_mac32.zip, https://chromedriver.storage.googleapis.com/2.3/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.3/notes.txt, https://chromedriver.storage.googleapis.com/2.30/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.30/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.30/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/2.30/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.30/notes.txt, https://chromedriver.storage.googleapis.com/2.31/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.31/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.31/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/2.31/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.31/notes.txt, https://chromedriver.storage.googleapis.com/2.32/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.32/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.32/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/2.32/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.32/notes.txt, https://chromedriver.storage.googleapis.com/2.33/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.33/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.33/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/2.33/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.33/notes.txt, https://chromedriver.storage.googleapis.com/2.34/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.34/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/2.34/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.34/notes.txt, https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.35/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/2.35/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.35/notes.txt, https://chromedriver.storage.googleapis.com/2.36/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.36/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/2.36/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.36/notes.txt, https://chromedriver.storage.googleapis.com/2.37/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.37/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/2.37/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.37/notes.txt, https://chromedriver.storage.googleapis.com/2.38/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.38/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/2.38/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.38/notes.txt, https://chromedriver.storage.googleapis.com/2.39/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.39/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/2.39/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.39/notes.txt, https://chromedriver.storage.googleapis.com/2.4/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.4/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.4/chromedriver_mac32.zip, https://chromedriver.storage.googleapis.com/2.4/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.4/notes.txt, https://chromedriver.storage.googleapis.com/2.40/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.40/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/2.40/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.40/notes.txt, https://chromedriver.storage.googleapis.com/2.41/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.41/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/2.41/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.41/notes.txt, https://chromedriver.storage.googleapis.com/2.42/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.42/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/2.42/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.42/notes.txt, https://chromedriver.storage.googleapis.com/2.43/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.43/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/2.43/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.43/notes.txt, https://chromedriver.storage.googleapis.com/2.44/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.44/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/2.44/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.44/notes.txt, https://chromedriver.storage.googleapis.com/2.45/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.45/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/2.45/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.45/notes.txt, https://chromedriver.storage.googleapis.com/2.46/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.46/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/2.46/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.46/notes.txt, https://chromedriver.storage.googleapis.com/2.5/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.5/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.5/chromedriver_mac32.zip, https://chromedriver.storage.googleapis.com/2.5/notes.txt, https://chromedriver.storage.googleapis.com/2.6/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.6/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.6/chromedriver_mac32.zip, https://chromedriver.storage.googleapis.com/2.6/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.6/chromedriver_win32_debug.zip, https://chromedriver.storage.googleapis.com/2.6/chromedriver_win32_debug_symbols.zip, https://chromedriver.storage.googleapis.com/2.6/notes.txt, https://chromedriver.storage.googleapis.com/2.7/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.7/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.7/chromedriver_mac32.zip, https://chromedriver.storage.googleapis.com/2.7/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.7/notes.txt, https://chromedriver.storage.googleapis.com/2.8/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.8/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.8/chromedriver_mac32.zip, https://chromedriver.storage.googleapis.com/2.8/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.8/notes.txt, https://chromedriver.storage.googleapis.com/2.9/chromedriver_linux32.zip, https://chromedriver.storage.googleapis.com/2.9/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.9/chromedriver_mac32.zip, https://chromedriver.storage.googleapis.com/2.9/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/2.9/notes.txt, https://chromedriver.storage.googleapis.com/70.0.3538.16/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/70.0.3538.16/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/70.0.3538.16/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/70.0.3538.67/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/70.0.3538.67/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/70.0.3538.67/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/70.0.3538.97/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/70.0.3538.97/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/70.0.3538.97/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/71.0.3578.137/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/71.0.3578.137/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/71.0.3578.137/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/71.0.3578.30/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/71.0.3578.30/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/71.0.3578.30/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/71.0.3578.33/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/71.0.3578.33/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/71.0.3578.33/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/71.0.3578.80/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/71.0.3578.80/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/71.0.3578.80/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/72.0.3626.69/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/72.0.3626.69/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/72.0.3626.69/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/72.0.3626.7/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/72.0.3626.7/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/72.0.3626.7/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/73.0.3683.20/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/73.0.3683.20/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/73.0.3683.20/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/73.0.3683.20/notes.txt, https://chromedriver.storage.googleapis.com/73.0.3683.68/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/73.0.3683.68/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/73.0.3683.68/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/73.0.3683.68/notes.txt, https://chromedriver.storage.googleapis.com/74.0.3729.6/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/74.0.3729.6/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/74.0.3729.6/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/74.0.3729.6/notes.txt, https://chromedriver.storage.googleapis.com/75.0.3770.140/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/75.0.3770.140/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/75.0.3770.140/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/75.0.3770.140/notes.txt, https://chromedriver.storage.googleapis.com/75.0.3770.8/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/75.0.3770.8/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/75.0.3770.8/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/75.0.3770.8/notes.txt, https://chromedriver.storage.googleapis.com/75.0.3770.90/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/75.0.3770.90/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/75.0.3770.90/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/75.0.3770.90/notes.txt, https://chromedriver.storage.googleapis.com/76.0.3809.12/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/76.0.3809.12/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/76.0.3809.12/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/76.0.3809.12/notes.txt, https://chromedriver.storage.googleapis.com/76.0.3809.126/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/76.0.3809.126/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/76.0.3809.126/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/76.0.3809.126/notes.txt, https://chromedriver.storage.googleapis.com/76.0.3809.25/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/76.0.3809.25/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/76.0.3809.25/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/76.0.3809.25/notes.txt, https://chromedriver.storage.googleapis.com/76.0.3809.68/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/76.0.3809.68/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/76.0.3809.68/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/76.0.3809.68/notes.txt, https://chromedriver.storage.googleapis.com/77.0.3865.10/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/77.0.3865.10/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/77.0.3865.10/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/77.0.3865.10/notes.txt, https://chromedriver.storage.googleapis.com/77.0.3865.40/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/77.0.3865.40/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/77.0.3865.40/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/77.0.3865.40/notes.txt, https://chromedriver.storage.googleapis.com/78.0.3904.105/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/78.0.3904.105/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/78.0.3904.105/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/78.0.3904.105/notes.txt, https://chromedriver.storage.googleapis.com/78.0.3904.11/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/78.0.3904.11/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/78.0.3904.11/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/78.0.3904.11/notes.txt, https://chromedriver.storage.googleapis.com/78.0.3904.70/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/78.0.3904.70/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/78.0.3904.70/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/78.0.3904.70/notes.txt, https://chromedriver.storage.googleapis.com/79.0.3945.16/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/79.0.3945.16/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/79.0.3945.16/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/79.0.3945.16/notes.txt, https://chromedriver.storage.googleapis.com/79.0.3945.36/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/79.0.3945.36/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/79.0.3945.36/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/79.0.3945.36/notes.txt, https://chromedriver.storage.googleapis.com/80.0.3987.106/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/80.0.3987.106/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/80.0.3987.106/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/80.0.3987.106/notes.txt, https://chromedriver.storage.googleapis.com/80.0.3987.16/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/80.0.3987.16/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/80.0.3987.16/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/80.0.3987.16/notes.txt, https://chromedriver.storage.googleapis.com/81.0.4044.138/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/81.0.4044.138/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/81.0.4044.138/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/81.0.4044.138/notes.txt, https://chromedriver.storage.googleapis.com/81.0.4044.20/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/81.0.4044.20/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/81.0.4044.20/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/81.0.4044.20/notes.txt, https://chromedriver.storage.googleapis.com/81.0.4044.69/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/81.0.4044.69/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/81.0.4044.69/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/81.0.4044.69/notes.txt, https://chromedriver.storage.googleapis.com/83.0.4103.14/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/83.0.4103.14/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/83.0.4103.14/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/83.0.4103.14/notes.txt, https://chromedriver.storage.googleapis.com/83.0.4103.39/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/83.0.4103.39/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/83.0.4103.39/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/83.0.4103.39/notes.txt, https://chromedriver.storage.googleapis.com/84.0.4147.30/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/84.0.4147.30/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/84.0.4147.30/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/84.0.4147.30/notes.txt, https://chromedriver.storage.googleapis.com/85.0.4183.38/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/85.0.4183.38/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/85.0.4183.38/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/85.0.4183.38/notes.txt, https://chromedriver.storage.googleapis.com/85.0.4183.83/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/85.0.4183.83/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/85.0.4183.83/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/85.0.4183.83/notes.txt, https://chromedriver.storage.googleapis.com/85.0.4183.87/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/85.0.4183.87/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/85.0.4183.87/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/85.0.4183.87/notes.txt, https://chromedriver.storage.googleapis.com/86.0.4240.22/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/86.0.4240.22/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/86.0.4240.22/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/86.0.4240.22/notes.txt, https://chromedriver.storage.googleapis.com/87.0.4280.20/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/87.0.4280.20/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/87.0.4280.20/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/87.0.4280.20/notes.txt, https://chromedriver.storage.googleapis.com/87.0.4280.87/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/87.0.4280.87/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/87.0.4280.88/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/87.0.4280.88/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/87.0.4280.88/chromedriver_mac64_m1.zip, https://chromedriver.storage.googleapis.com/87.0.4280.88/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/87.0.4280.88/notes.txt, https://chromedriver.storage.googleapis.com/88.0.4324.27/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/88.0.4324.27/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/88.0.4324.27/chromedriver_mac64_m1.zip, https://chromedriver.storage.googleapis.com/88.0.4324.27/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/88.0.4324.27/notes.txt, https://chromedriver.storage.googleapis.com/88.0.4324.96/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/88.0.4324.96/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/88.0.4324.96/chromedriver_mac64_m1.zip, https://chromedriver.storage.googleapis.com/88.0.4324.96/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/88.0.4324.96/notes.txt, https://chromedriver.storage.googleapis.com/89.0.4389.23/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/89.0.4389.23/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/89.0.4389.23/chromedriver_mac64_m1.zip, https://chromedriver.storage.googleapis.com/89.0.4389.23/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/89.0.4389.23/notes.txt, https://chromedriver.storage.googleapis.com/90.0.4430.24/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/90.0.4430.24/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/90.0.4430.24/chromedriver_mac64_m1.zip, https://chromedriver.storage.googleapis.com/90.0.4430.24/chromedriver_win32.zip, https://chromedriver.storage.googleapis.com/90.0.4430.24/notes.txt, https://chromedriver.storage.googleapis.com/LATEST_RELEASE, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_70, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_70.0.3538, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_71, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_71.0.3578, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_72, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_72.0.3626, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_73, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_73.0.3683, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_74, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_74.0.3729, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_75, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_75.0.3770, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_76, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_76.0.3809, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_77, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_77.0.3865, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_78, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_78.0.3904, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_79, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_79.0.3945, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_80, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_80.0.3987, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_81, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_81.0.4044, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_83, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_83.0.4103, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_84, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_84.0.4147, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_85, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_85.0.4183, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_86, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_86.0.4240, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_87, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_87.0.4280, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_88, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_88.0.4324, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_89, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_89.0.4389, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_90, https://chromedriver.storage.googleapis.com/LATEST_RELEASE_90.0.4430, https://chromedriver.storage.googleapis.com/icons/back.gif, https://chromedriver.storage.googleapis.com/icons/binary.gif, https://chromedriver.storage.googleapis.com/icons/blank.gif, https://chromedriver.storage.googleapis.com/icons/folder.gif, https://chromedriver.storage.googleapis.com/index.html]</td>
+<td class="Time">16:41:22.888</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">733</td>
+</tr>
+<tr class="record trace">
+<td>45.</td><td class="Level trace">TRACE</td>
+<td class="Message">Candidate URLs: [https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.35/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/2.35/chromedriver_win32.zip]</td>
+<td class="Time">16:41:22.918</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">740</td>
+</tr>
+<tr class="record trace">
+<td>46.</td><td class="Level trace">TRACE</td>
+<td class="Message">URLs before filtering by OS (LINUX): [https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip, https://chromedriver.storage.googleapis.com/2.35/chromedriver_mac64.zip, https://chromedriver.storage.googleapis.com/2.35/chromedriver_win32.zip]</td>
+<td class="Time">16:41:22.920</td>
+<td class="FileOfCaller" title="UrlFilter.java">UrlFilter.java</td>
+<td class="LineOfCaller">47</td>
+</tr>
+<tr class="record trace">
+<td>47.</td><td class="Level trace">TRACE</td>
+<td class="Message">URLs after filtering by OS (LINUX): [https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip]</td>
+<td class="Time">16:41:22.922</td>
+<td class="FileOfCaller" title="UrlFilter.java">UrlFilter.java</td>
+<td class="LineOfCaller">62</td>
+</tr>
+<tr class="record trace">
+<td>48.</td><td class="Level trace">TRACE</td>
+<td class="Message">URLs before filtering by architecture (64): [https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip]</td>
+<td class="Time">16:41:22.923</td>
+<td class="FileOfCaller" title="UrlFilter.java">UrlFilter.java</td>
+<td class="LineOfCaller">68</td>
+</tr>
+<tr class="record trace">
+<td>49.</td><td class="Level trace">TRACE</td>
+<td class="Message">URLs after filtering by architecture (64): [https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip]</td>
+<td class="Time">16:41:22.929</td>
+<td class="FileOfCaller" title="UrlFilter.java">UrlFilter.java</td>
+<td class="LineOfCaller">86</td>
+</tr>
+<tr class="record trace">
+<td>50.</td><td class="Level trace">TRACE</td>
+<td class="Message">Property wdm.ignoreVersions not found in /webdrivermanager.properties, using default values (in /webdrivermanager.properties)</td>
+<td class="Time">16:41:22.930</td>
+<td class="FileOfCaller" title="Config.java">Config.java</td>
+<td class="LineOfCaller">207</td>
+</tr>
+<tr class="record trace">
+<td>51.</td><td class="Level trace">TRACE</td>
+<td class="Message">Property wdm.ignoreVersions not found in /webdrivermanager.properties, using blank value</td>
+<td class="Time">16:41:22.931</td>
+<td class="FileOfCaller" title="Config.java">Config.java</td>
+<td class="LineOfCaller">214</td>
+</tr>
+<tr class="record trace">
+<td>52.</td><td class="Level trace">TRACE</td>
+<td class="Message">Property wdm.ignoreVersions not found in /webdrivermanager.properties, using default values (in /webdrivermanager.properties)</td>
+<td class="Time">16:41:22.932</td>
+<td class="FileOfCaller" title="Config.java">Config.java</td>
+<td class="LineOfCaller">207</td>
+</tr>
+<tr class="record trace">
+<td>53.</td><td class="Level trace">TRACE</td>
+<td class="Message">Property wdm.ignoreVersions not found in /webdrivermanager.properties, using blank value</td>
+<td class="Time">16:41:22.933</td>
+<td class="FileOfCaller" title="Config.java">Config.java</td>
+<td class="LineOfCaller">214</td>
+</tr>
+<tr class="record trace">
+<td>54.</td><td class="Level trace">TRACE</td>
+<td class="Message">URLs before filtering by ignored versions ([]): [https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip]</td>
+<td class="Time">16:41:22.933</td>
+<td class="FileOfCaller" title="UrlFilter.java">UrlFilter.java</td>
+<td class="LineOfCaller">119</td>
+</tr>
+<tr class="record trace">
+<td>55.</td><td class="Level trace">TRACE</td>
+<td class="Message">URLs after filtering by ignored versions ([]): [https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip]</td>
+<td class="Time">16:41:22.934</td>
+<td class="FileOfCaller" title="UrlFilter.java">UrlFilter.java</td>
+<td class="LineOfCaller">134</td>
+</tr>
+<tr class="record trace">
+<td>56.</td><td class="Level trace">TRACE</td>
+<td class="Message">getTarget 2.35 https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip</td>
+<td class="Time">16:41:22.935</td>
+<td class="FileOfCaller" title="Downloader.java">Downloader.java</td>
+<td class="LineOfCaller">87</td>
+</tr>
+<tr class="record trace">
+<td>57.</td><td class="Level trace">TRACE</td>
+<td class="Message">Target path /home/travis/.m2/repository/webdriver</td>
+<td class="Time">16:41:22.936</td>
+<td class="FileOfCaller" title="Downloader.java">Downloader.java</td>
+<td class="LineOfCaller">116</td>
+</tr>
+<tr class="record trace">
+<td>58.</td><td class="Level trace">TRACE</td>
+<td class="Message">Pre-download. target=/home/travis/.m2/repository/webdriver/chromedriver/linux64/2.35/chromedriver_linux64.zip, version=2.35</td>
+<td class="Time">16:41:22.938</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">453</td>
+</tr>
+<tr class="record trace">
+<td>59.</td><td class="Level trace">TRACE</td>
+<td class="Message">Target file for URL https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip version 2.35 = /home/travis/.m2/repository/webdriver/chromedriver/linux64/2.35/chromedriver_linux64.zip</td>
+<td class="Time">16:41:22.938</td>
+<td class="FileOfCaller" title="Downloader.java">Downloader.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record info">
+<td>60.</td><td class="Level info">INFO</td>
+<td class="Message">Downloading https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip</td>
+<td class="Time">16:41:22.940</td>
+<td class="FileOfCaller" title="Downloader.java">Downloader.java</td>
+<td class="LineOfCaller">128</td>
+</tr>
+<tr class="record trace">
+<td>61.</td><td class="Level trace">TRACE</td>
+<td class="Message">Target folder /home/travis/.m2/repository/webdriver/chromedriver/linux64/2.35 ... using temporal file /tmp/3201714395389685813/chromedriver_linux64.zip</td>
+<td class="Time">16:41:22.942</td>
+<td class="FileOfCaller" title="Downloader.java">Downloader.java</td>
+<td class="LineOfCaller">133</td>
+</tr>
+<tr class="record info">
+<td>62.</td><td class="Level info">INFO</td>
+<td class="Message">Extracting binary from compressed file chromedriver_linux64.zip</td>
+<td class="Time">16:41:26.374</td>
+<td class="FileOfCaller" title="Downloader.java">Downloader.java</td>
+<td class="LineOfCaller">183</td>
+</tr>
+<tr class="record trace">
+<td>63.</td><td class="Level trace">TRACE</td>
+<td class="Message">Unzipping chromedriver (size: 7903592 KB, compressed size: 3721227 KB)</td>
+<td class="Time">16:41:26.377</td>
+<td class="FileOfCaller" title="Downloader.java">Downloader.java</td>
+<td class="LineOfCaller">219</td>
+</tr>
+<tr class="record trace">
+<td>64.</td><td class="Level trace">TRACE</td>
+<td class="Message">Setting file /tmp/3201714395389685813/chromedriver as executable</td>
+<td class="Time">16:41:26.430</td>
+<td class="FileOfCaller" title="Downloader.java">Downloader.java</td>
+<td class="LineOfCaller">305</td>
+</tr>
+<tr class="record trace">
+<td>65.</td><td class="Level trace">TRACE</td>
+<td class="Message">Deleting file /tmp/3201714395389685813/chromedriver_linux64.zip</td>
+<td class="Time">16:41:26.432</td>
+<td class="FileOfCaller" title="Downloader.java">Downloader.java</td>
+<td class="LineOfCaller">322</td>
+</tr>
+<tr class="record trace">
+<td>66.</td><td class="Level trace">TRACE</td>
+<td class="Message">Found binary in post-download: /tmp/3201714395389685813/chromedriver</td>
+<td class="Time">16:41:26.434</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">462</td>
+</tr>
+<tr class="record trace">
+<td>67.</td><td class="Level trace">TRACE</td>
+<td class="Message">Resulting binary file /tmp/3201714395389685813/chromedriver</td>
+<td class="Time">16:41:26.436</td>
+<td class="FileOfCaller" title="Downloader.java">Downloader.java</td>
+<td class="LineOfCaller">203</td>
+</tr>
+<tr class="record trace">
+<td>68.</td><td class="Level trace">TRACE</td>
+<td class="Message">Deleting folder /tmp/3201714395389685813</td>
+<td class="Time">16:41:26.437</td>
+<td class="FileOfCaller" title="Downloader.java">Downloader.java</td>
+<td class="LineOfCaller">332</td>
+</tr>
+<tr class="record trace">
+<td>69.</td><td class="Level trace">TRACE</td>
+<td class="Message">Binary driver after extraction /home/travis/.m2/repository/webdriver/chromedriver/linux64/2.35/chromedriver</td>
+<td class="Time">16:41:26.439</td>
+<td class="FileOfCaller" title="Downloader.java">Downloader.java</td>
+<td class="LineOfCaller">153</td>
+</tr>
+<tr class="record info">
+<td>70.</td><td class="Level info">INFO</td>
+<td class="Message">Exporting webdriver.chrome.driver as /home/travis/.m2/repository/webdriver/chromedriver/linux64/2.35/chromedriver</td>
+<td class="Time">16:41:26.441</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">1042</td>
+</tr>
+<tr class="record debug">
+<td>71.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Navigating to &#8658; <a class="greyed" href="https://www.google.co.nz">https://www.google.co.nz</a></td>
+<td class="Time">16:41:27.272</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record step">
+<td colspan="6">72. Page Object: GoogleSearchPage</td>
+</tr>
+<tr class="record debug">
+<td>73.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Wait for any ajax requests to complete</td>
+<td class="Time">16:41:28.158</td>
+<td class="FileOfCaller" title="PageObject.java">PageObject.java</td>
+<td class="LineOfCaller">40</td>
+</tr>
+<tr class="record trace">
+<td>74.</td><td class="Level trace">TRACE</td>
+<td class="Message">Run JavaScript &#8658;</td>
+<td class="Time">16:41:28.171</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="companion trace">
+<td class="indent"></td><td colspan="5" class="output">
+<xmp>var frame = window.frameElement;if (!frame) {    return &#39;&#39;;}if (frame.name) {    return frame.name;}if (frame.id) {    return frame.id;}return &#39;UNKNOWN FRAME&#39;;</xmp>
+</td>
+</tr>
+<tr class="record trace">
+<td>75.</td><td class="Level trace">TRACE</td>
+<td class="Message">Run JavaScript &#8658;</td>
+<td class="Time">16:41:28.182</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="companion trace">
+<td class="indent"></td><td colspan="5" class="output">
+<xmp>if (typeof jQuery === &#39;undefined&#39;) return true;
+if (jQuery.active != 0) return false;
+return true;</xmp>
+</td>
+</tr>
+<tr class="record trace">
+<td>76.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: Spinner</span></td>
+<td class="Time">16:41:28.190</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>77.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Checking GoogleSearchPage loads within 10 seconds</td>
+<td class="Time">16:41:28.215</td>
+<td class="FileOfCaller" title="ActionTimer.java">ActionTimer.java</td>
+<td class="LineOfCaller">63</td>
+</tr>
+<tr class="record trace">
+<td>78.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.name: q</span></td>
+<td class="Time">16:41:28.219</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>79.</td><td class="Level trace">TRACE</td>
+<td class="Message">GoogleSearchPage loaded in 0 seconds <br /><span class="greyed">Current url: https://www.google.co.nz/<span></td>
+<td class="Time">16:41:28.275</td>
+<td class="FileOfCaller" title="PageObject.java">PageObject.java</td>
+<td class="LineOfCaller">55</td>
+</tr>
+<tr class="record debug">
+<td>80.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Change value &#8658; <span class="greyed">of By.name: q from '[Concordion]' to '[Concordion]'</span></td>
+<td class="Time">16:41:28.368</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>81.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Clicking &#39;Concordion&#39; </td>
+<td class="Time">16:41:28.621</td>
+<td class="FileOfCaller" title="GoogleSearchPage.java">GoogleSearchPage.java</td>
+<td class="LineOfCaller">48</td>
+</tr>
+<tr class="companion debug">
+<td class="indent"></td><td colspan="5" class="output">
+<a href="SwitchBrowser[switch-browser]LogScreenShot26.png"><img src="SwitchBrowser[switch-browser]LogScreenShot26.png" onMouseOver="showScreenPopup(this);this.style.cursor='pointer'" onMouseOut="hideScreenPopup();this.style.cursor='default'" width="350px"  class="sizewidth"/></a>
+</td>
+</tr>
+<tr class="record trace">
+<td>82.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.id: result-stats</span></td>
+<td class="Time">16:41:30.109</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>83.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.cssSelector: div.rc</span></td>
+<td class="Time">16:41:30.128</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>84.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Completed</td>
+<td class="Time">16:41:30.234</td>
+<td class="FileOfCaller" title="StoryboardListener.java">StoryboardListener.java</td>
+<td class="LineOfCaller">323</td>
+</tr>
+<tr class="companion debug">
+<td class="indent"></td><td colspan="5" class="output">
+<a href="SwitchBrowser[switch-browser]LogScreenShot27.png"><img src="SwitchBrowser[switch-browser]LogScreenShot27.png" onMouseOver="showScreenPopup(this);this.style.cursor='pointer'" onMouseOut="hideScreenPopup();this.style.cursor='default'" width="350px"  class="sizewidth"/></a>
+</td>
+</tr>
+<tr class="record debug">
+<td>85.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Navigating to &#8658; <a class="greyed" href="https://www.google.co.nz">https://www.google.co.nz</a></td>
+<td class="Time">16:41:30.245</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record step">
+<td colspan="6">86. Page Object: GoogleSearchPage</td>
+</tr>
+<tr class="record debug">
+<td>87.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Wait for any ajax requests to complete</td>
+<td class="Time">16:41:30.651</td>
+<td class="FileOfCaller" title="PageObject.java">PageObject.java</td>
+<td class="LineOfCaller">40</td>
+</tr>
+<tr class="record trace">
+<td>88.</td><td class="Level trace">TRACE</td>
+<td class="Message">Run JavaScript &#8658;</td>
+<td class="Time">16:41:30.685</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="companion trace">
+<td class="indent"></td><td colspan="5" class="output">
+<xmp>var frame = window.frameElement;if (!frame) {    return &#39;&#39;;}if (frame.name) {    return frame.name;}if (frame.id) {    return frame.id;}return &#39;UNKNOWN FRAME&#39;;</xmp>
+</td>
+</tr>
+<tr class="record trace">
+<td>89.</td><td class="Level trace">TRACE</td>
+<td class="Message">Run JavaScript &#8658;</td>
+<td class="Time">16:41:30.704</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="companion trace">
+<td class="indent"></td><td colspan="5" class="output">
+<xmp>if (typeof jQuery === &#39;undefined&#39;) return true;
+if (jQuery.active != 0) return false;
+return true;</xmp>
+</td>
+</tr>
+<tr class="record trace">
+<td>90.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: Spinner</span></td>
+<td class="Time">16:41:30.712</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>91.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Checking GoogleSearchPage loads within 10 seconds</td>
+<td class="Time">16:41:30.726</td>
+<td class="FileOfCaller" title="ActionTimer.java">ActionTimer.java</td>
+<td class="LineOfCaller">63</td>
+</tr>
+<tr class="record trace">
+<td>92.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.name: q</span></td>
+<td class="Time">16:41:30.729</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>93.</td><td class="Level trace">TRACE</td>
+<td class="Message">GoogleSearchPage loaded in 0 seconds <br /><span class="greyed">Current url: https://www.google.co.nz/<span></td>
+<td class="Time">16:41:30.797</td>
+<td class="FileOfCaller" title="PageObject.java">PageObject.java</td>
+<td class="LineOfCaller">55</td>
+</tr>
+<tr class="record debug">
+<td>94.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Change value &#8658; <span class="greyed">of By.name: q from '[Concordion]' to '[Concordion]'</span></td>
+<td class="Time">16:41:30.873</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>95.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Clicking &#39;Concordion&#39; </td>
+<td class="Time">16:41:31.051</td>
+<td class="FileOfCaller" title="GoogleSearchPage.java">GoogleSearchPage.java</td>
+<td class="LineOfCaller">48</td>
+</tr>
+<tr class="companion debug">
+<td class="indent"></td><td colspan="5" class="output">
+<a href="SwitchBrowser[switch-browser]LogScreenShot28.png"><img src="SwitchBrowser[switch-browser]LogScreenShot28.png" onMouseOver="showScreenPopup(this);this.style.cursor='pointer'" onMouseOut="hideScreenPopup();this.style.cursor='default'" width="350px"  class="sizewidth"/></a>
+</td>
+</tr>
+<tr class="record trace">
+<td>96.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.id: result-stats</span></td>
+<td class="Time">16:41:31.077</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>97.</td><td class="Level trace">TRACE</td>
+<td class="Message">Selenium Error &#8658; <span class="greyed">Unable to locate element: #result\-stats<br />For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html<br />Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'<br />System info: host: 'localhost', ip: '127.0.0.1', os.name: 'Linux', os.arch: 'amd64', os.version: '4.4.0-101-generic', java.version: '1.8.0_151'<br />Driver info: org.openqa.selenium.firefox.FirefoxDriver<br />Capabilities {acceptInsecureCerts: true, browserName: firefox, browserVersion: 66.0.5, javascriptEnabled: true, moz:accessibilityChecks: false, moz:geckodriverVersion: 0.24.0, moz:headless: false, moz:processID: 6027, moz:profile: /tmp/rust_mozprofile.WyRZX4..., moz:shutdownTimeout: 60000, moz:useNonSpecCompliantPointerOrigin: false, moz:webdriverClick: true, pageLoadStrategy: normal, platform: LINUX, platformName: LINUX, platformVersion: 4.4.0-101-generic, rotatable: false, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify}<br />Session ID: 13e473a2-a17b-42fc-91b5-766496fc4e3d<br />*** Element info: {Using=id, value=result-stats}</span></td>
+<td class="Time">16:41:31.085</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>98.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.cssSelector: div.rc</span></td>
+<td class="Time">16:41:31.608</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record info">
+<td>99.</td><td class="Level info">INFO</td>
+<td class="Message">Finishing example switch-browser</td>
+<td class="Time">16:41:31.622</td>
+<td class="FileOfCaller" title="CubanoDemoFixtureLogger.java">CubanoDemoFixtureLogger.java</td>
+<td class="LineOfCaller">20</td>
+</tr>

@@ -1,0 +1,7 @@
+Request Method: GET
+Request URI: http://localhost:9898/HttpEasyGet?key1=value1&key2=value2
+Proxy: DIRECT
+Query Params:
+  key1=value1
+  key2=value2
+Request Headers:

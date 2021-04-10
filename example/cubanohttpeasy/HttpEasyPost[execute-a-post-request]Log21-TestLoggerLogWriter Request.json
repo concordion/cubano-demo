@@ -1,0 +1,8 @@
+Request Method: POST
+Request URI: http://localhost:9898/HttpEasyPost
+Proxy: DIRECT
+Request Headers:
+  Content-Type: application/json; charset=utf-8
+  charset: UTF-8
+Request Content (application/json; charset=utf-8):
+  {"Hello": "Here is my POST in the request"}

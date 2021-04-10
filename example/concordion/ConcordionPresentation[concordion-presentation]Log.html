@@ -1,0 +1,2073 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style type="text/css">
+
+html {
+	font-family: Arial, Helvetica, verdana sans-serif;
+	font-size: 0.9em;
+	font-style: normal;
+}
+
+body {
+	margin-left: 2em;
+	margin-right: 2em;
+}
+
+/* set default tab size to 4 characters - no IE support */
+pre xmp {
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+}
+
+h1 {
+	font-size: 1.5em;
+}
+
+/* TODO Get header (and first row of table) to stay at top of screen */
+.floattopright {
+	position: fixed;
+	right: 0;
+	background-color: white;
+	display: inline-block;
+	float: right;
+	margin-right: 2em;
+	z-index: 1000;
+	padding: 6px 8px;
+	border: 1px solid lightgrey;
+}
+
+table {
+	background-color: #fff;
+	border-collapse: collapse;
+	width: calc(100%);
+}
+
+table thead th {
+	border-right: 1px solid #fff;
+	color: #fff;
+	text-align: center;
+	padding: 2px 12px;
+	text-transform: uppercase;
+	height: 25px;
+	background-color: #a3c159;
+	font-weight: normal;
+}
+
+/*
+tfoot {
+color:#1ba6b2;
+padding:2px;
+text-transform:uppercase;
+font-size:1.2em; 
+ font-weigth: bold;
+margin-top:6px;
+border-top: 6px solid #e9f7f6;
+}
+*/
+
+table tbody tr {
+	background-color: #fff;
+	border-bottom: 1px solid #f0f0f0;
+}
+
+table tbody td {
+	color: #414141;
+	padding: 5px;
+	text-align: left;
+}
+
+table tbody tr td.output {
+	text-align: left;
+	background-image:
+		url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAFCAYAAACEhIafAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAABdJREFUGFdjAAJlECEFIoRABCcQMzAAAAWUAFmQZlpWAAAAAElFTkSuQmCC");
+	background-repeat: repeat-x;
+	margin: 0;
+	padding: 12px 0 8px 0;
+	position: relative;
+}
+
+table tbody tr.record:hover {
+	background: #ffffd3;
+	background: -moz-linear-gradient(top, #ffffd3 0%, #ffffaf 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffd3), color-stop(100%, #ffffaf));
+	background: -webkit-linear-gradient(top, #ffffd3 0%, #ffffaf 100%);
+	background: -o-linear-gradient(top, #ffffd3 0%, #ffffaf 100%);
+	background: -ms-linear-gradient(top, #ffffd3 0%, #ffffaf 100%);
+	background: linear-gradient(to bottom, #ffffd3 0%, #ffffaf 100%); 
+	cursor: pointer;
+}
+
+TH.Message { width: 100%; }
+TD.Message { word-break: break-all; }
+
+TR.step {
+	background: #a3c159; /* For browsers that do not support gradients */
+	background: linear-gradient(to bottom, white, #a3c159);
+}
+
+TD.warn { color: orange; font-weight: bold; }
+TD.error, TD.fatal { color: #FF4040; font-weight: bold; }
+TD.Time, TD.Date { text-align: right; }
+TD.FileOfCaller { max-width: 19em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.greyed { color: #999; }
+
+/* Stack Trace */
+.exceptionMessage {
+	border-top: none;
+	background-color: #fdd;
+	font-family: Courier New, Courier, Monospace;
+	font-size: 10pt;
+	font-weight: normal;
+	padding-left: 12px !important;
+	padding-right: 12px !important;
+	text-decoration: none !important;
+}
+
+.stackTrace, .stackTrace * {
+	font-weight: normal;
+}
+
+.stackTrace {
+	display: none;
+	padding: 1px 4px 4px 4px;
+	border-top: 1px dotted black;
+}
+
+.stackTraceExceptionMessage {
+	display: block;
+	font-family: Courier New, Courier, Monospace;
+	font-size: 8pt;
+	white-space: wrap;
+	padding: 1px 0px 1px 0px;
+}
+
+.stackTraceEntry {
+	white-space: nowrap;
+	font-family: Courier New, Courier, Monospace;
+	display: block;
+	font-size: 8pt;
+	padding: 1px 0px 1px 32px;
+}
+
+.stackTraceButton {
+	font-size: 8pt;
+	margin: 2px 8px 2px 0px;
+	font-weight: normal;
+	font-family: Arial;
+}
+
+/* Screenshot */
+img.screenshot {
+	position: absolute;
+	visibility: hidden;
+	left: 0;
+	top: 0;
+	height: auto;
+	border: solid 1px black;
+	z-index: 3000;
+	border: none;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+img.sizewidth {
+	height: auto;
+	border: 1px solid lightgrey;
+}
+
+img.sizeheight {
+	width: auto;
+	border: 1px solid lightgrey;
+}
+
+/* Embedded Object */
+.attachmentMenu {
+	text-align: right;
+}
+
+div.resizeable {
+	box-sizing: border-box;
+	border: 1px solid lightgrey;
+	/* resize:both; */
+	overflow: hidden;
+	max-height: 100px;
+}
+
+div.resizeable>object {
+	box-sizing: border-box;
+	margin: 0px;
+	width: auto;
+	height: auto;
+}
+
+xmp {
+	box-sizing: border-box;
+	margin: 0px;
+	width: 0; /* XMP tag not obeying parent size without this */
+}
+
+/* IE & EDGE hack for above */
+_:-ms-lang(x), xmp { 
+	white-space: pre-wrap; 
+}
+
+.fadeout {
+	position:relative;
+}
+
+.fadeout:after {
+    content:"";
+    position:absolute;
+    top:60px;
+    left:0;
+    height:40px;
+    width:2000px; /* Force extra wide as cannot get flexible width with xmp.resizeable */
+    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+    background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+	background: -ms-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+    background: -o-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+    background: linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+}
+
+</style><script type="text/javascript">
+/*
+ * TODO This may allow fixed header at top of page - works with chrome but firefox and edge body cells loose their
+ * width.  Possibly setting body cell min-width to header width during onload, then header width during onresize
+ * might do the trick.
+ 
+//window.onresize = function() {
+window.onload = function() {
+	var table = document.getElementsByTagName("table")[0];
+	var thead = table.getElementsByTagName("thead")[0];
+	var htr = thead.getElementsByTagName("tr")[0];
+	
+	htr.style.position = "fixed";
+	htr.style.zIndex = "1000";
+	
+	var tbody = table.getElementsByTagName("tbody")[0];
+	var btr = tbody.getElementsByTagName("tr")[0];
+	
+	for(var i = 0; i < btr.cells.length; i++) {
+	var w1 = btr.cells[i].getBoundingClientRect().width;
+	var w2 = btr.cells[i].offsetWidth;
+		htr.cells[i].width = w2 + 'px';
+	}
+}
+*/
+
+function hasClass(element, cls) {
+	return element.classList ? element.classList.contains(cls) : (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
+}
+
+function addClass(element, cls) {
+	if (element.classList) {
+		element.classList.add(cls);
+	} else {
+		if (!hasClass(element, cls)) {
+			element.className += " " + cls;
+		}
+	}
+}
+
+function removeClass(element, cls) {
+	if (element.classList) {
+		element.classList.remove(cls);
+    } else {
+        var classes = element.className.split(" ");
+        classes.splice(classes.indexOf(cls), 1);
+        element.className = classes.join(" ");
+    }
+}
+
+/* Stack Trace Toggling */
+function getElementById(id) {
+	var element;
+
+	if (document.getElementById) { // standard
+		return document.getElementById(id);
+	} else if (document.all) { // old IE versions
+		return document.all[id];
+	} else if (document.layers) { // nn4
+		return document.layers[id];
+	}
+	alert("Sorry, but your web browser is not supported by Concordion.");
+}
+
+function isVisible(element) {
+	return element.style.display;
+}
+
+function makeVisible(element) {
+	element.style.display = "block";
+}
+
+function makeInvisible(element) {
+	element.style.display = "";
+}
+
+function toggleStackTrace(stackTraceNumber) {
+	var stackTrace = getElementById("stackTrace" + stackTraceNumber);
+	var stackTraceButton = getElementById("stackTraceButton" + stackTraceNumber);
+	if (isVisible(stackTrace)) {
+		makeInvisible(stackTrace);
+		stackTraceButton.value = "View Stack";
+	} else {
+		makeVisible(stackTrace);
+		stackTraceButton.value = "Hide Stack";
+	}
+}
+
+/* Image popup */
+function showScreenPopup(src) {
+	var img = document.getElementById('ScreenshotPopup');
+	img.src = src.src
+
+	var scrollTop = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
+	var scrollLeft = Math.max(document.body.scrollLeft, document.documentElement.scrollLeft);
+	var viewportWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+	var viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+	var scrollbarWidth = viewportWidth - document.body.offsetWidth;
+
+	var srcRect = src.getBoundingClientRect();
+	var imgRect = img.getBoundingClientRect();
+	var naturalWidth = (img.naturalWidth || 0);
+	var naturalHeight = (img.naturalHeight || 0);
+
+	var above = srcRect.top > (viewportHeight - srcRect.top - srcRect.height);
+	var posTop = 0;
+	var posLeft = 0;
+
+	if (above) {
+		var height = Math.min(naturalHeight, srcRect.top - 10)
+		posTop = scrollTop + srcRect.top - height;
+
+		img.style.height = height + "px";
+		img.style.width = 'auto';
+
+		if (img.width > Math.min(naturalWidth, viewportWidth)) {
+			img.style.height = 'auto';
+			img.style.width = Math.min(naturalWidth, viewportWidth) + "px";
+
+			posTop = scrollTop + srcRect.top - img.height;
+		}
+	} else {
+		var height = Math.min(naturalHeight, viewportHeight - srcRect.top - srcRect.height - 10)
+		posTop = scrollTop + srcRect.top + srcRect.height;
+
+		img.style.height = height + "px";
+		img.style.width = 'auto';
+
+		if (img.width > Math.min(naturalWidth, viewportWidth)) {
+			img.style.height = 'auto';
+			img.style.width = Math.min(naturalWidth, viewportWidth) + "px";
+		}
+	}
+
+	var posLeft = srcRect.left + scrollLeft + 1;
+
+	if (posLeft + img.width > scrollLeft + viewportWidth - scrollbarWidth) {
+		posLeft = scrollLeft + viewportWidth - img.width - scrollbarWidth;
+	}
+	if (posLeft < scrollLeft) {
+		posLeft = scrollLeft;
+	}
+
+	img.style.left = posLeft + "px";
+	img.style.top = posTop + "px";
+	img.style.visibility = 'visible';   
+}
+
+function hideScreenPopup() {
+	document.getElementById('ScreenshotPopup').style.visibility = 'hidden';
+}
+
+/* Log Filtering */
+function filterDebug(cb) {
+	doFilter("debug", cb.checked);
+}
+function filterTrace(cb) {
+	doFilter("trace", cb.checked);
+}
+
+function doFilter(className, checked) {
+	var displaySetting = checked ? "" : "none";
+	var borderSetting = checked ? "1px solid #f0f0f0" : "1px dotted black";
+
+	var scrollToElement = getFirstVisibleRow(className);
+	
+	var all = document.querySelectorAll("TR." + className);
+	for (var i = 0; i < all.length; i++) {
+		var prevrow = all[i].previousElementSibling;
+		if (prevrow != null && !hasClass(prevrow, className)) {
+			prevrow.style.borderBottom = borderSetting;
+		}
+
+		all[i].style.display = displaySetting;
+	}
+	
+	// Attempt to keep the currently selected row visible
+	if (scrollToElement) {
+		scrollToElement.scrollIntoView();
+	}
+}
+
+function getFirstVisibleRow(className) { 
+	var element = null;
+	
+	if (document.caretPositionFromPoint) {
+		var range = document.caretPositionFromPoint(0, 5);
+		element = range.offsetNode.parentElement;
+		
+	} else if (document.caretRangeFromPoint) {
+		var range = document.caretRangeFromPoint(0, 5);
+		element = range.startContainer.parentNode;
+		
+	} else if (document.elementFromPoint) {
+		element = document.elementFromPoint(100, 5).parentElement;
+	}
+ 	
+	while (element != null && (element.tagName.toLowerCase() != 'tr' || hasClass(element, className))) {
+		if (element.tagName.toLowerCase() == 'tr') {
+			element = element.previousElementSibling;
+		} else {
+			element = element.parentElement;
+		}
+	}
+	
+	return element;
+}
+
+/* Expand / Collapse embedded content */
+function toggleContent(el) {
+	var resizeEl = el.parentElement;
+	var isCollapsed = el.text == "Collapse";
+
+	while (resizeEl != null) {
+		if (hasClass(resizeEl, "resizeable")) {
+			if (isCollapsed) {
+				resizeEl.style.maxHeight = "100px";
+				resizeEl.style.overflow = "hidden";
+				el.text = "Expand";
+
+			} else {
+				resizeEl.style.maxHeight = viewport().height - 100 + 'px';
+				//console.log(resizeEl.style.maxHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) * .8);
+				console.log(viewport());
+				resizeEl.style.overflow = "auto";
+				el.text = "Collapse";
+			}
+
+			// Resized element
+			resizeEl = resizeEl.firstElementChild;
+
+			if (resizeEl.tagName.toLowerCase() == "object") {
+				if (isCollapsed) {
+					resizeEl.style.height = 'auto';
+					resizeEl.style.width = 'auto';
+				} else {   
+					resizeEl.style.height = viewport().height - 300 + 'px';
+					resizeEl.style.width = viewport().width - 300 + 'px';                                                                                                                                                                      
+				}
+			} else {
+				if (isCollapsed) {
+					addClass(resizeEl, "fadeout");
+				} else {
+					removeClass(resizeEl, "fadeout");
+				}
+			}			
+
+			break;
+		}
+
+		resizeEl = resizeEl.nextElementSibling;
+	}
+}
+
+function viewport() {
+	var e = window, a = 'inner';
+	if (!('innerWidth' in window )) {
+		a = 'client';
+		e = document.documentElement || document.body;
+	}
+	return { width : e[ a+'Width' ] , height : e[ a+'Height' ] };
+}
+
+
+</script>
+  </head>
+<body>
+<label class="floattopright"><input id="chkTrace" type="checkbox" onclick="filterTrace(this);" checked>Show 'TRACE' level statements</label><img id="ScreenshotPopup" class="screenshot" /><h1>Log session start time Sat Apr 10 16:40:59 UTC 2021</h1><p></p>
+
+<table>
+<thead>
+<tr><th class="Row">Row</th>
+<th class="Level">Level</th>
+<th class="Message">Message</th>
+<th class="Time">Time</th>
+<th class="FileOfCaller">File&nbsp;Of&nbsp;Caller</th>
+<th class="LineOfCaller">Line&nbsp;Of&nbsp;Caller</th>
+</tr>
+</thead>
+<tbody>
+
+<tr class="record info">
+<td>1.</td><td class="Level info">INFO</td>
+<td class="Message">Starting example concordion-presentation for test fixture example.concordion.ConcordionPresentationFixture</td>
+<td class="Time">16:40:59.464</td>
+<td class="FileOfCaller" title="CubanoDemoFixtureLogger.java">CubanoDemoFixtureLogger.java</td>
+<td class="LineOfCaller">15</td>
+</tr>
+<tr class="record debug">
+<td>2.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Starting browser</td>
+<td class="Time">16:40:59.558</td>
+<td class="FileOfCaller" title="Browser.java">Browser.java</td>
+<td class="LineOfCaller">153</td>
+</tr>
+<tr class="record trace">
+<td>3.</td><td class="Level trace">TRACE</td>
+<td class="Message">Property wdm.proxy not found in /webdrivermanager.properties, using default values (in /webdrivermanager.properties)</td>
+<td class="Time">16:40:59.617</td>
+<td class="FileOfCaller" title="Config.java">Config.java</td>
+<td class="LineOfCaller">207</td>
+</tr>
+<tr class="record trace">
+<td>4.</td><td class="Level trace">TRACE</td>
+<td class="Message">Property wdm.proxy not found in /webdrivermanager.properties, using blank value</td>
+<td class="Time">16:40:59.621</td>
+<td class="FileOfCaller" title="Config.java">Config.java</td>
+<td class="LineOfCaller">214</td>
+</tr>
+<tr class="record trace">
+<td>5.</td><td class="Level trace">TRACE</td>
+<td class="Message">Managing geckodriver arch=64 version=0.24.0 getLatest=false cache=true</td>
+<td class="Time">16:41:00.081</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">504</td>
+</tr>
+<tr class="record trace">
+<td>6.</td><td class="Level trace">TRACE</td>
+<td class="Message">Checking if geckodriver exists in cache</td>
+<td class="Time">16:41:00.085</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">807</td>
+</tr>
+<tr class="record trace">
+<td>7.</td><td class="Level trace">TRACE</td>
+<td class="Message">Target path /home/travis/.m2/repository/webdriver</td>
+<td class="Time">16:41:00.089</td>
+<td class="FileOfCaller" title="Downloader.java">Downloader.java</td>
+<td class="LineOfCaller">116</td>
+</tr>
+<tr class="record trace">
+<td>8.</td><td class="Level trace">TRACE</td>
+<td class="Message">geckodriver not found in cache</td>
+<td class="Time">16:41:00.117</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">834</td>
+</tr>
+<tr class="record info">
+<td>9.</td><td class="Level info">INFO</td>
+<td class="Message">Reading https://api.github.com/repos/mozilla/geckodriver/releases to seek geckodriver</td>
+<td class="Time">16:41:00.122</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">1069</td>
+</tr>
+<tr class="record trace">
+<td>10.</td><td class="Level trace">TRACE</td>
+<td class="Message">Get version 0.24.0 of io.github.bonigarcia.wdm.GitHubApi@1ec356</td>
+<td class="Time">16:41:00.773</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">1109</td>
+</tr>
+<tr class="record trace">
+<td>11.</td><td class="Level trace">TRACE</td>
+<td class="Message">Get version 0.24.0 of io.github.bonigarcia.wdm.GitHubApi@63565649</td>
+<td class="Time">16:41:00.777</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">1109</td>
+</tr>
+<tr class="record trace">
+<td>12.</td><td class="Level trace">TRACE</td>
+<td class="Message">Get version 0.24.0 of io.github.bonigarcia.wdm.GitHubApi@505c1aa4</td>
+<td class="Time">16:41:00.779</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">1109</td>
+</tr>
+<tr class="record trace">
+<td>13.</td><td class="Level trace">TRACE</td>
+<td class="Message">Get version 0.24.0 of io.github.bonigarcia.wdm.GitHubApi@4aed730b</td>
+<td class="Time">16:41:00.780</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">1109</td>
+</tr>
+<tr class="record trace">
+<td>14.</td><td class="Level trace">TRACE</td>
+<td class="Message">Get version 0.24.0 of io.github.bonigarcia.wdm.GitHubApi@3c9f0d73</td>
+<td class="Time">16:41:00.782</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">1109</td>
+</tr>
+<tr class="record trace">
+<td>15.</td><td class="Level trace">TRACE</td>
+<td class="Message">Get version 0.24.0 of io.github.bonigarcia.wdm.GitHubApi@6d2af0b7</td>
+<td class="Time">16:41:00.784</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">1109</td>
+</tr>
+<tr class="record trace">
+<td>16.</td><td class="Level trace">TRACE</td>
+<td class="Message">Get version 0.24.0 of io.github.bonigarcia.wdm.GitHubApi@5d134e8c</td>
+<td class="Time">16:41:00.785</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">1109</td>
+</tr>
+<tr class="record trace">
+<td>17.</td><td class="Level trace">TRACE</td>
+<td class="Message">All URLs: [https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux32.tar.gz, https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz, https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-macos.tar.gz, https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-win32.zip, https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-win64.zip]</td>
+<td class="Time">16:41:00.786</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">733</td>
+</tr>
+<tr class="record trace">
+<td>18.</td><td class="Level trace">TRACE</td>
+<td class="Message">Candidate URLs: [https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux32.tar.gz, https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz, https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-macos.tar.gz, https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-win32.zip, https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-win64.zip]</td>
+<td class="Time">16:41:00.787</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">740</td>
+</tr>
+<tr class="record trace">
+<td>19.</td><td class="Level trace">TRACE</td>
+<td class="Message">URLs before filtering by OS (LINUX): [https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux32.tar.gz, https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz, https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-macos.tar.gz, https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-win32.zip, https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-win64.zip]</td>
+<td class="Time">16:41:00.798</td>
+<td class="FileOfCaller" title="UrlFilter.java">UrlFilter.java</td>
+<td class="LineOfCaller">47</td>
+</tr>
+<tr class="record trace">
+<td>20.</td><td class="Level trace">TRACE</td>
+<td class="Message">URLs after filtering by OS (LINUX): [https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux32.tar.gz, https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz]</td>
+<td class="Time">16:41:00.799</td>
+<td class="FileOfCaller" title="UrlFilter.java">UrlFilter.java</td>
+<td class="LineOfCaller">62</td>
+</tr>
+<tr class="record trace">
+<td>21.</td><td class="Level trace">TRACE</td>
+<td class="Message">URLs before filtering by architecture (64): [https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux32.tar.gz, https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz]</td>
+<td class="Time">16:41:00.800</td>
+<td class="FileOfCaller" title="UrlFilter.java">UrlFilter.java</td>
+<td class="LineOfCaller">68</td>
+</tr>
+<tr class="record trace">
+<td>22.</td><td class="Level trace">TRACE</td>
+<td class="Message">URLs after filtering by architecture (64): [https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz]</td>
+<td class="Time">16:41:00.803</td>
+<td class="FileOfCaller" title="UrlFilter.java">UrlFilter.java</td>
+<td class="LineOfCaller">86</td>
+</tr>
+<tr class="record trace">
+<td>23.</td><td class="Level trace">TRACE</td>
+<td class="Message">Property wdm.ignoreVersions not found in /webdrivermanager.properties, using default values (in /webdrivermanager.properties)</td>
+<td class="Time">16:41:00.804</td>
+<td class="FileOfCaller" title="Config.java">Config.java</td>
+<td class="LineOfCaller">207</td>
+</tr>
+<tr class="record trace">
+<td>24.</td><td class="Level trace">TRACE</td>
+<td class="Message">Property wdm.ignoreVersions not found in /webdrivermanager.properties, using blank value</td>
+<td class="Time">16:41:00.813</td>
+<td class="FileOfCaller" title="Config.java">Config.java</td>
+<td class="LineOfCaller">214</td>
+</tr>
+<tr class="record trace">
+<td>25.</td><td class="Level trace">TRACE</td>
+<td class="Message">Property wdm.ignoreVersions not found in /webdrivermanager.properties, using default values (in /webdrivermanager.properties)</td>
+<td class="Time">16:41:00.814</td>
+<td class="FileOfCaller" title="Config.java">Config.java</td>
+<td class="LineOfCaller">207</td>
+</tr>
+<tr class="record trace">
+<td>26.</td><td class="Level trace">TRACE</td>
+<td class="Message">Property wdm.ignoreVersions not found in /webdrivermanager.properties, using blank value</td>
+<td class="Time">16:41:00.815</td>
+<td class="FileOfCaller" title="Config.java">Config.java</td>
+<td class="LineOfCaller">214</td>
+</tr>
+<tr class="record trace">
+<td>27.</td><td class="Level trace">TRACE</td>
+<td class="Message">URLs before filtering by ignored versions ([]): [https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz]</td>
+<td class="Time">16:41:00.816</td>
+<td class="FileOfCaller" title="UrlFilter.java">UrlFilter.java</td>
+<td class="LineOfCaller">119</td>
+</tr>
+<tr class="record trace">
+<td>28.</td><td class="Level trace">TRACE</td>
+<td class="Message">URLs after filtering by ignored versions ([]): [https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz]</td>
+<td class="Time">16:41:00.834</td>
+<td class="FileOfCaller" title="UrlFilter.java">UrlFilter.java</td>
+<td class="LineOfCaller">134</td>
+</tr>
+<tr class="record trace">
+<td>29.</td><td class="Level trace">TRACE</td>
+<td class="Message">getTarget 0.24.0 https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz</td>
+<td class="Time">16:41:00.835</td>
+<td class="FileOfCaller" title="Downloader.java">Downloader.java</td>
+<td class="LineOfCaller">87</td>
+</tr>
+<tr class="record trace">
+<td>30.</td><td class="Level trace">TRACE</td>
+<td class="Message">Target path /home/travis/.m2/repository/webdriver</td>
+<td class="Time">16:41:00.837</td>
+<td class="FileOfCaller" title="Downloader.java">Downloader.java</td>
+<td class="LineOfCaller">116</td>
+</tr>
+<tr class="record trace">
+<td>31.</td><td class="Level trace">TRACE</td>
+<td class="Message">Target file for URL https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz version 0.24.0 = /home/travis/.m2/repository/webdriver/geckodriver/linux64/0.24.0/geckodriver-v0.24.0-linux64.tar.gz</td>
+<td class="Time">16:41:00.837</td>
+<td class="FileOfCaller" title="Downloader.java">Downloader.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record info">
+<td>32.</td><td class="Level info">INFO</td>
+<td class="Message">Downloading https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz</td>
+<td class="Time">16:41:00.838</td>
+<td class="FileOfCaller" title="Downloader.java">Downloader.java</td>
+<td class="LineOfCaller">128</td>
+</tr>
+<tr class="record trace">
+<td>33.</td><td class="Level trace">TRACE</td>
+<td class="Message">Target folder /home/travis/.m2/repository/webdriver/geckodriver/linux64/0.24.0 ... using temporal file /tmp/4541292858491451214/geckodriver-v0.24.0-linux64.tar.gz</td>
+<td class="Time">16:41:00.856</td>
+<td class="FileOfCaller" title="Downloader.java">Downloader.java</td>
+<td class="LineOfCaller">133</td>
+</tr>
+<tr class="record info">
+<td>34.</td><td class="Level info">INFO</td>
+<td class="Message">Extracting binary from compressed file geckodriver-v0.24.0-linux64.tar.gz</td>
+<td class="Time">16:41:01.347</td>
+<td class="FileOfCaller" title="Downloader.java">Downloader.java</td>
+<td class="LineOfCaller">183</td>
+</tr>
+<tr class="record trace">
+<td>35.</td><td class="Level trace">TRACE</td>
+<td class="Message">unTarGz /tmp/4541292858491451214/geckodriver-v0.24.0-linux64.tar.gz</td>
+<td class="Time">16:41:01.541</td>
+<td class="FileOfCaller" title="Downloader.java">Downloader.java</td>
+<td class="LineOfCaller">277</td>
+</tr>
+<tr class="record trace">
+<td>36.</td><td class="Level trace">TRACE</td>
+<td class="Message">Deleting file /tmp/4541292858491451214/geckodriver-v0.24.0-linux64.tar.gz</td>
+<td class="Time">16:41:01.543</td>
+<td class="FileOfCaller" title="Downloader.java">Downloader.java</td>
+<td class="LineOfCaller">322</td>
+</tr>
+<tr class="record trace">
+<td>37.</td><td class="Level trace">TRACE</td>
+<td class="Message">Found binary in post-download: /tmp/4541292858491451214/geckodriver</td>
+<td class="Time">16:41:01.546</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">462</td>
+</tr>
+<tr class="record trace">
+<td>38.</td><td class="Level trace">TRACE</td>
+<td class="Message">Resulting binary file /tmp/4541292858491451214/geckodriver</td>
+<td class="Time">16:41:01.547</td>
+<td class="FileOfCaller" title="Downloader.java">Downloader.java</td>
+<td class="LineOfCaller">203</td>
+</tr>
+<tr class="record trace">
+<td>39.</td><td class="Level trace">TRACE</td>
+<td class="Message">Deleting folder /tmp/4541292858491451214</td>
+<td class="Time">16:41:01.548</td>
+<td class="FileOfCaller" title="Downloader.java">Downloader.java</td>
+<td class="LineOfCaller">332</td>
+</tr>
+<tr class="record trace">
+<td>40.</td><td class="Level trace">TRACE</td>
+<td class="Message">Binary driver after extraction /home/travis/.m2/repository/webdriver/geckodriver/linux64/0.24.0/geckodriver</td>
+<td class="Time">16:41:01.549</td>
+<td class="FileOfCaller" title="Downloader.java">Downloader.java</td>
+<td class="LineOfCaller">153</td>
+</tr>
+<tr class="record info">
+<td>41.</td><td class="Level info">INFO</td>
+<td class="Message">Exporting webdriver.gecko.driver as /home/travis/.m2/repository/webdriver/geckodriver/linux64/0.24.0/geckodriver</td>
+<td class="Time">16:41:01.550</td>
+<td class="FileOfCaller" title="WebDriverManager.java">WebDriverManager.java</td>
+<td class="LineOfCaller">1042</td>
+</tr>
+<tr class="record debug">
+<td>42.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Navigating to &#8658; <a class="greyed" href="https://concordion.org/presentations/2017-04-Concordion-2.0/#/">https://concordion.org/presentations/2017-04-Concordion-2.0/#/</a></td>
+<td class="Time">16:41:05.112</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record step">
+<td colspan="6">43. Page Object: ConcordionPresentationPage</td>
+</tr>
+<tr class="record debug">
+<td>44.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Wait for any ajax requests to complete</td>
+<td class="Time">16:41:06.161</td>
+<td class="FileOfCaller" title="PageObject.java">PageObject.java</td>
+<td class="LineOfCaller">40</td>
+</tr>
+<tr class="record trace">
+<td>45.</td><td class="Level trace">TRACE</td>
+<td class="Message">Run JavaScript &#8658;</td>
+<td class="Time">16:41:06.193</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="companion trace">
+<td class="indent"></td><td colspan="5" class="output">
+<xmp>var frame = window.frameElement;if (!frame) {    return &#39;&#39;;}if (frame.name) {    return frame.name;}if (frame.id) {    return frame.id;}return &#39;UNKNOWN FRAME&#39;;</xmp>
+</td>
+</tr>
+<tr class="record trace">
+<td>46.</td><td class="Level trace">TRACE</td>
+<td class="Message">Run JavaScript &#8658;</td>
+<td class="Time">16:41:06.219</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="companion trace">
+<td class="indent"></td><td colspan="5" class="output">
+<xmp>if (typeof jQuery === &#39;undefined&#39;) return true;
+if (jQuery.active != 0) return false;
+return true;</xmp>
+</td>
+</tr>
+<tr class="record trace">
+<td>47.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: Spinner</span></td>
+<td class="Time">16:41:06.234</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>48.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Checking ConcordionPresentationPage loads within 10 seconds</td>
+<td class="Time">16:41:06.256</td>
+<td class="FileOfCaller" title="ActionTimer.java">ActionTimer.java</td>
+<td class="LineOfCaller">63</td>
+</tr>
+<tr class="record trace">
+<td>49.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.xpath: //a[text() = '@nigel_charman']</span></td>
+<td class="Time">16:41:06.266</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>50.</td><td class="Level trace">TRACE</td>
+<td class="Message">ConcordionPresentationPage loaded in 0 seconds <br /><span class="greyed">Current url: https://concordion.org/presentations/2017-04-Concordion-2.0/#/<span></td>
+<td class="Time">16:41:06.389</td>
+<td class="FileOfCaller" title="PageObject.java">PageObject.java</td>
+<td class="LineOfCaller">55</td>
+</tr>
+<tr class="record trace">
+<td>51.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: navigate-right</span></td>
+<td class="Time">16:41:06.395</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>52.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Clicking &#39;&#39; </td>
+<td class="Time">16:41:06.696</td>
+<td class="FileOfCaller" title="ConcordionPresentationPage.java">ConcordionPresentationPage.java</td>
+<td class="LineOfCaller">36</td>
+</tr>
+<tr class="companion debug">
+<td class="indent"></td><td colspan="5" class="output">
+<a href="ConcordionPresentation[concordion-presentation]LogScreenShot0.png"><img src="ConcordionPresentation[concordion-presentation]LogScreenShot0.png" onMouseOver="showScreenPopup(this);this.style.cursor='pointer'" onMouseOut="hideScreenPopup();this.style.cursor='default'" width="350px"  class="sizewidth"/></a>
+</td>
+</tr>
+<tr class="record debug">
+<td>53.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Navigating to &#8658; <a class="greyed" href="https://concordion.org/presentations/2017-04-Concordion-2.0/#/2">https://concordion.org/presentations/2017-04-Concordion-2.0/#/2</a></td>
+<td class="Time">16:41:06.703</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record step">
+<td colspan="6">54. Page Object: ConcordionIsATestRunnerPage</td>
+</tr>
+<tr class="record debug">
+<td>55.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Wait for any ajax requests to complete</td>
+<td class="Time">16:41:06.743</td>
+<td class="FileOfCaller" title="PageObject.java">PageObject.java</td>
+<td class="LineOfCaller">40</td>
+</tr>
+<tr class="record trace">
+<td>56.</td><td class="Level trace">TRACE</td>
+<td class="Message">Run JavaScript &#8658;</td>
+<td class="Time">16:41:06.785</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="companion trace">
+<td class="indent"></td><td colspan="5" class="output">
+<xmp>var frame = window.frameElement;if (!frame) {    return &#39;&#39;;}if (frame.name) {    return frame.name;}if (frame.id) {    return frame.id;}return &#39;UNKNOWN FRAME&#39;;</xmp>
+</td>
+</tr>
+<tr class="record trace">
+<td>57.</td><td class="Level trace">TRACE</td>
+<td class="Message">Run JavaScript &#8658;</td>
+<td class="Time">16:41:06.802</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="companion trace">
+<td class="indent"></td><td colspan="5" class="output">
+<xmp>if (typeof jQuery === &#39;undefined&#39;) return true;
+if (jQuery.active != 0) return false;
+return true;</xmp>
+</td>
+</tr>
+<tr class="record trace">
+<td>58.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: Spinner</span></td>
+<td class="Time">16:41:06.812</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>59.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Checking ConcordionIsATestRunnerPage loads within 10 seconds</td>
+<td class="Time">16:41:06.821</td>
+<td class="FileOfCaller" title="ActionTimer.java">ActionTimer.java</td>
+<td class="LineOfCaller">63</td>
+</tr>
+<tr class="record trace">
+<td>60.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.xpath: //h3[text()='Concordion is a test runner']</span></td>
+<td class="Time">16:41:06.827</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>61.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: navigate-right</span></td>
+<td class="Time">16:41:06.917</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>62.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.xpath: //a[text() = '@nigel_charman']</span></td>
+<td class="Time">16:41:07.003</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>63.</td><td class="Level trace">TRACE</td>
+<td class="Message">ConcordionIsATestRunnerPage loaded in 0 seconds <br /><span class="greyed">Current url: https://concordion.org/presentations/2017-04-Concordion-2.0/#/2<span></td>
+<td class="Time">16:41:07.076</td>
+<td class="FileOfCaller" title="PageObject.java">PageObject.java</td>
+<td class="LineOfCaller">55</td>
+</tr>
+<tr class="record trace">
+<td>64.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: navigate-right</span></td>
+<td class="Time">16:41:07.086</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>65.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Clicking &#39;&#39; </td>
+<td class="Time">16:41:07.267</td>
+<td class="FileOfCaller" title="ConcordionIsATestRunnerPage.java">ConcordionIsATestRunnerPage.java</td>
+<td class="LineOfCaller">36</td>
+</tr>
+<tr class="companion debug">
+<td class="indent"></td><td colspan="5" class="output">
+<a href="ConcordionPresentation[concordion-presentation]LogScreenShot1.png"><img src="ConcordionPresentation[concordion-presentation]LogScreenShot1.png" onMouseOver="showScreenPopup(this);this.style.cursor='pointer'" onMouseOut="hideScreenPopup();this.style.cursor='default'" width="350px"  class="sizewidth"/></a>
+</td>
+</tr>
+<tr class="record debug">
+<td>66.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Click &#8658; <span class="greyed">By.class name: navigate-right</span></td>
+<td class="Time">16:41:07.281</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record step">
+<td colspan="6">67. Page Object: ConcordionForExecutableSpecsPage</td>
+</tr>
+<tr class="record debug">
+<td>68.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Wait for any ajax requests to complete</td>
+<td class="Time">16:41:07.507</td>
+<td class="FileOfCaller" title="PageObject.java">PageObject.java</td>
+<td class="LineOfCaller">40</td>
+</tr>
+<tr class="record trace">
+<td>69.</td><td class="Level trace">TRACE</td>
+<td class="Message">Run JavaScript &#8658;</td>
+<td class="Time">16:41:07.528</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="companion trace">
+<td class="indent"></td><td colspan="5" class="output">
+<xmp>var frame = window.frameElement;if (!frame) {    return &#39;&#39;;}if (frame.name) {    return frame.name;}if (frame.id) {    return frame.id;}return &#39;UNKNOWN FRAME&#39;;</xmp>
+</td>
+</tr>
+<tr class="record trace">
+<td>70.</td><td class="Level trace">TRACE</td>
+<td class="Message">Run JavaScript &#8658;</td>
+<td class="Time">16:41:07.543</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="companion trace">
+<td class="indent"></td><td colspan="5" class="output">
+<xmp>if (typeof jQuery === &#39;undefined&#39;) return true;
+if (jQuery.active != 0) return false;
+return true;</xmp>
+</td>
+</tr>
+<tr class="record trace">
+<td>71.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: Spinner</span></td>
+<td class="Time">16:41:07.556</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>72.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Checking ConcordionForExecutableSpecsPage loads within 10 seconds</td>
+<td class="Time">16:41:07.578</td>
+<td class="FileOfCaller" title="ActionTimer.java">ActionTimer.java</td>
+<td class="LineOfCaller">63</td>
+</tr>
+<tr class="record trace">
+<td>73.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.xpath: //h3[text()='Concordion is a test runner']</span></td>
+<td class="Time">16:41:07.586</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>74.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.xpath: //span[text()='for executable specifications']</span></td>
+<td class="Time">16:41:07.675</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>75.</td><td class="Level trace">TRACE</td>
+<td class="Message">ConcordionForExecutableSpecsPage loaded in 0 seconds <br /><span class="greyed">Current url: https://concordion.org/presentations/2017-04-Concordion-2.0/#/2<span></td>
+<td class="Time">16:41:07.763</td>
+<td class="FileOfCaller" title="PageObject.java">PageObject.java</td>
+<td class="LineOfCaller">55</td>
+</tr>
+<tr class="record trace">
+<td>76.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: navigate-right</span></td>
+<td class="Time">16:41:07.767</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>77.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Clicking &#39;&#39; </td>
+<td class="Time">16:41:07.906</td>
+<td class="FileOfCaller" title="ConcordionForExecutableSpecsPage.java">ConcordionForExecutableSpecsPage.java</td>
+<td class="LineOfCaller">36</td>
+</tr>
+<tr class="companion debug">
+<td class="indent"></td><td colspan="5" class="output">
+<a href="ConcordionPresentation[concordion-presentation]LogScreenShot2.png"><img src="ConcordionPresentation[concordion-presentation]LogScreenShot2.png" onMouseOver="showScreenPopup(this);this.style.cursor='pointer'" onMouseOut="hideScreenPopup();this.style.cursor='default'" width="350px"  class="sizewidth"/></a>
+</td>
+</tr>
+<tr class="record debug">
+<td>78.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Click &#8658; <span class="greyed">By.class name: navigate-right</span></td>
+<td class="Time">16:41:07.917</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record step">
+<td colspan="6">79. Page Object: ConcordionBeautifulLivingDocsPage</td>
+</tr>
+<tr class="record debug">
+<td>80.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Wait for any ajax requests to complete</td>
+<td class="Time">16:41:08.133</td>
+<td class="FileOfCaller" title="PageObject.java">PageObject.java</td>
+<td class="LineOfCaller">40</td>
+</tr>
+<tr class="record trace">
+<td>81.</td><td class="Level trace">TRACE</td>
+<td class="Message">Run JavaScript &#8658;</td>
+<td class="Time">16:41:08.151</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="companion trace">
+<td class="indent"></td><td colspan="5" class="output">
+<xmp>var frame = window.frameElement;if (!frame) {    return &#39;&#39;;}if (frame.name) {    return frame.name;}if (frame.id) {    return frame.id;}return &#39;UNKNOWN FRAME&#39;;</xmp>
+</td>
+</tr>
+<tr class="record trace">
+<td>82.</td><td class="Level trace">TRACE</td>
+<td class="Message">Run JavaScript &#8658;</td>
+<td class="Time">16:41:08.165</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="companion trace">
+<td class="indent"></td><td colspan="5" class="output">
+<xmp>if (typeof jQuery === &#39;undefined&#39;) return true;
+if (jQuery.active != 0) return false;
+return true;</xmp>
+</td>
+</tr>
+<tr class="record trace">
+<td>83.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: Spinner</span></td>
+<td class="Time">16:41:08.173</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>84.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Checking ConcordionBeautifulLivingDocsPage loads within 10 seconds</td>
+<td class="Time">16:41:08.182</td>
+<td class="FileOfCaller" title="ActionTimer.java">ActionTimer.java</td>
+<td class="LineOfCaller">63</td>
+</tr>
+<tr class="record trace">
+<td>85.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.xpath: //h3[text()='Concordion is a test runner']</span></td>
+<td class="Time">16:41:08.183</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>86.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.xpath: //span[text()='for executable specifications']</span></td>
+<td class="Time">16:41:08.254</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>87.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.xpath: //span[text()='that creates beautiful living documentation']</span></td>
+<td class="Time">16:41:08.333</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>88.</td><td class="Level trace">TRACE</td>
+<td class="Message">ConcordionBeautifulLivingDocsPage loaded in 0 seconds <br /><span class="greyed">Current url: https://concordion.org/presentations/2017-04-Concordion-2.0/#/2<span></td>
+<td class="Time">16:41:08.408</td>
+<td class="FileOfCaller" title="PageObject.java">PageObject.java</td>
+<td class="LineOfCaller">55</td>
+</tr>
+<tr class="record trace">
+<td>89.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: navigate-right</span></td>
+<td class="Time">16:41:08.412</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>90.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Clicking &#39;&#39; </td>
+<td class="Time">16:41:08.542</td>
+<td class="FileOfCaller" title="ConcordionBeautifulLivingDocsPage.java">ConcordionBeautifulLivingDocsPage.java</td>
+<td class="LineOfCaller">41</td>
+</tr>
+<tr class="companion debug">
+<td class="indent"></td><td colspan="5" class="output">
+<a href="ConcordionPresentation[concordion-presentation]LogScreenShot3.png"><img src="ConcordionPresentation[concordion-presentation]LogScreenShot3.png" onMouseOver="showScreenPopup(this);this.style.cursor='pointer'" onMouseOut="hideScreenPopup();this.style.cursor='default'" width="350px"  class="sizewidth"/></a>
+</td>
+</tr>
+<tr class="record debug">
+<td>91.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Navigating to &#8658; <a class="greyed" href="https://concordion.org/presentations/2017-04-Concordion-2.0/#/5">https://concordion.org/presentations/2017-04-Concordion-2.0/#/5</a></td>
+<td class="Time">16:41:08.547</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record step">
+<td colspan="6">92. Page Object: ConcordionHowItWorksPage</td>
+</tr>
+<tr class="record debug">
+<td>93.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Wait for any ajax requests to complete</td>
+<td class="Time">16:41:08.570</td>
+<td class="FileOfCaller" title="PageObject.java">PageObject.java</td>
+<td class="LineOfCaller">40</td>
+</tr>
+<tr class="record trace">
+<td>94.</td><td class="Level trace">TRACE</td>
+<td class="Message">Run JavaScript &#8658;</td>
+<td class="Time">16:41:08.595</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="companion trace">
+<td class="indent"></td><td colspan="5" class="output">
+<xmp>var frame = window.frameElement;if (!frame) {    return &#39;&#39;;}if (frame.name) {    return frame.name;}if (frame.id) {    return frame.id;}return &#39;UNKNOWN FRAME&#39;;</xmp>
+</td>
+</tr>
+<tr class="record trace">
+<td>95.</td><td class="Level trace">TRACE</td>
+<td class="Message">Run JavaScript &#8658;</td>
+<td class="Time">16:41:08.611</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="companion trace">
+<td class="indent"></td><td colspan="5" class="output">
+<xmp>if (typeof jQuery === &#39;undefined&#39;) return true;
+if (jQuery.active != 0) return false;
+return true;</xmp>
+</td>
+</tr>
+<tr class="record trace">
+<td>96.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: Spinner</span></td>
+<td class="Time">16:41:08.620</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>97.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Checking ConcordionHowItWorksPage loads within 10 seconds</td>
+<td class="Time">16:41:08.628</td>
+<td class="FileOfCaller" title="ActionTimer.java">ActionTimer.java</td>
+<td class="LineOfCaller">63</td>
+</tr>
+<tr class="record trace">
+<td>98.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.xpath: //h2[text()='How it works']</span></td>
+<td class="Time">16:41:08.633</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>99.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: navigate-right</span></td>
+<td class="Time">16:41:08.706</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>100.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.xpath: //h3[text()='Downloads']</span></td>
+<td class="Time">16:41:08.786</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>101.</td><td class="Level trace">TRACE</td>
+<td class="Message">ConcordionHowItWorksPage loaded in 0 seconds <br /><span class="greyed">Current url: https://concordion.org/presentations/2017-04-Concordion-2.0/#/5<span></td>
+<td class="Time">16:41:08.856</td>
+<td class="FileOfCaller" title="PageObject.java">PageObject.java</td>
+<td class="LineOfCaller">55</td>
+</tr>
+<tr class="record trace">
+<td>102.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: navigate-right</span></td>
+<td class="Time">16:41:08.859</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>103.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Clicking &#39;&#39; </td>
+<td class="Time">16:41:09.031</td>
+<td class="FileOfCaller" title="ConcordionHowItWorksPage.java">ConcordionHowItWorksPage.java</td>
+<td class="LineOfCaller">37</td>
+</tr>
+<tr class="companion debug">
+<td class="indent"></td><td colspan="5" class="output">
+<a href="ConcordionPresentation[concordion-presentation]LogScreenShot4.png"><img src="ConcordionPresentation[concordion-presentation]LogScreenShot4.png" onMouseOver="showScreenPopup(this);this.style.cursor='pointer'" onMouseOut="hideScreenPopup();this.style.cursor='default'" width="350px"  class="sizewidth"/></a>
+</td>
+</tr>
+<tr class="record debug">
+<td>104.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Click &#8658; <span class="greyed">By.class name: navigate-right</span></td>
+<td class="Time">16:41:09.037</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record step">
+<td colspan="6">105. Page Object: ConcordionSpecificationPage</td>
+</tr>
+<tr class="record debug">
+<td>106.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Wait for any ajax requests to complete</td>
+<td class="Time">16:41:09.072</td>
+<td class="FileOfCaller" title="PageObject.java">PageObject.java</td>
+<td class="LineOfCaller">40</td>
+</tr>
+<tr class="record trace">
+<td>107.</td><td class="Level trace">TRACE</td>
+<td class="Message">Run JavaScript &#8658;</td>
+<td class="Time">16:41:09.091</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="companion trace">
+<td class="indent"></td><td colspan="5" class="output">
+<xmp>var frame = window.frameElement;if (!frame) {    return &#39;&#39;;}if (frame.name) {    return frame.name;}if (frame.id) {    return frame.id;}return &#39;UNKNOWN FRAME&#39;;</xmp>
+</td>
+</tr>
+<tr class="record trace">
+<td>108.</td><td class="Level trace">TRACE</td>
+<td class="Message">Run JavaScript &#8658;</td>
+<td class="Time">16:41:09.101</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="companion trace">
+<td class="indent"></td><td colspan="5" class="output">
+<xmp>if (typeof jQuery === &#39;undefined&#39;) return true;
+if (jQuery.active != 0) return false;
+return true;</xmp>
+</td>
+</tr>
+<tr class="record trace">
+<td>109.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: Spinner</span></td>
+<td class="Time">16:41:09.107</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>110.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Checking ConcordionSpecificationPage loads within 10 seconds</td>
+<td class="Time">16:41:09.116</td>
+<td class="FileOfCaller" title="ActionTimer.java">ActionTimer.java</td>
+<td class="LineOfCaller">63</td>
+</tr>
+<tr class="record trace">
+<td>111.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.xpath: //h1[text()='Specification']</span></td>
+<td class="Time">16:41:09.121</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>112.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: navigate-right</span></td>
+<td class="Time">16:41:09.189</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>113.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.xpath: //h2[text()='How it works']</span></td>
+<td class="Time">16:41:09.274</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>114.</td><td class="Level trace">TRACE</td>
+<td class="Message">ConcordionSpecificationPage loaded in 0 seconds <br /><span class="greyed">Current url: https://concordion.org/presentations/2017-04-Concordion-2.0/#/6<span></td>
+<td class="Time">16:41:09.357</td>
+<td class="FileOfCaller" title="PageObject.java">PageObject.java</td>
+<td class="LineOfCaller">55</td>
+</tr>
+<tr class="record trace">
+<td>115.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: navigate-right</span></td>
+<td class="Time">16:41:09.360</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>116.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Clicking &#39;&#39; </td>
+<td class="Time">16:41:09.507</td>
+<td class="FileOfCaller" title="ConcordionSpecificationPage.java">ConcordionSpecificationPage.java</td>
+<td class="LineOfCaller">37</td>
+</tr>
+<tr class="companion debug">
+<td class="indent"></td><td colspan="5" class="output">
+<a href="ConcordionPresentation[concordion-presentation]LogScreenShot5.png"><img src="ConcordionPresentation[concordion-presentation]LogScreenShot5.png" onMouseOver="showScreenPopup(this);this.style.cursor='pointer'" onMouseOut="hideScreenPopup();this.style.cursor='default'" width="350px"  class="sizewidth"/></a>
+</td>
+</tr>
+<tr class="record debug">
+<td>117.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Click &#8658; <span class="greyed">By.class name: navigate-right</span></td>
+<td class="Time">16:41:09.517</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record step">
+<td colspan="6">118. Page Object: ConcordionInstrumentationPage</td>
+</tr>
+<tr class="record debug">
+<td>119.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Wait for any ajax requests to complete</td>
+<td class="Time">16:41:09.546</td>
+<td class="FileOfCaller" title="PageObject.java">PageObject.java</td>
+<td class="LineOfCaller">40</td>
+</tr>
+<tr class="record trace">
+<td>120.</td><td class="Level trace">TRACE</td>
+<td class="Message">Run JavaScript &#8658;</td>
+<td class="Time">16:41:09.562</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="companion trace">
+<td class="indent"></td><td colspan="5" class="output">
+<xmp>var frame = window.frameElement;if (!frame) {    return &#39;&#39;;}if (frame.name) {    return frame.name;}if (frame.id) {    return frame.id;}return &#39;UNKNOWN FRAME&#39;;</xmp>
+</td>
+</tr>
+<tr class="record trace">
+<td>121.</td><td class="Level trace">TRACE</td>
+<td class="Message">Run JavaScript &#8658;</td>
+<td class="Time">16:41:09.572</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="companion trace">
+<td class="indent"></td><td colspan="5" class="output">
+<xmp>if (typeof jQuery === &#39;undefined&#39;) return true;
+if (jQuery.active != 0) return false;
+return true;</xmp>
+</td>
+</tr>
+<tr class="record trace">
+<td>122.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: Spinner</span></td>
+<td class="Time">16:41:09.579</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>123.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Checking ConcordionInstrumentationPage loads within 10 seconds</td>
+<td class="Time">16:41:09.588</td>
+<td class="FileOfCaller" title="ActionTimer.java">ActionTimer.java</td>
+<td class="LineOfCaller">63</td>
+</tr>
+<tr class="record trace">
+<td>124.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.xpath: //h1[text()='Instrumentation']</span></td>
+<td class="Time">16:41:09.589</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>125.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: navigate-right</span></td>
+<td class="Time">16:41:09.661</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>126.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.xpath: //h1[text()='Specification']</span></td>
+<td class="Time">16:41:09.744</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>127.</td><td class="Level trace">TRACE</td>
+<td class="Message">ConcordionInstrumentationPage loaded in 0 seconds <br /><span class="greyed">Current url: https://concordion.org/presentations/2017-04-Concordion-2.0/#/7<span></td>
+<td class="Time">16:41:10.380</td>
+<td class="FileOfCaller" title="PageObject.java">PageObject.java</td>
+<td class="LineOfCaller">55</td>
+</tr>
+<tr class="record trace">
+<td>128.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: navigate-right</span></td>
+<td class="Time">16:41:10.385</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>129.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Clicking &#39;&#39; </td>
+<td class="Time">16:41:10.507</td>
+<td class="FileOfCaller" title="ConcordionInstrumentationPage.java">ConcordionInstrumentationPage.java</td>
+<td class="LineOfCaller">37</td>
+</tr>
+<tr class="companion debug">
+<td class="indent"></td><td colspan="5" class="output">
+<a href="ConcordionPresentation[concordion-presentation]LogScreenShot6.png"><img src="ConcordionPresentation[concordion-presentation]LogScreenShot6.png" onMouseOver="showScreenPopup(this);this.style.cursor='pointer'" onMouseOut="hideScreenPopup();this.style.cursor='default'" width="350px"  class="sizewidth"/></a>
+</td>
+</tr>
+<tr class="record debug">
+<td>130.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Click &#8658; <span class="greyed">By.class name: navigate-right</span></td>
+<td class="Time">16:41:10.513</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record step">
+<td colspan="6">131. Page Object: ConcordionFixturePage</td>
+</tr>
+<tr class="record debug">
+<td>132.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Wait for any ajax requests to complete</td>
+<td class="Time">16:41:10.548</td>
+<td class="FileOfCaller" title="PageObject.java">PageObject.java</td>
+<td class="LineOfCaller">40</td>
+</tr>
+<tr class="record trace">
+<td>133.</td><td class="Level trace">TRACE</td>
+<td class="Message">Run JavaScript &#8658;</td>
+<td class="Time">16:41:10.566</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="companion trace">
+<td class="indent"></td><td colspan="5" class="output">
+<xmp>var frame = window.frameElement;if (!frame) {    return &#39;&#39;;}if (frame.name) {    return frame.name;}if (frame.id) {    return frame.id;}return &#39;UNKNOWN FRAME&#39;;</xmp>
+</td>
+</tr>
+<tr class="record trace">
+<td>134.</td><td class="Level trace">TRACE</td>
+<td class="Message">Run JavaScript &#8658;</td>
+<td class="Time">16:41:10.584</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="companion trace">
+<td class="indent"></td><td colspan="5" class="output">
+<xmp>if (typeof jQuery === &#39;undefined&#39;) return true;
+if (jQuery.active != 0) return false;
+return true;</xmp>
+</td>
+</tr>
+<tr class="record trace">
+<td>135.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: Spinner</span></td>
+<td class="Time">16:41:10.594</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>136.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Checking ConcordionFixturePage loads within 10 seconds</td>
+<td class="Time">16:41:10.601</td>
+<td class="FileOfCaller" title="ActionTimer.java">ActionTimer.java</td>
+<td class="LineOfCaller">63</td>
+</tr>
+<tr class="record trace">
+<td>137.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.xpath: //h1[text()='Fixture']</span></td>
+<td class="Time">16:41:10.606</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>138.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: navigate-right</span></td>
+<td class="Time">16:41:10.678</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>139.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.xpath: //h1[text()='Instrumentation']</span></td>
+<td class="Time">16:41:10.752</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>140.</td><td class="Level trace">TRACE</td>
+<td class="Message">ConcordionFixturePage loaded in 0 seconds <br /><span class="greyed">Current url: https://concordion.org/presentations/2017-04-Concordion-2.0/#/8<span></td>
+<td class="Time">16:41:10.814</td>
+<td class="FileOfCaller" title="PageObject.java">PageObject.java</td>
+<td class="LineOfCaller">55</td>
+</tr>
+<tr class="record trace">
+<td>141.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: navigate-right</span></td>
+<td class="Time">16:41:10.818</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>142.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Clicking &#39;&#39; </td>
+<td class="Time">16:41:10.939</td>
+<td class="FileOfCaller" title="ConcordionFixturePage.java">ConcordionFixturePage.java</td>
+<td class="LineOfCaller">37</td>
+</tr>
+<tr class="companion debug">
+<td class="indent"></td><td colspan="5" class="output">
+<a href="ConcordionPresentation[concordion-presentation]LogScreenShot7.png"><img src="ConcordionPresentation[concordion-presentation]LogScreenShot7.png" onMouseOver="showScreenPopup(this);this.style.cursor='pointer'" onMouseOut="hideScreenPopup();this.style.cursor='default'" width="350px"  class="sizewidth"/></a>
+</td>
+</tr>
+<tr class="record debug">
+<td>143.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Click &#8658; <span class="greyed">By.class name: navigate-right</span></td>
+<td class="Time">16:41:10.950</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record step">
+<td colspan="6">144. Page Object: ConcordionSUTPage</td>
+</tr>
+<tr class="record debug">
+<td>145.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Wait for any ajax requests to complete</td>
+<td class="Time">16:41:10.982</td>
+<td class="FileOfCaller" title="PageObject.java">PageObject.java</td>
+<td class="LineOfCaller">40</td>
+</tr>
+<tr class="record trace">
+<td>146.</td><td class="Level trace">TRACE</td>
+<td class="Message">Run JavaScript &#8658;</td>
+<td class="Time">16:41:11.003</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="companion trace">
+<td class="indent"></td><td colspan="5" class="output">
+<xmp>var frame = window.frameElement;if (!frame) {    return &#39;&#39;;}if (frame.name) {    return frame.name;}if (frame.id) {    return frame.id;}return &#39;UNKNOWN FRAME&#39;;</xmp>
+</td>
+</tr>
+<tr class="record trace">
+<td>147.</td><td class="Level trace">TRACE</td>
+<td class="Message">Run JavaScript &#8658;</td>
+<td class="Time">16:41:11.010</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="companion trace">
+<td class="indent"></td><td colspan="5" class="output">
+<xmp>if (typeof jQuery === &#39;undefined&#39;) return true;
+if (jQuery.active != 0) return false;
+return true;</xmp>
+</td>
+</tr>
+<tr class="record trace">
+<td>148.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: Spinner</span></td>
+<td class="Time">16:41:11.018</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>149.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Checking ConcordionSUTPage loads within 10 seconds</td>
+<td class="Time">16:41:11.023</td>
+<td class="FileOfCaller" title="ActionTimer.java">ActionTimer.java</td>
+<td class="LineOfCaller">63</td>
+</tr>
+<tr class="record trace">
+<td>150.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.xpath: //h2[text()='System under Test']</span></td>
+<td class="Time">16:41:11.025</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>151.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: navigate-right</span></td>
+<td class="Time">16:41:11.094</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>152.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.xpath: //h1[text()='Fixture']</span></td>
+<td class="Time">16:41:11.252</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>153.</td><td class="Level trace">TRACE</td>
+<td class="Message">ConcordionSUTPage loaded in 0 seconds <br /><span class="greyed">Current url: https://concordion.org/presentations/2017-04-Concordion-2.0/#/9<span></td>
+<td class="Time">16:41:11.322</td>
+<td class="FileOfCaller" title="PageObject.java">PageObject.java</td>
+<td class="LineOfCaller">55</td>
+</tr>
+<tr class="record trace">
+<td>154.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: navigate-right</span></td>
+<td class="Time">16:41:11.325</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>155.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Clicking &#39;&#39; </td>
+<td class="Time">16:41:11.486</td>
+<td class="FileOfCaller" title="ConcordionSUTPage.java">ConcordionSUTPage.java</td>
+<td class="LineOfCaller">38</td>
+</tr>
+<tr class="companion debug">
+<td class="indent"></td><td colspan="5" class="output">
+<a href="ConcordionPresentation[concordion-presentation]LogScreenShot8.png"><img src="ConcordionPresentation[concordion-presentation]LogScreenShot8.png" onMouseOver="showScreenPopup(this);this.style.cursor='pointer'" onMouseOut="hideScreenPopup();this.style.cursor='default'" width="350px"  class="sizewidth"/></a>
+</td>
+</tr>
+<tr class="record debug">
+<td>156.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Navigating to &#8658; <a class="greyed" href="https://concordion.org/presentations/2017-04-Concordion-2.0/#/12">https://concordion.org/presentations/2017-04-Concordion-2.0/#/12</a></td>
+<td class="Time">16:41:11.488</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record step">
+<td colspan="6">157. Page Object: ConcordionComparisonPage</td>
+</tr>
+<tr class="record debug">
+<td>158.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Wait for any ajax requests to complete</td>
+<td class="Time">16:41:11.512</td>
+<td class="FileOfCaller" title="PageObject.java">PageObject.java</td>
+<td class="LineOfCaller">40</td>
+</tr>
+<tr class="record trace">
+<td>159.</td><td class="Level trace">TRACE</td>
+<td class="Message">Run JavaScript &#8658;</td>
+<td class="Time">16:41:11.546</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="companion trace">
+<td class="indent"></td><td colspan="5" class="output">
+<xmp>var frame = window.frameElement;if (!frame) {    return &#39;&#39;;}if (frame.name) {    return frame.name;}if (frame.id) {    return frame.id;}return &#39;UNKNOWN FRAME&#39;;</xmp>
+</td>
+</tr>
+<tr class="record trace">
+<td>160.</td><td class="Level trace">TRACE</td>
+<td class="Message">Run JavaScript &#8658;</td>
+<td class="Time">16:41:11.556</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="companion trace">
+<td class="indent"></td><td colspan="5" class="output">
+<xmp>if (typeof jQuery === &#39;undefined&#39;) return true;
+if (jQuery.active != 0) return false;
+return true;</xmp>
+</td>
+</tr>
+<tr class="record trace">
+<td>161.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: Spinner</span></td>
+<td class="Time">16:41:11.562</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>162.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Checking ConcordionComparisonPage loads within 10 seconds</td>
+<td class="Time">16:41:11.570</td>
+<td class="FileOfCaller" title="ActionTimer.java">ActionTimer.java</td>
+<td class="LineOfCaller">63</td>
+</tr>
+<tr class="record trace">
+<td>163.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.xpath: //h2[text()='Comparison']</span></td>
+<td class="Time">16:41:11.572</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>164.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: navigate-right</span></td>
+<td class="Time">16:41:11.633</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>165.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.xpath: //h2[text()='System under Test']</span></td>
+<td class="Time">16:41:11.737</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>166.</td><td class="Level trace">TRACE</td>
+<td class="Message">ConcordionComparisonPage loaded in 0 seconds <br /><span class="greyed">Current url: https://concordion.org/presentations/2017-04-Concordion-2.0/#/12<span></td>
+<td class="Time">16:41:11.812</td>
+<td class="FileOfCaller" title="PageObject.java">PageObject.java</td>
+<td class="LineOfCaller">55</td>
+</tr>
+<tr class="record trace">
+<td>167.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: navigate-right</span></td>
+<td class="Time">16:41:11.814</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>168.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Click &#8658; <span class="greyed">By.class name: navigate-right</span></td>
+<td class="Time">16:41:11.831</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>169.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Click &#8658; <span class="greyed">By.class name: navigate-right</span></td>
+<td class="Time">16:41:12.053</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>170.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Click &#8658; <span class="greyed">By.class name: navigate-right</span></td>
+<td class="Time">16:41:12.278</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>171.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Click &#8658; <span class="greyed">By.class name: navigate-right</span></td>
+<td class="Time">16:41:12.500</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>172.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Click &#8658; <span class="greyed">By.class name: navigate-right</span></td>
+<td class="Time">16:41:12.719</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>173.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Click &#8658; <span class="greyed">By.class name: navigate-right</span></td>
+<td class="Time">16:41:12.938</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>174.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Click &#8658; <span class="greyed">By.class name: navigate-right</span></td>
+<td class="Time">16:41:13.157</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>175.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Click &#8658; <span class="greyed">By.class name: navigate-right</span></td>
+<td class="Time">16:41:13.376</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>176.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Clicking &#39;&#39; </td>
+<td class="Time">16:41:13.766</td>
+<td class="FileOfCaller" title="ConcordionComparisonPage.java">ConcordionComparisonPage.java</td>
+<td class="LineOfCaller">47</td>
+</tr>
+<tr class="companion debug">
+<td class="indent"></td><td colspan="5" class="output">
+<a href="ConcordionPresentation[concordion-presentation]LogScreenShot9.png"><img src="ConcordionPresentation[concordion-presentation]LogScreenShot9.png" onMouseOver="showScreenPopup(this);this.style.cursor='pointer'" onMouseOut="hideScreenPopup();this.style.cursor='default'" width="350px"  class="sizewidth"/></a>
+</td>
+</tr>
+<tr class="record debug">
+<td>177.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Click &#8658; <span class="greyed">By.class name: navigate-right</span></td>
+<td class="Time">16:41:13.775</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record step">
+<td colspan="6">178. Page Object: ConcordionExtensionsPage</td>
+</tr>
+<tr class="record debug">
+<td>179.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Wait for any ajax requests to complete</td>
+<td class="Time">16:41:13.805</td>
+<td class="FileOfCaller" title="PageObject.java">PageObject.java</td>
+<td class="LineOfCaller">40</td>
+</tr>
+<tr class="record trace">
+<td>180.</td><td class="Level trace">TRACE</td>
+<td class="Message">Run JavaScript &#8658;</td>
+<td class="Time">16:41:13.824</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="companion trace">
+<td class="indent"></td><td colspan="5" class="output">
+<xmp>var frame = window.frameElement;if (!frame) {    return &#39;&#39;;}if (frame.name) {    return frame.name;}if (frame.id) {    return frame.id;}return &#39;UNKNOWN FRAME&#39;;</xmp>
+</td>
+</tr>
+<tr class="record trace">
+<td>181.</td><td class="Level trace">TRACE</td>
+<td class="Message">Run JavaScript &#8658;</td>
+<td class="Time">16:41:13.841</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="companion trace">
+<td class="indent"></td><td colspan="5" class="output">
+<xmp>if (typeof jQuery === &#39;undefined&#39;) return true;
+if (jQuery.active != 0) return false;
+return true;</xmp>
+</td>
+</tr>
+<tr class="record trace">
+<td>182.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: Spinner</span></td>
+<td class="Time">16:41:13.853</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>183.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Checking ConcordionExtensionsPage loads within 10 seconds</td>
+<td class="Time">16:41:13.858</td>
+<td class="FileOfCaller" title="ActionTimer.java">ActionTimer.java</td>
+<td class="LineOfCaller">63</td>
+</tr>
+<tr class="record trace">
+<td>184.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.xpath: //h2[text()='Extensions']</span></td>
+<td class="Time">16:41:13.860</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>185.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: navigate-right</span></td>
+<td class="Time">16:41:13.930</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>186.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.xpath: //h2[text()='Comparison']</span></td>
+<td class="Time">16:41:14.006</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>187.</td><td class="Level trace">TRACE</td>
+<td class="Message">ConcordionExtensionsPage loaded in 0 seconds <br /><span class="greyed">Current url: https://concordion.org/presentations/2017-04-Concordion-2.0/#/13<span></td>
+<td class="Time">16:41:14.636</td>
+<td class="FileOfCaller" title="PageObject.java">PageObject.java</td>
+<td class="LineOfCaller">55</td>
+</tr>
+<tr class="record trace">
+<td>188.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: navigate-right</span></td>
+<td class="Time">16:41:14.642</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>189.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Clicking &#39;&#39; </td>
+<td class="Time">16:41:14.815</td>
+<td class="FileOfCaller" title="ConcordionExtensionsPage.java">ConcordionExtensionsPage.java</td>
+<td class="LineOfCaller">36</td>
+</tr>
+<tr class="companion debug">
+<td class="indent"></td><td colspan="5" class="output">
+<a href="ConcordionPresentation[concordion-presentation]LogScreenShot10.png"><img src="ConcordionPresentation[concordion-presentation]LogScreenShot10.png" onMouseOver="showScreenPopup(this);this.style.cursor='pointer'" onMouseOut="hideScreenPopup();this.style.cursor='default'" width="350px"  class="sizewidth"/></a>
+</td>
+</tr>
+<tr class="record debug">
+<td>190.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Click &#8658; <span class="greyed">By.class name: navigate-right</span></td>
+<td class="Time">16:41:14.824</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record step">
+<td colspan="6">191. Page Object: ConcordionLearnMorePage</td>
+</tr>
+<tr class="record debug">
+<td>192.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Wait for any ajax requests to complete</td>
+<td class="Time">16:41:14.885</td>
+<td class="FileOfCaller" title="PageObject.java">PageObject.java</td>
+<td class="LineOfCaller">40</td>
+</tr>
+<tr class="record trace">
+<td>193.</td><td class="Level trace">TRACE</td>
+<td class="Message">Run JavaScript &#8658;</td>
+<td class="Time">16:41:14.901</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="companion trace">
+<td class="indent"></td><td colspan="5" class="output">
+<xmp>var frame = window.frameElement;if (!frame) {    return &#39;&#39;;}if (frame.name) {    return frame.name;}if (frame.id) {    return frame.id;}return &#39;UNKNOWN FRAME&#39;;</xmp>
+</td>
+</tr>
+<tr class="record trace">
+<td>194.</td><td class="Level trace">TRACE</td>
+<td class="Message">Run JavaScript &#8658;</td>
+<td class="Time">16:41:14.910</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="companion trace">
+<td class="indent"></td><td colspan="5" class="output">
+<xmp>if (typeof jQuery === &#39;undefined&#39;) return true;
+if (jQuery.active != 0) return false;
+return true;</xmp>
+</td>
+</tr>
+<tr class="record trace">
+<td>195.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: Spinner</span></td>
+<td class="Time">16:41:14.922</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record debug">
+<td>196.</td><td class="Level debug">DEBUG</td>
+<td class="Message">Checking ConcordionLearnMorePage loads within 10 seconds</td>
+<td class="Time">16:41:14.930</td>
+<td class="FileOfCaller" title="ActionTimer.java">ActionTimer.java</td>
+<td class="LineOfCaller">63</td>
+</tr>
+<tr class="record trace">
+<td>197.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.xpath: //h2[text()='Learn more']</span></td>
+<td class="Time">16:41:14.931</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>198.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.className: navigate-right</span></td>
+<td class="Time">16:41:15.011</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>199.</td><td class="Level trace">TRACE</td>
+<td class="Message">Find element &#8658; <span class="greyed">By.xpath: //h2[text()='Extensions']</span></td>
+<td class="Time">16:41:15.088</td>
+<td class="FileOfCaller" title="TestWorker.java">TestWorker.java</td>
+<td class="LineOfCaller">108</td>
+</tr>
+<tr class="record trace">
+<td>200.</td><td class="Level trace">TRACE</td>
+<td class="Message">ConcordionLearnMorePage loaded in 0 seconds <br /><span class="greyed">Current url: https://concordion.org/presentations/2017-04-Concordion-2.0/#/14<span></td>
+<td class="Time">16:41:15.720</td>
+<td class="FileOfCaller" title="PageObject.java">PageObject.java</td>
+<td class="LineOfCaller">55</td>
+</tr>
+<tr class="record info">
+<td>201.</td><td class="Level info">INFO</td>
+<td class="Message">Finishing example concordion-presentation</td>
+<td class="Time">16:41:15.724</td>
+<td class="FileOfCaller" title="CubanoDemoFixtureLogger.java">CubanoDemoFixtureLogger.java</td>
+<td class="LineOfCaller">20</td>
+</tr>

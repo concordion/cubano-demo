@@ -1,0 +1,15 @@
+{
+  "args": {
+    "name": "fred"
+  },
+  "headers": {
+    "Accept": "text/html, image/gif, image/jpeg, *; q\u003d.2, */*; q\u003d.2",
+    "Cache-Control": "no-cache",
+    "Host": "httpbin.org",
+    "Pragma": "no-cache",
+    "User-Agent": "Java/1.8.0_151",
+    "X-Amzn-Trace-Id": "Root\u003d1-6071d53e-5d77c7d859eec6bd3792efe1"
+  },
+  "origin": "35.196.158.85",
+  "url": "http://httpbin.org/get?name\u003dfred"
+}
