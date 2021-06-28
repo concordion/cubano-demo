@@ -31,7 +31,7 @@ configurations {
 }
 
 dependencies {
-    testImplementation 'org.concordion:cubano-concordion:1.0.2'
+    testImplementation 'org.concordion:cubano-concordion:1.1.0'
 
     testImplementation 'io.github.bonigarcia:webdrivermanager:4.4.3'
     
