@@ -1,26 +1,22 @@
-apply plugin: 'java'
-apply plugin: 'findbugs'
-apply plugin: 'checkstyle'
-apply plugin: 'eclipse'
-apply plugin: 'jacoco'
-apply plugin: 'maven'
-apply plugin: 'maven-publish'
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath "gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.7.1"
+  }
+}
+plugins {
+    id 'java'
+    id 'checkstyle'
+    id "com.github.spotbugs" version "4.7.1"
+}
 
 // need utf-8 to get text with non-standard chars e.g. curly apostrophes used correctly 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
-}
-
-// This is a work around for an outstanding issue getting eclipse plugin to honour encoding options for java
-// https://issues.gradle.org/browse/GRADLE-2274
-eclipse {
-	File f = file('.settings')
-	
-	if (f.exists()) {
-		f = file('.settings/org.eclipse.core.resources.prefs')
-		f.write('eclipse.preferences.version=1\n')
-		f.append('encoding/<project>=UTF-8')
-	}
 }
 
 sourceCompatibility = 1.8
@@ -35,45 +31,37 @@ configurations {
 }
 
 dependencies {
-    testCompile 'org.concordion:cubano-concordion:1.0.2'
+    testImplementation 'org.concordion:cubano-concordion:1.0.2'
+
+    testImplementation 'io.github.bonigarcia:webdrivermanager:4.4.3'
     
-    testCompile 'org.codejargon:fluentjdbc:1.3.1'
+    testImplementation 'org.codejargon:fluentjdbc:1.3.1'
     
-    testCompile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6'
+    testImplementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.6'
     
-    testCompile group: 'org.hsqldb', name: 'hsqldb', version: '2.4.1'
+    testImplementation group: 'org.hsqldb', name: 'hsqldb', version: '2.4.1'
     
      //Wiremock
-    testCompile "com.github.tomakehurst:wiremock:2.18.0"
+    testImplementation "com.github.tomakehurst:wiremock:2.18.0"
     
     // JUnit
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.hamcrest:hamcrest-junit:2.0.0.0'
-    testCompile 'org.mockito:mockito-core:2.8.47'
-    testCompile 'com.github.stefanbirkner:system-rules:1.16.0'
-}
-
-configurations.all {
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.4.1'
-    //distributionUrl = "http://services.gradle.org/distributions/gradle-${gradleVersion}-bin.zip"    
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.hamcrest:hamcrest-junit:2.0.0.0'
+    testImplementation 'org.mockito:mockito-core:2.8.47'
+    testImplementation 'com.github.stefanbirkner:system-rules:1.16.0'
 }
 
 checkstyle {
 	ignoreFailures = true
-	configDir = new File("${rootDir}/config/checkstyle")	
+	configDirectory = new File("${rootDir}/config/checkstyle")	
 }
 
-findbugs {
-	toolVersion = "3.0.1"
+spotbugs {
 	ignoreFailures = true	
 }
 
 test {
-    include '**/Example.*'
+//    include '**/Example.*'
     
     // Pass through all supplied system properties - excluding those containing '.' as some of these system properties introduce JNA incompatibility issues
     // except for http. properties
