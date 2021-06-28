@@ -26,7 +26,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build and Test with Gradle
-        run: ./gradlew clean compileJava javadoc
+        run: ./gradlew clean compileJava compileTestJava javadoc
         
       - name: Upload Unit Test Results # And Specification
         if: always()
