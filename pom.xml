@@ -4,15 +4,15 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.concordion</groupId>
-	<artifactId>cubano-template</artifactId>
+	<artifactId>cubano-demo</artifactId>
 	<version>1.0</version>
-	<description>A framework to kickstart your Concordion project</description>
-  	<name>Cubano Template</name>
-  	<url>https://github.com/concordion/cubano-template</url>
+	<description>A demo of the Cubano project</description>
+  	<name>Cubano Demo</name>
+  	<url>https://github.com/concordion/cubano-demo</url>
   	
 	<issueManagement>
 		<system>Github</system>
-		<url>https://github.com/concordion/cubano-template/issues</url>
+		<url>https://github.com/concordion/cubano-demo/issues</url>
 	</issueManagement>
   
 	<licenses>
@@ -24,8 +24,8 @@
 	</licenses>
   
 	<scm>
-    	<url>https://github.com/concordion/cubano-template.git</url>
-    	<developerConnection>git@github.com:concordion/cubano-template.git</developerConnection>
+    	<url>https://github.com/concordion/cubano-demo.git</url>
+    	<developerConnection>git@github.com:concordion/cubano-demo.git</developerConnection>
 	</scm>
   
 	<dependencies>
@@ -87,6 +87,22 @@
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>25.0-jre</version>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.xml.ws</groupId>
+			<artifactId>jakarta.xml.ws-api</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.ws</groupId>
+			<artifactId>jaxws-rt</artifactId>
+			<version>3.0.1</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.javadelight</groupId>
+			<artifactId>delight-nashorn-sandbox</artifactId>
+			<version>0.2.1</version>
 		</dependency>
 	</dependencies>
 	

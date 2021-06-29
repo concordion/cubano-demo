@@ -40,7 +40,9 @@ dependencies {
     testImplementation group: 'org.hsqldb', name: 'hsqldb', version: '2.5.2'
 
     testImplementation 'javax.xml.bind:jaxb-api:2.3.1'
-    
+    testImplementation 'jakarta.xml.ws:jakarta.xml.ws-api:3.0.1'
+    runtimeOnly 'com.sun.xml.ws:jaxws-rt:3.0.1'
+
      //Wiremock
     testImplementation "com.github.tomakehurst:wiremock:2.27.2"
     
