@@ -4,14 +4,13 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import com.mysql.cj.jdbc.MysqlDataSource;
 import org.codejargon.fluentjdbc.api.FluentJdbc;
 import org.codejargon.fluentjdbc.api.FluentJdbcBuilder;
 import org.codejargon.fluentjdbc.api.query.listen.AfterQueryListener;
 import org.concordion.cubano.template.AppConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
 public class ExampleDataSourceFactory {
     private static DataSource datasource = null;
