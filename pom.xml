@@ -4,15 +4,15 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.concordion</groupId>
-	<artifactId>cubano-template</artifactId>
+	<artifactId>cubano-demo</artifactId>
 	<version>1.0</version>
-	<description>A framework to kickstart your Concordion project</description>
-  	<name>Cubano Template</name>
-  	<url>https://github.com/concordion/cubano-template</url>
+	<description>A demo of the Cubano project</description>
+  	<name>Cubano Demo</name>
+  	<url>https://github.com/concordion/cubano-demo</url>
   	
 	<issueManagement>
 		<system>Github</system>
-		<url>https://github.com/concordion/cubano-template/issues</url>
+		<url>https://github.com/concordion/cubano-demo/issues</url>
 	</issueManagement>
   
 	<licenses>
@@ -24,21 +24,21 @@
 	</licenses>
   
 	<scm>
-    	<url>https://github.com/concordion/cubano-template.git</url>
-    	<developerConnection>git@github.com:concordion/cubano-template.git</developerConnection>
+    	<url>https://github.com/concordion/cubano-demo.git</url>
+    	<developerConnection>git@github.com:concordion/cubano-demo.git</developerConnection>
 	</scm>
   
 	<dependencies>
 		<dependency>
 			<groupId>org.concordion</groupId>
 			<artifactId>cubano-concordion</artifactId>
-			<version>0.3.4</version>
+			<version>1.1.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.12</version>
+			<version>4.13.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -50,44 +50,59 @@
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
-			<version>2.8.47</version>
+			<version>3.11.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.github.stefanbirkner</groupId>
 			<artifactId>system-rules</artifactId>
-			<version>1.16.0</version>
+			<version>1.19.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.codejargon</groupId>
 			<artifactId>fluentjdbc</artifactId>
-			<version>1.3.1</version>
+			<version>1.8.6</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.6</version>
+			<version>8.0.25</version>
 			<scope>test</scope>
 		</dependency>
     	<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
-			<version>2.4.1</version>
+			<version>2.5.2</version>
 			<scope>test</scope>
 		</dependency>
     	<dependency>
 			<groupId>com.github.tomakehurst</groupId>
 			<artifactId>wiremock</artifactId>
-			<version>2.18.0</version>
+			<version>2.27.2</version>
 			<scope>test</scope>
 		</dependency>
-    	<dependency>
+		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>27.1-jre</version>
-			<scope>test</scope>
+			<version>25.0-jre</version>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.xml.ws</groupId>
+			<artifactId>jakarta.xml.ws-api</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.ws</groupId>
+			<artifactId>jaxws-rt</artifactId>
+			<version>3.0.1</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.javadelight</groupId>
+			<artifactId>delight-nashorn-sandbox</artifactId>
+			<version>0.2.1</version>
 		</dependency>
 	</dependencies>
 	

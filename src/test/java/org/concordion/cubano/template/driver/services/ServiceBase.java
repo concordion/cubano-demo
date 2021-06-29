@@ -4,15 +4,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.PropertyException;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.PropertyException;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.soap.MessageFactory;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPMessage;
+import jakarta.xml.soap.MessageFactory;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPMessage;
 
 import org.concordion.cubano.driver.http.XmlReader;
 import org.concordion.ext.StoryboardMarkerFactory;
@@ -104,7 +104,7 @@ public class ServiceBase {
         return XmlReader.prettyFormat(output, 2);
     }
 
-    protected <R> R xmlToClass(XmlReader reader, Class<R> clazz) throws JAXBException {
+    protected <R> R xmlToClass(XmlReader reader, Class<R> clazz) throws javax.xml.bind.JAXBException {
         R reponse = reader.from(clazz);
 
         return reponse;
