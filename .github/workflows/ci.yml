@@ -31,7 +31,7 @@ jobs:
           path: './user.properties'
           property: 'firefox.headless'
           value: 'true'
-      - name: Write firefox.headless values to properties files
+      - name: Write chrome.headless values to properties files
         uses: christian-draeger/write-properties@1.0.1
         with:
           path: './user.properties'
