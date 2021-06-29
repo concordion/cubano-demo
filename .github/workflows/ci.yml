@@ -25,17 +25,29 @@ jobs:
           java-version: ${{ matrix.java }}
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+      - name: Write firefox.headless values to properties files
+        uses: christian-draeger/write-properties@1.0.1
+        with:
+          path: './user.properties'
+          property: 'firefox.headless'
+          value: 'true'
+      - name: Write firefox.headless values to properties files
+        uses: christian-draeger/write-properties@1.0.1
+        with:
+          path: './user.properties'
+          property: 'chrome.headless'
+          value: 'true'
       - name: Build and Test with Gradle
-        run: ./gradlew clean compileJava compileTestJava javadoc
+        run: ./gradlew clean build javadoc
         
-      - name: Upload Unit Test Results # And Specification
+      - name: Upload Unit Test Results and Specification
         if: always()
         uses: actions/upload-artifact@v2
         with:
           name: reports-java-${{ matrix.java }}
           path: |
             build/test-results/**/*.xml
-            # build/reports/spec/
+            build/reports/spec/
 
   publish-test-results:
     name: "Publish Test Results and Specifications"
@@ -55,11 +67,11 @@ jobs:
         with:
           files: artifacts/**/test-results/**/*.xml
           
-      # - name: Publish Specifications
-      #   uses: peaceiris/actions-gh-pages@v3
-      #   with:
-      #     deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-      #     external_repository: concordion/concordion-specifications
-      #     publish_branch: main
-      #     publish_dir: artifacts/reports-java-8/reports/spec
-      #     destination_dir: concordion-screenshot-extension
+      - name: Publish Specifications
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          external_repository: concordion/concordion-specifications
+          publish_branch: main
+          publish_dir: artifacts/reports-java-8/reports/spec
+          destination_dir: concordion-screenshot-extension
