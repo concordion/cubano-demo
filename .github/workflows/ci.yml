@@ -1,4 +1,4 @@
-name: Build and Test Concordion
+name: Build and Test
 
 on:
   push:
@@ -74,4 +74,4 @@ jobs:
           external_repository: concordion/concordion-specifications
           publish_branch: main
           publish_dir: artifacts/reports-java-8/reports/spec
-          destination_dir: concordion-screenshot-extension
+          destination_dir: concordion-cubano-demo
