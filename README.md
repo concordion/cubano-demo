@@ -1,3 +1,5 @@
+[![Build and Test](https://github.com/concordion/cubano-demo/actions/workflows/ci.yml/badge.svg)](https://github.com/concordion/cubano-demo/actions/workflows/ci.yml)
+
 # Cubano Demo Project
 
 This project contains examples of how to use the [Cubano Framework](https://github.com/concordion/cubano).  Cubano is part of the [Concordion Family](https://github.com/concordion).  
