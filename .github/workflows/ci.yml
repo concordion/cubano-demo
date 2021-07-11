@@ -39,6 +39,7 @@ jobs:
           value: 'true'
       - name: Build and Test with Gradle
         run: ./gradlew clean build javadoc
+      - name: Build and Test with Maven
         run: mvn test
         
       - name: Upload Unit Test Results and Specification
