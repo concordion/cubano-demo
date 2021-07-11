@@ -31,7 +31,7 @@ configurations {
 }
 
 dependencies {
-    testImplementation 'org.concordion:cubano-concordion:1.1.0'
+    testImplementation 'org.concordion:cubano-concordion:1.1.1'
 
     testImplementation 'org.codejargon:fluentjdbc:1.8.6'
     
